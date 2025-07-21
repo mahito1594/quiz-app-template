@@ -1,0 +1,39 @@
+metadata:
+  version: "1.0.0"
+  title: "不正なデータのテスト"
+  lastUpdated: "2025-07-21"
+  totalQuestions: 2
+  description: "バリデーションテスト用"
+
+categories:
+  - id: "invalid-category"
+    name: "不正なカテゴリ"
+    description: "エラーハンドリングのテスト"
+    order: 1
+    questions:
+      - type: "invalid_type"  # 不正な問題タイプ
+        question: |
+          この問題は不正な形式です
+        options:
+          - "選択肢1"
+          - "選択肢2"
+        correct: [0]
+        explanation: "不正な問題タイプのテスト"
+      
+      - type: "single"
+        question: |
+          正解のインデックスが範囲外の問題
+        options:
+          - "選択肢1"
+          - "選択肢2"
+        correct: [5]  # 範囲外のインデックス
+        explanation: "範囲外インデックスのテスト"
+      
+      - type: "multiple"
+        question: |
+          選択肢が不足している問題
+        options:
+          - "選択肢1"
+          # 選択肢が少なすぎる
+        correct: [0]
+        explanation: "選択肢不足のテスト"
