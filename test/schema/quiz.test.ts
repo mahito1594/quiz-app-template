@@ -3,7 +3,7 @@ import {
   parseQuestion,
   parseQuizData,
   QuizParseError,
-} from "../../src/types/quiz";
+} from "../../src/schema/quiz";
 
 describe("Quiz Type Parsing", () => {
   describe("parseQuestion", () => {

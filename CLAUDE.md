@@ -45,7 +45,7 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 - ローカルストレージで進捗永続化
 
 ### データ層
-- **型安全なデータパース**: valibot による実行時バリデーション（src/types/quiz.ts）
+- **型安全なデータパース**: valibot による実行時バリデーション（src/schema/quiz.ts）
 - **"Parse, don't validate"**: 外部データの確実な型保証
 - **包括的バリデーション**: 構造・ビジネスルール検証
 - **構造化エラーハンドリング**: QuizParseError による詳細エラー情報
@@ -56,7 +56,7 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 ## 主要ファイル構成
 
 ### 実装済み
-- `src/types/quiz.ts` - 型定義・データパース機能（TDD完了、18テスト成功）
+- `src/schema/quiz.ts` - クイズデータスキーマ・パーサー（TDD完了、18テスト成功）
 - `test/types/quiz.test.ts` - 型システムテスト
 - `test/fixtures/sample-quiz.yaml` - テストデータ
 - `test/fixtures/invalid-quiz.yaml` - エラーテストデータ

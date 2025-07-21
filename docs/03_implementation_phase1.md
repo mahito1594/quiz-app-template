@@ -10,7 +10,7 @@
 
 ### 1. 型安全なクイズデータシステム
 
-**場所**: `src/types/quiz.ts`
+**場所**: `src/schema/quiz.ts`
 
 #### 主要型定義
 - `QuestionType`: 'single' | 'multiple'
@@ -133,10 +133,10 @@
 
 ```
 src/
-├── types/
-│   └── quiz.ts          # 型定義・パース機能（完了）
+├── schema/
+│   └── quiz.ts          # スキーマ定義・パース機能（完了）
 test/
-├── types/
+├── schema/
 │   └── quiz.test.ts     # 型システムテスト（完了）
 ├── fixtures/
 │   ├── sample-quiz.yaml   # テストデータ（完了）  

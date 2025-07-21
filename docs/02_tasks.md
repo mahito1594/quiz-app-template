@@ -13,8 +13,8 @@
 
 #### ✅ 2. 型定義作成（TDD）
 **目標**: YAML仕様に基づくTypeScript型を先にテスト駆動で定義
-**場所**: `src/types/quiz.ts`
-**テストファイル**: `test/types/quiz.test.ts`
+**場所**: `src/schema/quiz.ts`
+**テストファイル**: `test/schema/quiz.test.ts`
 **完了日**: 2025-07-21
 
 **実装内容**:
@@ -37,11 +37,11 @@
 #### 🔄 4. データ層実装（TDD）
 **目標**: 問題データ読み込み・パース機能をテスト駆動で実装
 **場所**: `src/lib/quiz-loader.ts` (予定)
-**テストファイル**: `test/lib/quiz-loader.test.ts` (予定)
+**テストファイル**: `test/schema/quiz-loader.test.ts` (予定)
 **ステータス**: パース機能のみ完了、YAML読み込み未実装
 
 **実装済み**:
-- [x] 型安全なデータパース機能（valibot使用、`src/types/quiz.ts`）
+- [x] 型安全なデータパース機能（valibot使用、`src/schema/quiz.ts`）
 - [x] 包括的データバリデーション
 - [x] 構造化エラーハンドリング（QuizParseError）
 - [x] TypeScript型安全性確保
@@ -202,7 +202,7 @@ src/
 │   └── share-utils.ts
 ├── stores/             # 状態管理
 │   └── quiz-store.ts
-├── types/              # 型定義
+├── schema/             # スキーマ定義・パース機能
 │   └── quiz.ts
 ├── styles/             # スタイル
 └── assets/             # 静的ファイル
@@ -211,7 +211,7 @@ test/
 ├── components/
 ├── lib/
 ├── stores/
-├── types/
+├── schema/
 └── fixtures/           # テストデータ
 ```
 
