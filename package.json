@@ -13,6 +13,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
+    "@modyfi/vite-plugin-yaml": "^1.1.1",
+    "solid-markdown": "^2.0.14",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vite-plugin-solid": "^2.11.7"
