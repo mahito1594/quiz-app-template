@@ -191,24 +191,28 @@ categories:
 
 ### 4.2 URL仕様
 
-**基本URL構造**:
+**基本URL構造** (Hash routing対応):
 ```
-/                                      # トップページ（カテゴリ一覧）
-/category/{categoryId}                 # カテゴリ別問題一覧
-/quiz/{categoryId}                     # クイズ実行画面
-/quiz/{categoryId}/result              # 結果画面
-/question/{categoryId}/{questionIndex} # 個別問題シェア
-/review                                # 間違えた問題の復習
+/#/                                      # トップページ（カテゴリ一覧）
+/#/category/{categoryId}                 # カテゴリ別問題一覧
+/#/quiz/{categoryId}                     # クイズ実行画面
+/#/quiz/{categoryId}/result              # 結果画面
+/#/question/{categoryId}/{questionIndex} # 個別問題シェア
+/#/review                                # 間違えた問題の復習
 ```
+
+**Hash routing採用理由**:
+GitHub Pages でのSPAデプロイメント対応のため、Hash routing方式を採用。これにより追加のサーバー設定なしでクライアントサイドルーティングが実現可能。
 
 **パラメータ仕様**:
 - `{categoryId}`: categories 配列内の id 値
 - `{questionIndex}`: カテゴリ内の問題インデックス（0-based）
 
 **ユーザー受入判定条件**:
-- [ ] 各URLパスが正しく機能する
+- [ ] 各URLパス（Hash routing）が正しく機能する
 - [ ] 存在しない categoryId での適切なエラー表示
 - [ ] 範囲外 questionIndex での適切なエラー表示
+- [ ] ブラウザの戻る・進むボタンが正常に動作する
 
 ## 5. 運用要件
 
