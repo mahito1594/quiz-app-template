@@ -9,13 +9,68 @@
 import * as v from "valibot";
 
 /**
+ * Validation constants for quiz data parsing
+ */
+const VALIDATION_CONSTANTS = {
+  /** Minimum number of options required per question */
+  MIN_OPTIONS_COUNT: 2,
+  /** Number of correct answers required for single choice questions */
+  SINGLE_CHOICE_CORRECT_COUNT: 1,
+  /** Regular expression pattern for YYYY-MM-DD date format */
+  DATE_REGEX: /^\d{4}-\d{2}-\d{2}$/,
+  /** Regular expression pattern for valid category IDs (alphanumeric and hyphens only) */
+  CATEGORY_ID_REGEX: /^[a-zA-Z0-9-]+$/,
+} as const;
+
+/**
+ * Error messages for quiz data validation
+ */
+const ERROR_MESSAGES = {
+  // Question validation
+  /** Error message for invalid question type (not "single" or "multiple") */
+  INVALID_QUESTION_TYPE: 'Question type must be "single" or "multiple"',
+  /** Error message for empty question text after trimming */
+  EMPTY_QUESTION_TEXT: "Question text cannot be empty",
+  /** Error message for questions with fewer than 2 options */
+  INSUFFICIENT_OPTIONS: "Question must have at least 2 options",
+  /** Error message for empty explanation text after trimming */
+  EMPTY_EXPLANATION: "Question explanation cannot be empty",
+  /** Error message for correct answer indices outside the options range */
+  INVALID_CORRECT_INDEX: "Invalid correct answer index",
+  /** Error message for single choice questions with multiple correct answers */
+  SINGLE_CHOICE_MULTIPLE_ANSWERS:
+    "Single choice question must have exactly one correct answer",
+
+  // Category validation
+  /** Error message for category IDs containing invalid characters */
+  INVALID_CATEGORY_ID:
+    "Category id can only contain alphanumeric characters and hyphens",
+  /** Error message for empty category name after trimming */
+  EMPTY_CATEGORY_NAME: "Category name cannot be empty",
+
+  // Metadata validation
+  /** Error message for lastUpdated field not matching YYYY-MM-DD format */
+  INVALID_DATE_FORMAT: "Invalid date format in lastUpdated",
+
+  // Quiz validation
+  /** Error message for quiz data with empty categories array */
+  NO_CATEGORIES: "Quiz must have at least one category",
+  /** Error message for duplicate category IDs within the same quiz */
+  DUPLICATE_CATEGORY_ID: "Duplicate category id found",
+  /** Error message for metadata totalQuestions not matching actual question count */
+  TOTAL_QUESTIONS_MISMATCH: "Total questions count mismatch",
+  /** Error message for missing metadata object in quiz data */
+  METADATA_REQUIRED: "Metadata is required",
+} as const;
+
+/**
  * Schema for question types in the quiz system.
  * Enforces the two supported question formats to maintain consistency
  * across the application and ensure proper UI rendering.
  */
 const QuestionTypeSchema = v.picklist(
   ["single", "multiple"],
-  'Question type must be "single" or "multiple"',
+  ERROR_MESSAGES.INVALID_QUESTION_TYPE,
 );
 
 /**
@@ -29,41 +84,30 @@ const QuestionSchema = v.pipe(
     question: v.pipe(
       v.string(),
       v.trim(),
-      v.minLength(1, "Question text cannot be empty"),
+      v.minLength(1, ERROR_MESSAGES.EMPTY_QUESTION_TEXT),
     ),
     options: v.pipe(
       v.array(v.string()),
-      v.minLength(2, "Question must have at least 2 options"),
+      v.minLength(
+        VALIDATION_CONSTANTS.MIN_OPTIONS_COUNT,
+        ERROR_MESSAGES.INSUFFICIENT_OPTIONS,
+      ),
     ),
     correct: v.array(v.number()),
     explanation: v.pipe(
       v.string(),
       v.trim(),
-      v.minLength(1, "Question explanation cannot be empty"),
+      v.minLength(1, ERROR_MESSAGES.EMPTY_EXPLANATION),
     ),
   }),
-  v.check((data) => {
-    // Validate correct indices are within options range
-    if (!Array.isArray(data.correct) || !Array.isArray(data.options))
-      return true; // Skip if data is incomplete
-    for (const index of data.correct) {
-      if (
-        typeof index !== "number" ||
-        index < 0 ||
-        index >= data.options.length
-      ) {
-        return false;
-      }
-    }
-    return true;
-  }, "Invalid correct answer index"),
-  v.check((data) => {
-    // Single choice must have exactly one correct answer
-    if (data.type === "single" && data.correct.length !== 1) {
-      return false;
-    }
-    return true;
-  }, "Single choice question must have exactly one correct answer"),
+  v.check(
+    (data) => hasValidCorrectIndices(data),
+    ERROR_MESSAGES.INVALID_CORRECT_INDEX,
+  ),
+  v.check(
+    (data) => hasSingleCorrectAnswer(data),
+    ERROR_MESSAGES.SINGLE_CHOICE_MULTIPLE_ANSWERS,
+  ),
 );
 
 /**
@@ -76,14 +120,14 @@ const CategorySchema = v.pipe(
     id: v.pipe(
       v.string(),
       v.regex(
-        /^[a-zA-Z0-9-]+$/,
-        "Category id can only contain alphanumeric characters and hyphens",
+        VALIDATION_CONSTANTS.CATEGORY_ID_REGEX,
+        ERROR_MESSAGES.INVALID_CATEGORY_ID,
       ),
     ),
     name: v.pipe(
       v.string(),
       v.trim(),
-      v.minLength(1, "Category name cannot be empty"),
+      v.minLength(1, ERROR_MESSAGES.EMPTY_CATEGORY_NAME),
     ),
     description: v.string(),
     order: v.number(),
@@ -101,7 +145,10 @@ const MetadataSchema = v.object({
   title: v.string(),
   lastUpdated: v.pipe(
     v.string(),
-    v.regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format in lastUpdated"),
+    v.regex(
+      VALIDATION_CONSTANTS.DATE_REGEX,
+      ERROR_MESSAGES.INVALID_DATE_FORMAT,
+    ),
   ),
   totalQuestions: v.number(),
   description: v.optional(v.string()),
@@ -117,29 +164,17 @@ const QuizDataSchema = v.pipe(
     metadata: MetadataSchema,
     categories: v.pipe(
       v.array(CategorySchema),
-      v.minLength(1, "Quiz must have at least one category"),
+      v.minLength(1, ERROR_MESSAGES.NO_CATEGORIES),
     ),
   }),
-  v.check((data) => {
-    // Check for duplicate category IDs - this runs after basic array validation
-    if (!data.categories || !Array.isArray(data.categories)) return true; // Skip if data is incomplete
-    const ids = data.categories.map((cat) => cat.id);
-    const uniqueIds = new Set(ids);
-    if (ids.length !== uniqueIds.size) {
-      return false;
-    }
-    return true;
-  }, "Duplicate category id found"),
-  v.check((data) => {
-    // Check total questions count matches actual count
-    if (!data.categories || !Array.isArray(data.categories) || !data.metadata)
-      return true; // Skip if data is incomplete
-    const actualCount = data.categories.reduce(
-      (sum, cat) => sum + cat.questions.length,
-      0,
-    );
-    return data.metadata.totalQuestions === actualCount;
-  }, "Total questions count mismatch"),
+  v.check(
+    (data) => hasUniqueCategories(data.categories as unknown[]),
+    ERROR_MESSAGES.DUPLICATE_CATEGORY_ID,
+  ),
+  v.check(
+    (data) => hasTotalQuestionsMatch(data),
+    ERROR_MESSAGES.TOTAL_QUESTIONS_MISMATCH,
+  ),
 );
 
 /**
@@ -173,6 +208,130 @@ export type Metadata = v.InferOutput<typeof MetadataSchema>;
 export type QuizData = v.InferOutput<typeof QuizDataSchema>;
 
 /**
+ * Helper function to validate data structure integrity before processing.
+ * Used in check functions to safely handle incomplete or malformed data.
+ *
+ * @param data - Data object to validate
+ * @param requiredFields - Array of required field names to check
+ * @returns True if data structure is valid, false otherwise
+ */
+
+/**
+ * Creates a properly formatted field path from Valibot path information.
+ * Converts Valibot's internal path format to dot notation with array indices.
+ *
+ * @param valibotPath - Path array from Valibot validation issue
+ * @returns Formatted field path string
+ */
+function createFieldPath(valibotPath: Array<{ key: unknown }>): string {
+  if (!valibotPath || valibotPath.length === 0) return "";
+
+  return valibotPath
+    .map((p) => {
+      if (typeof p.key === "number") {
+        return `[${p.key}]`;
+      }
+      return String(p.key);
+    })
+    .join(".")
+    .replace(/^\./, "") // Remove leading dot
+    .replace(/\.\[/g, "["); // Clean up array notation
+}
+
+/**
+ * Maps Valibot error messages to application-specific error messages.
+ * Handles special cases where Valibot's default messages need adjustment.
+ *
+ * @param originalMessage - Original error message from Valibot
+ * @returns Mapped error message
+ */
+function mapErrorMessage(originalMessage: string): string {
+  if (
+    originalMessage.includes('Expected "metadata"') &&
+    originalMessage.includes("undefined")
+  ) {
+    return ERROR_MESSAGES.METADATA_REQUIRED;
+  }
+
+  return originalMessage;
+}
+
+/**
+ * Validates that all correct answer indices are within the valid range of options.
+ * @param data - Question data to validate
+ * @returns True if all indices are valid, false otherwise
+ */
+function hasValidCorrectIndices(data: {
+  correct: unknown;
+  options: unknown;
+}): boolean {
+  if (!Array.isArray(data.correct) || !Array.isArray(data.options)) {
+    return true; // Skip validation if data structure is incomplete
+  }
+
+  return data.correct.every(
+    (index: unknown) =>
+      typeof index === "number" &&
+      index >= 0 &&
+      index < (data.options as unknown[]).length,
+  );
+}
+
+/**
+ * Validates that single choice questions have exactly one correct answer.
+ * @param data - Question data to validate
+ * @returns True if validation passes, false otherwise
+ */
+function hasSingleCorrectAnswer(data: {
+  type: unknown;
+  correct: unknown;
+}): boolean {
+  if (data.type === "single" && Array.isArray(data.correct)) {
+    return (
+      data.correct.length === VALIDATION_CONSTANTS.SINGLE_CHOICE_CORRECT_COUNT
+    );
+  }
+  return true;
+}
+
+/**
+ * Validates that category IDs are unique within the categories array.
+ * @param categories - Array of categories to validate
+ * @returns True if all IDs are unique, false otherwise
+ */
+function hasUniqueCategories(categories: unknown[]): boolean {
+  if (!Array.isArray(categories)) {
+    return true; // Skip validation if data structure is incomplete
+  }
+
+  const ids = categories.map((cat) => (cat as { id: unknown }).id);
+  const uniqueIds = new Set(ids);
+  return ids.length === uniqueIds.size;
+}
+
+/**
+ * Validates that the total questions count in metadata matches the actual count.
+ * @param data - Quiz data to validate
+ * @returns True if counts match, false otherwise
+ */
+function hasTotalQuestionsMatch(data: {
+  categories: unknown;
+  metadata: unknown;
+}): boolean {
+  if (!data.categories || !Array.isArray(data.categories) || !data.metadata) {
+    return true; // Skip validation if data structure is incomplete
+  }
+
+  const actualCount = data.categories.reduce(
+    (sum: number, cat: { questions: unknown[] }) => sum + cat.questions.length,
+    0,
+  );
+  return (
+    (data.metadata as { totalQuestions: number }).totalQuestions === actualCount
+  );
+}
+
+/**
  * Custom error class for quiz parsing failures.
  * Provides structured error information to help identify exactly which
  * field caused the validation failure, enabling precise error reporting.
@@ -204,36 +363,19 @@ export class QuizParseError extends Error {
  * @returns Structured QuizParseError with field path information
  */
 function convertValibotError(
-  issues: v.Issues,
+  issues: v.BaseIssue<unknown>[],
   basePath: string = "",
 ): QuizParseError {
   const issue = issues[0]; // Take the first issue
-  let path = "";
-  if (issue.path) {
-    // Convert Valibot path format to expected test format
-    path = issue.path
-      .map((p) => {
-        if (typeof p.key === "number") {
-          return `[${p.key}]`;
-        }
-        return p.key;
-      })
-      .join(".");
-    // Clean up leading dots
-    path = path.replace(/^\[/, "[").replace(/\.\[/g, "[");
-  }
+
+  // Convert path using helper function
+  const path = issue.path ? createFieldPath(issue.path) : "";
   const fullPath = basePath
     ? `${basePath}.${path}`.replace(/\.\[/g, "[")
     : path;
 
-  // Handle specific error message mappings
-  let message = issue.message;
-  if (
-    message.includes('Expected "metadata"') &&
-    message.includes("undefined")
-  ) {
-    message = "Metadata is required";
-  }
+  // Map error message using helper function
+  const message = mapErrorMessage(issue.message);
 
   return new QuizParseError(message, fullPath);
 }
