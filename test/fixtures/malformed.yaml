@@ -1,0 +1,16 @@
+# This is a malformed YAML file for testing error handling
+metadata:
+  version: "1.0.0"
+  title: "Malformed Quiz"
+  # Missing required fields like lastUpdated and totalQuestions
+  
+categories:
+  - id: "test"
+    name: "Test Category"
+    # Malformed structure - missing required fields
+    questions:
+      - type: invalid_type  # Invalid question type
+        question: ""  # Empty question
+        options: []  # Empty options array
+        correct: [999]  # Invalid index
+        explanation: ""  # Empty explanation

@@ -34,23 +34,24 @@
 - [x] `invalid-quiz.yaml` - エラーハンドリングテスト用
 - [ ] `large-quiz.yaml` - パフォーマンステスト用（次フェーズで実装）
 
-#### 🔄 4. データ層実装（TDD）
+#### ✅ 4. データ層実装（TDD）
 **目標**: 問題データ読み込み・パース機能をテスト駆動で実装
-**場所**: `src/lib/quiz-loader.ts` (予定)
-**テストファイル**: `test/schema/quiz-loader.test.ts` (予定)
-**ステータス**: パース機能のみ完了、YAML読み込み未実装
+**場所**: `src/lib/quiz-loader.ts`
+**テストファイル**: `test/lib/quiz-loader.test.ts`, `test/lib/quiz-loader.integration.test.ts`
+**完了日**: 2025-07-27
 
 **実装済み**:
 - [x] 型安全なデータパース機能（valibot使用、`src/schema/quiz.ts`）
 - [x] 包括的データバリデーション
-- [x] 構造化エラーハンドリング（QuizParseError）
+- [x] 構造化エラーハンドリング（QuizParseError、QuizLoadError）
 - [x] TypeScript型安全性確保
 - [x] ビジネスルールバリデーション（正解インデックス範囲チェック、重複ID検査等）
-
-**未実装**:
-- [ ] YAML読み込み機能
-- [ ] 動的インポートによるクイズデータ読み込み
-- [ ] ファイル読み込みエラーハンドリング
+- [x] YAML読み込み機能（Vite YAML plugin使用）
+- [x] 動的インポートによるクイズデータ読み込み
+- [x] ファイル読み込みエラーハンドリング
+- [x] 関数型プログラミングによる依存性注入実装
+- [x] Result型による明示的エラーハンドリング
+- [x] 包括的テストカバレッジ（16件）：ユニット・統合テスト
 
 #### 5. ルーティング構築（TDD）
 **目標**: Hash routingシステムをテスト駆動で実装
@@ -140,7 +141,7 @@
 ### データ要件  
 - [x] YAML形式問題データの型定義・パース機能
 - [x] データバリデーション（構造・ビジネスルール）
-- [ ] 実際のYAMLファイル読み込み機能
+- [x] 実際のYAMLファイル読み込み機能
 - [ ] Markdown形式の解説文レンダリング
 
 ### 基本機能
@@ -197,22 +198,24 @@ src/
 │   ├── Review.tsx
 │   └── common/
 ├── lib/                # ビジネスロジック
-│   ├── quiz-loader.ts
+│   ├── quiz-loader.ts  # YAML読み込み・バリデーション
 │   ├── router.ts
 │   └── share-utils.ts
 ├── stores/             # 状態管理
 │   └── quiz-store.ts
 ├── schema/             # スキーマ定義・パース機能
 │   └── quiz.ts
+├── util/               # 共通ユーティリティ
+│   └── types.ts        # Result型等
 ├── styles/             # スタイル
 └── assets/             # 静的ファイル
 
 test/
 ├── components/
-├── lib/
+├── lib/                # quiz-loader.test.ts, quiz-loader.integration.test.ts
 ├── stores/
-├── schema/
-└── fixtures/           # テストデータ
+├── schema/             # quiz.test.ts
+└── fixtures/           # sample-quiz.yaml, invalid-quiz.yaml, malformed.yaml
 ```
 
 ## 進捗管理
@@ -230,8 +233,13 @@ test/
     - 型安全性向上：`any`型完全排除、構造化型への置き換え
     - 保守性・可読性の大幅向上（+269/-106行の改善）
 
+- ✅ **フェーズ1.5**: 実際のYAML読み込み機能（2025-07-27完了）
+  - 関数型プログラミングによる依存性注入設計
+  - Result型を使った明示的エラーハンドリング
+  - Vite YAML plugin統合完了
+  - ユニットテスト・統合テストの完全実装（16テスト）
+
 ### 次回実装予定
-- 🔄 **フェーズ1.5**: 実際のYAML読み込み機能
 - 🔄 **フェーズ1.6**: Hash routingシステム実装
 
 - 各タスクの完了時にこのドキュメントを更新
