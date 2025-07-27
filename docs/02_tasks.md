@@ -55,8 +55,8 @@
 
 #### 5. ルーティング構築（TDD）
 **目標**: Hash routingシステムをテスト駆動で実装
-**場所**: `src/lib/router.ts`, `src/App.tsx`
-**テストファイル**: `test/lib/router.test.ts`
+**場所**: `src/App.tsx`
+**実装状況**: ✅ 完了（@solidjs/routerを直接使用）
 
 **URL仕様**:
 ```
@@ -103,9 +103,9 @@
 **目標**: 間違えた問題のフィルタリング・再挑戦
 **場所**: `src/components/Review.tsx`
 
-#### 11. 問題シェア機能
-**目標**: URL生成・個別問題アクセス
-**場所**: `src/lib/share-utils.ts`, `src/components/QuestionShare.tsx`
+#### 11. 問題表示機能
+**目標**: 個別問題の表示（URLシェア対応）
+**場所**: `src/components/QuestionView.tsx`
 
 ### フェーズ3: UI・UX最適化（低優先度）  
 
@@ -193,13 +193,14 @@ pnpm preview
 src/
 ├── components/          # UIコンポーネント
 │   ├── CategoryList.tsx
-│   ├── Quiz/
-│   ├── Result.tsx
+│   ├── Quiz.tsx
+│   ├── QuizResult.tsx
+│   ├── QuestionView.tsx
 │   ├── Review.tsx
+│   ├── NotFound.tsx
 │   └── common/
 ├── lib/                # ビジネスロジック
 │   ├── quiz-loader.ts  # YAML読み込み・バリデーション
-│   ├── router.ts
 │   └── share-utils.ts
 ├── stores/             # 状態管理
 │   └── quiz-store.ts
@@ -239,8 +240,19 @@ test/
   - Vite YAML plugin統合完了
   - ユニットテスト・統合テストの完全実装（16テスト）
 
+- ✅ **フェーズ1.6**: Hash routingシステム実装（2025-07-27完了）
+  - @solidjs/routerによる6つのルート完全対応
+  - DaisyUIによるモダンUIデザイン実装
+  - TailwindCSS完全移行とスタイル統一
+  - Playwrightによる動作確認・E2Eテスト
+  - 未使用ファイル削除とコードクリーンアップ
+
 ### 次回実装予定
-- 🔄 **フェーズ1.6**: Hash routingシステム実装
+- 🔄 **フェーズ2**: コア機能実装
+  - 状態管理システム（LocalStorage連携）
+  - YAMLデータとの統合
+  - カテゴリ一覧の実装
+  - クイズ実行フロー
 
 - 各タスクの完了時にこのドキュメントを更新
 - 問題・改善点があればIssuesセクションに記録

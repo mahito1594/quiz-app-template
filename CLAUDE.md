@@ -28,6 +28,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **@solidjs/router** - SolidJS専用ルーティング（Hash routing mode）
 - **@modyfi/vite-plugin-yaml** - YAML問題データ読み込み用
 - **solid-markdown** - Markdown解説文レンダリング用
+- **TailwindCSS** v4 + **DaisyUI** - ユーティリティファーストCSS + UIコンポーネントライブラリ
 
 ## アーキテクチャ
 
@@ -118,8 +119,19 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
   - **包括的テスト**: 34テスト（ユニット + インテグレーション）
   - **関数型設計**: 純粋関数・不変性・明示的エラーハンドリング
 
+- **フェーズ1.6**: Hash routingシステム実装（2025-07-27完了）
+  - **@solidjs/router統合**: 6つのルート完全対応
+  - **TailwindCSS + DaisyUI**: モダンUIデザインシステム導入
+  - **レスポンシブ対応**: モバイル最適化とデザイン統一
+  - **E2Eテスト**: Playwrightによる動作確認
+  - **コードクリーンアップ**: 未使用ファイル削除・TODOコメント追加
+
 ### 🔄 次回実装予定
-- **フェーズ1.6**: Hash routingシステム実装
+- **フェーズ2**: コア機能実装
+  - 状態管理システム実装
+  - YAMLデータとの統合
+  - カテゴリ一覧の実装
+  - クイズ実行フロー
 
 ## 実装で得られた技術的知見
 
@@ -151,9 +163,10 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 ### 現在の技術債務・制約事項
 - valibot `check`関数のエラーメッセージ関数制限（データアクセス不可）
 - 早期バリデーション終了時のundefinedアクセスエラー対策必須
-- YAML plugin動的importの実装が未完了
 
 ### 次フェーズで留意すべき事項  
-- Hash routingシステム実装時の@solidjs/router設定
 - LocalStorageを使った状態永続化戦略
+- YAMLデータとUIコンポーネントの統合
 - モバイル最適化（3秒以内読み込み要件）のパフォーマンス検証
+- DaisyUIコンポーネントの活用とデザイン一貫性
+- solid-markdownライブラリの統合（解説文表示用）
