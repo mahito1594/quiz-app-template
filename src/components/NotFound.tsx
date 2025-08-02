@@ -10,7 +10,9 @@ const NotFound: Component = () => {
     <div class="text-center space-y-8 py-16">
       <div class="space-y-4">
         <h1 class="text-6xl font-bold text-error">404</h1>
-        <h2 class="text-2xl font-semibold text-base-content">ページが見つかりません</h2>
+        <h2 class="text-2xl font-semibold text-base-content">
+          ページが見つかりません
+        </h2>
         <p class="text-lg text-base-content/70">
           お探しのページは存在しないか、削除された可能性があります。
         </p>

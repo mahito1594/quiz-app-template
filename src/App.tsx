@@ -20,19 +20,12 @@ const Layout: ParentComponent = (props) => {
       <header class="bg-base-200 px-8 py-4 border-b border-base-300">
         <nav class="flex items-center justify-between">
           <div>
-            <A
-              href="/"
-              class="text-2xl font-bold text-primary no-underline"
-            >
+            <A href="/" class="text-2xl font-bold text-primary no-underline">
               📚 問題集アプリ
             </A>
           </div>
           <div class="flex gap-4">
-            <A
-              href="/"
-              class="btn btn-ghost btn-sm"
-              activeClass="btn-active"
-            >
+            <A href="/" class="btn btn-ghost btn-sm" activeClass="btn-active">
               ホーム
             </A>
             <A

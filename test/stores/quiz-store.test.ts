@@ -1,0 +1,327 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+// LocalStorageのモック
+const localStorageMock = (() => {
+  let store: Record<string, string> = {};
+
+  return {
+    getItem: vi.fn((key: string) => store[key] || null),
+    setItem: vi.fn((key: string, value: string) => {
+      store[key] = value;
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key];
+    }),
+    clear: vi.fn(() => {
+      store = {};
+    }),
+  };
+})();
+
+// グローバルなlocalStorageを置き換え
+Object.defineProperty(global, "localStorage", {
+  value: localStorageMock,
+  writable: true,
+});
+
+// テスト実行前にstorageをリセット
+beforeEach(() => {
+  localStorageMock.clear();
+  vi.clearAllMocks();
+});
+
+describe("QuizStateManager", () => {
+  // 動的インポートでモック後にモジュールを読み込み
+  // biome-ignore lint/suspicious/noExplicitAny: テストでの動的インポート型定義のため許容
+  let QuizStateManager: any;
+
+  beforeEach(async () => {
+    // モジュールキャッシュをクリア
+    vi.resetModules();
+
+    // 動的インポートで状態管理システムを読み込み
+    const module = await import("../../src/stores/quiz-store.js");
+    QuizStateManager = module.quizStateManager;
+  });
+
+  describe("初期化", () => {
+    it("新規インスタンス作成時にデフォルト値が設定される", () => {
+      expect(QuizStateManager.storeData.progress).toEqual({});
+      expect(QuizStateManager.storeData.reviewQuestions).toEqual([]);
+    });
+  });
+
+  describe("クイズ開始", () => {
+    it("新規カテゴリでクイズを開始できる", () => {
+      const progress = QuizStateManager.startQuiz("programming");
+
+      expect(progress).toEqual({
+        categoryId: "programming",
+        currentQuestionIndex: 0,
+        answers: [],
+        lastUpdated: expect.any(String),
+      });
+    });
+
+    it("既存の未完了進捗がある場合は継続する", () => {
+      // 最初にクイズを開始
+      QuizStateManager.startQuiz("programming");
+
+      // 進捗を進める
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 10,
+      });
+
+      // 再度開始した場合、継続される
+      const resumed = QuizStateManager.startQuiz("programming");
+
+      expect(resumed.currentQuestionIndex).toBe(1);
+      expect(resumed.answers).toHaveLength(1);
+    });
+
+    it("完了済みのクイズを開始すると新規進捗が作成される", () => {
+      // クイズを完了させる
+      QuizStateManager.startQuiz("programming");
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 1,
+      }); // 1問だけなので完了
+
+      // 再度開始
+      const restarted = QuizStateManager.startQuiz("programming");
+
+      expect(restarted.currentQuestionIndex).toBe(0);
+      expect(restarted.answers).toEqual([]);
+      expect(restarted.completedAt).toBeUndefined();
+    });
+  });
+
+  describe("回答記録", () => {
+    beforeEach(() => {
+      QuizStateManager.startQuiz("programming");
+    });
+
+    it("正解の回答を記録できる", () => {
+      const answer = QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      expect(answer).toEqual({
+        questionIndex: 0,
+        selectedOptions: [1],
+        isCorrect: true,
+        timestamp: expect.any(String),
+      });
+
+      const progress = QuizStateManager.getCategoryProgress("programming");
+      expect(progress?.answers).toHaveLength(1);
+      expect(progress?.answers[0]).toEqual(answer);
+    });
+
+    it("不正解の回答を記録できる", () => {
+      const answer = QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [2],
+        correctOptions: [1],
+      });
+
+      expect(answer.isCorrect).toBe(false);
+      expect(answer.selectedOptions).toEqual([2]);
+
+      // 復習対象に追加されるか確認
+      const reviewQuestions = QuizStateManager.getReviewQuestions();
+      expect(reviewQuestions).toHaveLength(1);
+      expect(reviewQuestions[0]).toEqual({
+        categoryId: "programming",
+        questionIndex: 0,
+        errorCount: 1,
+        lastErrorAt: expect.any(String),
+      });
+    });
+
+    it("複数選択問題の正解を判定できる", () => {
+      const correctAnswer = QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1, 3],
+        correctOptions: [1, 3],
+      });
+      expect(correctAnswer.isCorrect).toBe(true);
+
+      const incorrectAnswer = QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 1,
+        selectedOptions: [1, 2],
+        correctOptions: [1, 3],
+      });
+      expect(incorrectAnswer.isCorrect).toBe(false);
+    });
+  });
+
+  describe("問題進行", () => {
+    beforeEach(() => {
+      QuizStateManager.startQuiz("programming");
+    });
+
+    it("次の問題に進むことができる", () => {
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 10,
+      });
+
+      const progress = QuizStateManager.getCategoryProgress("programming");
+      expect(progress?.currentQuestionIndex).toBe(1);
+    });
+
+    it("最後の問題を完了すると完了状態になる", () => {
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 1,
+      });
+
+      const progress = QuizStateManager.getCategoryProgress("programming");
+      expect(progress?.completedAt).toBeDefined();
+      expect(typeof progress?.completedAt).toBe("string");
+    });
+  });
+
+  describe("復習機能", () => {
+    beforeEach(() => {
+      QuizStateManager.startQuiz("programming");
+    });
+
+    it("同じ問題を複数回間違えると回数が増える", () => {
+      // 1回目の間違い
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [2],
+        correctOptions: [1],
+      });
+
+      // 2回目の間違い
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [3],
+        correctOptions: [1],
+      });
+
+      const reviewQuestions = QuizStateManager.getReviewQuestions();
+      expect(reviewQuestions).toHaveLength(1);
+      expect(reviewQuestions[0].errorCount).toBe(2);
+    });
+
+    it("復習問題を正解すると復習対象から除外される", () => {
+      // まず間違える
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [2],
+        correctOptions: [1],
+      });
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(1);
+
+      // 復習で正解
+      QuizStateManager.markReviewComplete({
+        categoryId: "programming",
+        questionIndex: 0,
+      });
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(0);
+    });
+  });
+
+  describe("正答率計算", () => {
+    beforeEach(() => {
+      QuizStateManager.startQuiz("programming");
+    });
+
+    it("正答率を正確に計算できる", () => {
+      // 3問中2問正解
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      }); // 正解
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 1,
+        selectedOptions: [2],
+        correctOptions: [1],
+      }); // 不正解
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 2,
+        selectedOptions: [3],
+        correctOptions: [3],
+      }); // 正解
+
+      const accuracy = QuizStateManager.calculateAccuracy("programming");
+      expect(accuracy).toBeCloseTo(66.67, 1);
+    });
+
+    it("回答がない場合は0%を返す", () => {
+      const accuracy = QuizStateManager.calculateAccuracy("programming");
+      expect(accuracy).toBe(0);
+    });
+  });
+
+  describe("進捗リセット", () => {
+    beforeEach(() => {
+      QuizStateManager.startQuiz("programming");
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [2],
+        correctOptions: [1],
+      }); // 不正解で復習対象追加
+    });
+
+    it("カテゴリの進捗を完全にリセットできる", () => {
+      QuizStateManager.resetCategoryProgress("programming");
+
+      expect(
+        QuizStateManager.getCategoryProgress("programming"),
+      ).toBeUndefined();
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(0);
+    });
+  });
+
+  describe("LocalStorage連携", () => {
+    it("データがLocalStorageに永続化される", () => {
+      QuizStateManager.startQuiz("programming");
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // setItemが呼ばれていることを確認（@solid-primitives/storageが内部で使用）
+      expect(localStorageMock.setItem).toHaveBeenCalled();
+
+      // 状態が正しく保存されていることを確認
+      const progress = QuizStateManager.getCategoryProgress("programming");
+      expect(progress).toBeDefined();
+      expect(progress?.answers).toHaveLength(1);
+    });
+  });
+});
