@@ -108,12 +108,49 @@ export const validateQuizData: DataValidator = (
 };
 
 /**
+ * Validates that a file path is safe for YAML loading
+ * Prevents path traversal attacks and restricts to YAML files only
+ *
+ * @param filePath - The file path to validate
+ * @returns True if the path is safe, false otherwise
+ */
+function isSafeYamlPath(filePath: string): boolean {
+  // Only allow .yaml or .yml files
+  const lowerPath = filePath.toLowerCase();
+  if (!lowerPath.endsWith(".yaml") && !lowerPath.endsWith(".yml")) {
+    return false;
+  }
+
+  // Prevent path traversal attacks
+  if (filePath.includes("..")) {
+    return false;
+  }
+
+  // Prevent absolute paths (should be relative to project)
+  if (filePath.startsWith("/") || filePath.match(/^[a-zA-Z]:/)) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * Default file loader using Vite's YAML plugin
  * This function performs I/O and should be injected as a dependency
+ * Includes security validation to prevent path traversal attacks
  */
 export const viteYamlLoader: FileLoader = async (
   filePath: string,
 ): Promise<Result<FileContent, QuizLoadError>> => {
+  // Validate file path for security
+  if (!isSafeYamlPath(filePath)) {
+    const loadError = new QuizLoadError(
+      `Invalid or unsafe file path: ${filePath}. Only relative .yaml/.yml files are allowed.`,
+      "FILE_NOT_FOUND",
+      filePath,
+    );
+    return { success: false, error: loadError };
+  }
   try {
     const module = await import(/* @vite-ignore */ filePath);
     const rawData = module.default || module;

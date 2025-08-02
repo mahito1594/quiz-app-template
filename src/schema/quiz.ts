@@ -357,7 +357,7 @@ export class QuizParseError extends Error {
  * Converts Valibot validation issues to structured QuizParseError.
  * Maps Valibot's internal error format to our application-specific error type
  * to maintain consistent error handling across the application.
- * 
+ *
  * **Conversion Strategy:**
  * - Takes the first validation issue from the array (fails fast)
  * - Converts Valibot's path format to dot notation with array indices
@@ -367,15 +367,15 @@ export class QuizParseError extends Error {
  * @param issues - Validation issues from Valibot
  * @param basePath - Base field path to prepend to error paths
  * @returns Structured QuizParseError with field path information
- * 
+ *
  * @example
  * ```typescript
  * // Input: Valibot issues for missing metadata
- * const issues = [{ 
+ * const issues = [{
  *   message: 'Expected "metadata" but received undefined',
  *   path: [{ key: 'metadata' }]
  * }];
- * 
+ *
  * // Output: QuizParseError
  * const error = convertValibotError(issues, 'quiz');
  * // error.message: "Metadata is required"

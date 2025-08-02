@@ -95,17 +95,17 @@ const [store, setStore] = makePersisted(
 
 /**
  * 回答が正解かチェックする内部関数
- * 
+ *
  * **配列比較ロジック:**
  * - 両配列の長さが等しいかをチェック
  * - 選択された全選択肢が正解に含まれるかをチェック（selected ⊆ correct）
  * - 正解の全選択肢が選択されているかをチェック（correct ⊆ selected）
  * - 順序は考慮しない（順序独立の集合比較）
- * 
+ *
  * @param selected - 選択された選択肢インデックス配列
  * @param correct - 正解の選択肢インデックス配列
  * @returns 回答が正解の場合true、不正解の場合false
- * 
+ *
  * @example
  * ```typescript
  * checkAnswer([0, 2], [2, 0]); // true (順序は無関係)
@@ -129,7 +129,7 @@ const checkAnswer = (selected: number[], correct: number[]): boolean => {
  * @param questionIndex - 問題インデックス（0-based）
  */
 const addToReview = (categoryId: string, questionIndex: number): void => {
-  const existing = store.reviewQuestions?.find(
+  const existing = store.reviewQuestions.find(
     (q) => q.categoryId === categoryId && q.questionIndex === questionIndex,
   );
 
@@ -277,7 +277,7 @@ export const quizStateManager = {
    * 復習対象問題を取得
    */
   getReviewQuestions(): ReviewQuestion[] {
-    return store.reviewQuestions || [];
+    return store.reviewQuestions;
   },
 
   /**

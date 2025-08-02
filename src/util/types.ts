@@ -32,19 +32,19 @@
  *   console.error(result.error); // TypeScript knows this is string
  * }
  * ```
- * 
+ *
  * @example
  * ```typescript
  * // Handling multiple error types with union types
  * type ValidationError = "empty" | "too_short" | "invalid_format";
- * 
+ *
  * function validatePassword(password: string): Result<string, ValidationError> {
  *   if (!password) return { success: false, error: "empty" };
  *   if (password.length < 8) return { success: false, error: "too_short" };
  *   if (!/[A-Z]/.test(password)) return { success: false, error: "invalid_format" };
  *   return { success: true, data: password };
  * }
- * 
+ *
  * const validation = validatePassword("weak");
  * if (validation.success) {
  *   // validation.data is string (validated password)
