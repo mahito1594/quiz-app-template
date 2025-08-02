@@ -1,0 +1,83 @@
+metadata:
+  version: "1.0.0"
+  title: "サンプル問題集"
+  lastUpdated: "2025-07-21"
+  totalQuestions: 4
+  description: "テスト用のサンプル問題集"
+
+categories:
+  - id: "basic-programming"
+    name: "プログラミング基礎"
+    description: "基本的なプログラミング概念に関する問題"
+    order: 1
+    questions:
+      - type: "single"
+        question: |
+          次のうち、プログラミング言語として正しいものはどれですか？
+        options:
+          - "JavaScript"
+          - "HTML"
+          - "CSS"
+          - "JSON"
+        correct: [0]
+        explanation: |
+          JavaScriptはプログラミング言語です。
+          
+          - HTML: マークアップ言語
+          - CSS: スタイルシート言語
+          - JSON: データ交換フォーマット
+          
+          [MDN JavaScript](https://developer.mozilla.org/ja/docs/Web/JavaScript)
+      
+      - type: "multiple"
+        question: |
+          以下のうち、**フロントエンド**技術として分類されるものを**すべて**選択してください。
+        options:
+          - "React"
+          - "Node.js"
+          - "Vue.js"
+          - "MySQL"
+        correct: [0, 2]
+        explanation: |
+          フロントエンド技術の正解：
+          - **React**: UIライブラリ
+          - **Vue.js**: UIフレームワーク
+          
+          バックエンド技術：
+          - Node.js: サーバーサイドランタイム
+          - MySQL: データベース
+
+  - id: "web-basics"
+    name: "Web基礎"
+    description: "Web開発の基本概念"
+    order: 2
+    questions:
+      - type: "single"
+        question: |
+          HTTPステータスコード`404`の意味は何ですか？
+        options:
+          - "サーバーエラー"
+          - "リクエスト成功"
+          - "ページが見つからない"
+          - "認証エラー"
+        correct: [2]
+        explanation: |
+          HTTPステータスコード404は「Not Found」を意味し、リクエストされたリソースがサーバー上に存在しないことを示します。
+      
+      - type: "single"
+        question: |
+          HTML5の新しいセマンティック要素として正しいものはどれですか？
+        options:
+          - "`<div>`"
+          - "`<span>`"
+          - "`<section>`"
+          - "`<table>`"
+        correct: [2]
+        explanation: |
+          `<section>`はHTML5で追加されたセマンティック要素です。
+          
+          他のHTML5セマンティック要素：
+          - `<article>`
+          - `<nav>`
+          - `<header>`
+          - `<footer>`
