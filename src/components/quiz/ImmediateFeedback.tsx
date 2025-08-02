@@ -12,6 +12,8 @@ const FEEDBACK_CONSTANTS = {
   TITLE_SIZE: "text-2xl",
   /** サブテキストサイズクラス */
   SUBTEXT_SIZE: "text-sm",
+  /** ASCII文字'A'のコード（選択肢インデックス0→A, 1→B, 2→C...の形式表示用） */
+  ASCII_A_CODE: 65,
   /** 正解時の絵文字 */
   SUCCESS_EMOJI: "🎉",
   /** 不正解時の絵文字 */
@@ -92,8 +94,7 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
                 ? props.selectedOptions
                     .map(
                       (idx) =>
-                        // 65はASCII文字'A'のコード。選択肢インデックス0→A, 1→B, 2→C...の形式で表示
-                        `${String.fromCharCode(65 + idx)}. ${props.question.options[idx]}`,
+                        `${String.fromCharCode(FEEDBACK_CONSTANTS.ASCII_A_CODE + idx)}. ${props.question.options[idx]}`,
                     )
                     .join(", ")
                 : "未回答"}
@@ -103,7 +104,7 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
               {props.correctOptions
                 .map(
                   (idx) =>
-                    `${String.fromCharCode(65 + idx)}. ${props.question.options[idx]}`,
+                    `${String.fromCharCode(FEEDBACK_CONSTANTS.ASCII_A_CODE + idx)}. ${props.question.options[idx]}`,
                 )
                 .join(", ")}
             </p>

@@ -214,3 +214,8 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 - 技術債務: 現在なし（solid-markdown問題解決済み）
 - 開発環境: `pnpm dev` と `pnpm preview` 両方で正常動作
 - デバッグ体制: TypeScript厳密チェック + Biome + Vitest完備
+
+## 備忘録
+
+### 追加タスク
+- docs 配下の Markdown 文書を読み込んでアプリの仕様を把握すること
