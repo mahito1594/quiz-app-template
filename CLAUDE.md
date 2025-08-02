@@ -19,16 +19,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 技術スタック
 
-- **SolidJS** v1.9.7 - リアクティブUIフレームワーク
-- **TypeScript** v5.8.3 - 型安全性
-- **Vite** v7.0.4 - 高速ビルドツール
-- **Valibot** v1.1.0 - スキーマバリデーション（"Parse, don't validate"アーキテクチャ）
-- **Vitest** v3.2.4 - テストフレームワーク（TDD採用）
-- **Biome** v2.1.2 - リンター/フォーマッター
+- **SolidJS** v1.9 - リアクティブUIフレームワーク
+- **TypeScript** v5.8 - 型安全性
+- **Vite** v7 - 高速ビルドツール
+- **Valibot** v1.1 - スキーマバリデーション（"Parse, don't validate"アーキテクチャ）
+- **Vitest** v3 - テストフレームワーク（TDD採用）
+- **Biome** v2.1 - リンター/フォーマッター
 - **@solidjs/router** - SolidJS専用ルーティング（Hash routing mode）
 - **@modyfi/vite-plugin-yaml** - YAML問題データ読み込み用
-- **solid-markdown** - Markdown解説文レンダリング用
-- **TailwindCSS** v4 + **DaisyUI** - ユーティリティファーストCSS + UIコンポーネントライブラリ
+- **@solid-primitives/storage** - LocalStorage永続化用
+- **solid-markdown** v2.0.13 - Markdown解説文レンダリング用（注：バージョン固定）
+- **TailwindCSS** v4 + **DaisyUI** v5 - ユーティリティファーストCSS + UIコンポーネントライブラリ
 
 ## アーキテクチャ
 
