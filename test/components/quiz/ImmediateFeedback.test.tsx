@@ -164,9 +164,9 @@ describe("ImmediateFeedback", () => {
       ));
 
       expect(screen.getByText("あなたの回答:")).toBeInTheDocument();
-      expect(screen.getByText("B. 選択肢B")).toBeInTheDocument();
+      expect(screen.getByText("選択肢B")).toBeInTheDocument();
       expect(screen.getByText("正解:")).toBeInTheDocument();
-      expect(screen.getByText("A. 選択肢A")).toBeInTheDocument();
+      expect(screen.getByText("選択肢A")).toBeInTheDocument();
     });
 
     it("複数選択の回答結果が正しく表示される", () => {
@@ -184,9 +184,9 @@ describe("ImmediateFeedback", () => {
       ));
 
       expect(screen.getByText("あなたの回答:")).toBeInTheDocument();
-      expect(screen.getByText("A. 選択肢A, B. 選択肢B")).toBeInTheDocument();
+      expect(screen.getByText("選択肢A, 選択肢B")).toBeInTheDocument();
       expect(screen.getByText("正解:")).toBeInTheDocument();
-      expect(screen.getByText("A. 選択肢A, C. 選択肢C")).toBeInTheDocument();
+      expect(screen.getByText("選択肢A, 選択肢C")).toBeInTheDocument();
     });
 
     it("未回答の場合は未回答と表示される", () => {

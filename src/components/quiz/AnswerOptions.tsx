@@ -93,15 +93,6 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
           </span>
         </Match>
 
-        <Match when={props.isAnswered}>
-          <span
-            class="icon-letter"
-            title={`選択肢${String.fromCharCode(65 + optionIndex)}`}
-          >
-            {String.fromCharCode(65 + optionIndex)}
-          </span>
-        </Match>
-
         <Match when={!props.isAnswered && props.question.type === "single"}>
           <span
             class={`icon-radio ${isSelected ? "selected" : "unselected"}`}
@@ -156,26 +147,6 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
           ) : (
             <p>正しいと思う選択肢をすべて選んでください。複数選択可能です。</p>
           )}
-        </div>
-      </Show>
-
-      {/* 回答後の説明 */}
-      <Show when={props.isAnswered && props.correctOptions}>
-        <div class="mt-4 p-3 bg-base-200 rounded-lg">
-          <p class="text-sm text-base-content/70">
-            正解:{" "}
-            {props.correctOptions
-              ?.map((idx) => String.fromCharCode(65 + idx))
-              .join(", ")}
-          </p>
-          <Show when={props.selectedOptions.length > 0}>
-            <p class="text-sm text-base-content/70">
-              あなたの回答:{" "}
-              {props.selectedOptions
-                .map((idx) => String.fromCharCode(65 + idx))
-                .join(", ")}
-            </p>
-          </Show>
         </div>
       </Show>
     </div>

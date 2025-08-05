@@ -9,15 +9,21 @@ import CategoryCard from "./CategoryCard.js";
 /**
  * カテゴリの進捗情報を取得する関数
  */
-const getCategoryProgress = (categoryId: string) => {
+const getCategoryProgress = (categoryId: string, totalQuestions: number) => {
   const progress = quizStateManager.getCategoryProgress(categoryId);
   const accuracy = quizStateManager.calculateAccuracy(categoryId);
+  const totalAnswered = progress?.answers.length ?? 0;
+
+  // 完了判定: completedAtが設定されているか、回答数が総問題数と等しい場合
+  const isCompleted =
+    !!progress?.completedAt ||
+    (totalAnswered > 0 && totalAnswered >= totalQuestions);
 
   return {
     hasProgress: !!progress,
-    isCompleted: !!progress?.completedAt,
+    isCompleted: isCompleted,
     currentQuestion: progress?.currentQuestionIndex ?? 0,
-    totalAnswered: progress?.answers.length ?? 0,
+    totalAnswered: totalAnswered,
     accuracy: accuracy,
   };
 };
@@ -106,7 +112,10 @@ const CategoryList: Component = () => {
             {(category) => (
               <CategoryCard
                 category={category}
-                progress={getCategoryProgress(category.id)}
+                progress={getCategoryProgress(
+                  category.id,
+                  category.questions.length,
+                )}
               />
             )}
           </For>

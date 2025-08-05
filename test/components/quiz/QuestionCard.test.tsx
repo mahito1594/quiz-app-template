@@ -237,34 +237,6 @@ describe("QuestionCard", () => {
 
       expect(screen.queryByText(/選択中:/)).not.toBeInTheDocument();
     });
-
-    it("選択肢選択時はデバッグ情報が表示される", () => {
-      render(() => (
-        <QuestionCard
-          question={mockMultipleQuestion}
-          questionNumber={1}
-          totalQuestions={5}
-          selectedOptions={[0, 2]}
-          isAnswered={false}
-        />
-      ));
-
-      expect(screen.getByText("選択中: 0, 2")).toBeInTheDocument();
-    });
-
-    it("単一選択時のデバッグ情報", () => {
-      render(() => (
-        <QuestionCard
-          question={mockSingleQuestion}
-          questionNumber={1}
-          totalQuestions={5}
-          selectedOptions={[1]}
-          isAnswered={false}
-        />
-      ));
-
-      expect(screen.getByText("選択中: 1")).toBeInTheDocument();
-    });
   });
 
   describe("Markdownレンダリング", () => {

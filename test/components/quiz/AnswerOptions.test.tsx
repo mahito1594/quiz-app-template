@@ -218,7 +218,7 @@ describe("AnswerOptions", () => {
   });
 
   describe("回答後の表示", () => {
-    it("正解と自分の回答が表示される", () => {
+    it("選択肢の状態が正しく表示される", () => {
       render(() => (
         <AnswerOptions
           question={mockMultipleQuestion}
@@ -229,11 +229,12 @@ describe("AnswerOptions", () => {
         />
       ));
 
-      expect(screen.getByText(/正解: A, C/)).toBeInTheDocument();
-      expect(screen.getByText(/あなたの回答: A, B/)).toBeInTheDocument();
+      // 正解・不正解のアイコンが表示されることを確認（複数ある場合はgetAllByを使用）
+      expect(screen.getAllByTitle("正解")).toHaveLength(2); // 選択肢AとCが正解
+      expect(screen.getByTitle("不正解")).toBeInTheDocument(); // 選択肢Bが不正解
     });
 
-    it("未選択の場合は自分の回答が表示されない", () => {
+    it("未選択の場合は正解のアイコンのみ表示される", () => {
       render(() => (
         <AnswerOptions
           question={mockSingleQuestion}
@@ -244,8 +245,10 @@ describe("AnswerOptions", () => {
         />
       ));
 
-      expect(screen.getByText(/正解: A/)).toBeInTheDocument();
-      expect(screen.queryByText(/あなたの回答:/)).not.toBeInTheDocument();
+      // 正解のアイコンが1つ表示されることを確認
+      expect(screen.getAllByTitle("正解")).toHaveLength(1);
+      // 不正解のアイコンは表示されないことを確認
+      expect(screen.queryByTitle("不正解")).not.toBeInTheDocument();
     });
   });
 

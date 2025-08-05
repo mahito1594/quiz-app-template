@@ -172,22 +172,6 @@ describe("CategoryCard", () => {
       );
     });
 
-    it("問題一覧ボタンが表示される", () => {
-      render(
-        () => (
-          <CategoryCard category={mockCategory} progress={inProgressData} />
-        ),
-        { wrapper: RouterWrapper },
-      );
-
-      const listLink = screen.getByText("問題一覧");
-      expect(listLink).toBeInTheDocument();
-      expect(listLink.closest("a")).toHaveAttribute(
-        "href",
-        "/category/test-category",
-      );
-    });
-
     it("進捗情報が表示される", () => {
       render(
         () => (
@@ -225,7 +209,7 @@ describe("CategoryCard", () => {
       expect(screen.getByText("完了")).toBeInTheDocument();
     });
 
-    it("再挑戦ボタンが表示される", () => {
+    it("もう一度ボタンが表示される", () => {
       render(
         () => (
           <CategoryCard category={mockCategory} progress={completedProgress} />
@@ -233,7 +217,7 @@ describe("CategoryCard", () => {
         { wrapper: RouterWrapper },
       );
 
-      const retryLink = screen.getByText("再挑戦");
+      const retryLink = screen.getByText("もう一度");
       expect(retryLink).toBeInTheDocument();
       expect(retryLink.closest("a")).toHaveAttribute(
         "href",
@@ -241,7 +225,7 @@ describe("CategoryCard", () => {
       );
     });
 
-    it("問題一覧ボタンが表示される", () => {
+    it("問題一覧ボタンが表示されない", () => {
       render(
         () => (
           <CategoryCard category={mockCategory} progress={completedProgress} />
@@ -249,12 +233,7 @@ describe("CategoryCard", () => {
         { wrapper: RouterWrapper },
       );
 
-      const listLink = screen.getByText("問題一覧");
-      expect(listLink).toBeInTheDocument();
-      expect(listLink.closest("a")).toHaveAttribute(
-        "href",
-        "/category/test-category",
-      );
+      expect(screen.queryByText("問題一覧")).not.toBeInTheDocument();
     });
 
     it("進捗情報が完了として表示される", () => {

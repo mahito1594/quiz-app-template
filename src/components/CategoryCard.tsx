@@ -1,5 +1,5 @@
 import { A } from "@solidjs/router";
-import { type Component, Show } from "solid-js";
+import { type Component, Match, Show, Switch } from "solid-js";
 import type { Category } from "../schema/quiz.js";
 
 /**
@@ -72,24 +72,23 @@ const CategoryCard: Component<CategoryCardProps> = (props) => {
 
         {/* アクションボタン */}
         <div class="card-actions justify-end mt-4">
-          <Show
-            when={props.progress.hasProgress && !props.progress.isCompleted}
-            fallback={
+          <Switch>
+            <Match when={props.progress.isCompleted}>
               <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
-                {props.progress.isCompleted ? "再挑戦" : "開始"}
+                もう一度
               </A>
-            }
-          >
-            <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
-              続きから
-            </A>
-          </Show>
-
-          <Show when={props.progress.hasProgress}>
-            <A href={`/category/${props.category.id}`} class="btn btn-outline">
-              問題一覧
-            </A>
-          </Show>
+            </Match>
+            <Match when={props.progress.hasProgress}>
+              <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
+                続きから
+              </A>
+            </Match>
+            <Match when={!props.progress.hasProgress}>
+              <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
+                開始
+              </A>
+            </Match>
+          </Switch>
         </div>
       </div>
     </div>
