@@ -146,12 +146,17 @@ Hash版: /#/quiz/category1
 
 ### 5.4 Markdown処理
 
-**採用: solid-markdown v2.0.14**
+**採用: solid-markdown v2.0.13**
 
 **選定理由:**
 - SolidJS専用実装
 - 解説文レンダリングに最適
 - セキュリティ考慮済み
+
+**バージョン選定詳細:**
+- v2.0.14でサーバーサイドバンドル問題が発生（`debug`モジュールエラー）
+- v2.0.13にダウングレードで解決
+- 参考: [GitHub Issue #40](https://github.com/andi23rosca/solid-markdown/issues/40)
 
 ## 6. 開発ツール
 
