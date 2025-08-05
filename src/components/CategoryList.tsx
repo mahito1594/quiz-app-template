@@ -1,9 +1,10 @@
 import { A } from "@solidjs/router";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import quizYaml from "../data/quiz.yaml";
-import type { Category, QuizData } from "../schema/quiz.js";
+import type { QuizData } from "../schema/quiz.js";
 import { parseQuizData } from "../schema/quiz.js";
 import { quizStateManager } from "../stores/quiz-store.js";
+import CategoryCard from "./CategoryCard.js";
 
 /**
  * カテゴリの進捗情報を取得する関数
@@ -19,84 +20,6 @@ const getCategoryProgress = (categoryId: string) => {
     totalAnswered: progress?.answers.length ?? 0,
     accuracy: accuracy,
   };
-};
-
-/**
- * カテゴリ情報カードコンポーネント
- */
-const CategoryCard: Component<{ category: Category }> = (props) => {
-  const progress = () => getCategoryProgress(props.category.id);
-  const totalQuestions = () => props.category.questions.length;
-
-  return (
-    <div class="card bg-base-100 shadow-md border hover:shadow-lg transition-shadow">
-      <div class="card-body">
-        <h2 class="card-title text-xl">{props.category.name}</h2>
-        <p class="text-base-content/70">{props.category.description}</p>
-
-        {/* 進捗情報 */}
-        <div class="space-y-2">
-          <div class="flex justify-between text-sm">
-            <span>問題数</span>
-            <span class="font-semibold">{totalQuestions()}問</span>
-          </div>
-
-          <Show when={progress().hasProgress}>
-            <div class="flex justify-between text-sm">
-              <span>進捗</span>
-              <span class="font-semibold">
-                {progress().totalAnswered} / {totalQuestions()}
-              </span>
-            </div>
-
-            <Show when={progress().totalAnswered > 0}>
-              <div class="flex justify-between text-sm">
-                <span>正答率</span>
-                <span class="font-semibold">
-                  {progress().accuracy.toFixed(1)}%
-                </span>
-              </div>
-            </Show>
-          </Show>
-        </div>
-
-        {/* ステータスバッジ */}
-        <div class="flex flex-wrap gap-2 mt-2">
-          <Show when={progress().isCompleted}>
-            <div class="badge badge-success">完了</div>
-          </Show>
-          <Show when={progress().hasProgress && !progress().isCompleted}>
-            <div class="badge badge-warning">進行中</div>
-          </Show>
-          <Show when={!progress().hasProgress}>
-            <div class="badge badge-ghost">未開始</div>
-          </Show>
-        </div>
-
-        {/* アクションボタン */}
-        <div class="card-actions justify-end mt-4">
-          <Show
-            when={progress().hasProgress && !progress().isCompleted}
-            fallback={
-              <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
-                {progress().isCompleted ? "再挑戦" : "開始"}
-              </A>
-            }
-          >
-            <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
-              続きから
-            </A>
-          </Show>
-
-          <Show when={progress().hasProgress}>
-            <A href={`/category/${props.category.id}`} class="btn btn-outline">
-              問題一覧
-            </A>
-          </Show>
-        </div>
-      </div>
-    </div>
-  );
 };
 
 /**
@@ -180,7 +103,12 @@ const CategoryList: Component = () => {
       <Show when={quizData() && !loading()}>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <For each={quizData()?.categories}>
-            {(category) => <CategoryCard category={category} />}
+            {(category) => (
+              <CategoryCard
+                category={category}
+                progress={getCategoryProgress(category.id)}
+              />
+            )}
           </For>
         </div>
       </Show>
