@@ -30,7 +30,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "daisyui": "^5.0.50",
     "happy-dom": "^18.0.1",
-    "solid-markdown": "2.0.13",
+    "solid-markdown": "^2.0.14",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.8.3",
     "valibot": "^1.1.0",

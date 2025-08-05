@@ -28,7 +28,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **@solidjs/router** - SolidJS専用ルーティング（Hash routing mode）
 - **@modyfi/vite-plugin-yaml** - YAML問題データ読み込み用
 - **@solid-primitives/storage** - LocalStorage永続化用
-- **solid-markdown** v2.0.13 - Markdown解説文レンダリング用（注：バージョン固定）
+- **solid-markdown** - Markdown解説文レンダリング用
 - **TailwindCSS** v4 + **DaisyUI** v5 - ユーティリティファーストCSS + UIコンポーネントライブラリ
 
 ## アーキテクチャ
@@ -133,7 +133,7 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
   - 全UIコンポーネント実装（CategoryList, Quiz, QuizResult, Review）
   - 子コンポーネント実装（QuestionCard, AnswerOptions, ImmediateFeedback）
   - YAMLデータ統合・LocalStorage永続化
-  - Markdownレンダリング（solid-markdown 2.0.13使用）
+  - Markdownレンダリング（solid-markdown使用）
   - Hash routingシステム完全動作
   - E2E動作確認完了（49テスト全成功）
 
@@ -185,16 +185,16 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 
 ### フェーズ2で解決した技術課題
 
-#### solid-markdownバージョン問題（2025-07-28解決）
+#### solid-markdownバージョン問題（2025-08-05解決）
 - **問題**: solid-markdown 2.0.14でサーバーサイドバンドル問題が発生
 - **現象**: `pnpm dev`で白い画面、`debug`モジュールエラー
-- **解決策**: バージョン2.0.13にダウングレード
-- **参考**: [GitHub Issue #40](https://github.com/andi23rosca/solid-markdown/issues/40)
-- **学習**: 依存関係のバージョン管理の重要性
+- **解決策**: 回避策の発見によりバージョン固定を解除
+- **参考**: [GitHub Issue #33](https://github.com/andi23rosca/solid-markdown/issues/33#issuecomment-2612454745)
+- **学習**: コミュニティでの問題解決とバージョン管理の柔軟性
 
 #### 開発・本番環境の一元化
 - **達成**: `pnpm dev`と`pnpm preview`で同一機能提供
-- **技術**: @solid-primitives/storage + solid-markdown 2.0.13
+- **技術**: @solid-primitives/storage + solid-markdown
 - **効果**: 開発体験の大幅向上
 
 ### フェーズ3に向けた準備状況（2025-08-05現在）
@@ -219,7 +219,7 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 
 #### バグ報告受け入れ準備
 - 現在のコード状態: 全機能実装済み、テスト全成功
-- 技術債務: 現在なし（solid-markdown問題解決済み）
+- 技術債務: 現在なし（solid-markdownバージョン固定解除済み）
 - 開発環境: `pnpm dev` と `pnpm preview` 両方で正常動作
 - デバッグ体制: TypeScript厳密チェック + Biome + Vitest完備
 
