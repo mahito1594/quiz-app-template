@@ -84,14 +84,18 @@
 
 #### ✅ 7. カテゴリ一覧コンポーネント
 **目標**: メイン画面のコンポーネント実装
-**場所**: `src/components/CategoryList.tsx`
-**テストファイル**: `docs/04_categorylist_test_implementation.md`（実装ガイド）
+**場所**: `src/components/CategoryList.tsx`, `src/components/CategoryCard.tsx`
+**テストファイル**: `test/components/CategoryCard.test.tsx`, `test/components/CategoryList.integration.test.tsx`
 
 **実装済み**:
 - [x] カテゴリ一覧表示
 - [x] 進捗バー表示（各カテゴリの完了率）
 - [x] YAMLデータ統合
-- [x] ルーター依存のため、実装ガイド文書で代替
+- [x] **CategoryCardコンポーネント分離**（2025-08-05）
+- [x] **包括的テスト実装**（2025-08-05）
+  - CategoryCard単体テスト: 17テスト
+  - CategoryList統合テスト: 6テスト
+  - プロダクションコード品質維持（`<A>`タグ保持）
 
 #### ✅ 8. クイズ実行フロー
 **目標**: 問題表示→回答→即時フィードバック機能
@@ -286,6 +290,13 @@ test/
   - E2E動作確認（49テスト全成功）
   - コンポーネントテスト実装（45テスト追加）
 
+- ✅ **CategoryListテスト実装**（2025-08-05完了）
+  - CategoryCardコンポーネント分離によるテスト容易性向上
+  - プロダクションコード品質維持（`<A>`タグ保持）
+  - RouterWrapperテストヘルパー作成
+  - 包括的テストカバレッジ実現（94→117テスト）
+  - 静的解析・型チェック・テスト全成功
+
 ### 次回実装予定
 - 🔄 **フェーズ3**: ユーザーレビュー対応
   - バグ修正・改善対応
@@ -318,4 +329,6 @@ test/
 - YAML plugin（@modyfi/vite-plugin-yaml）の動的import対応
 - 大規模データのパフォーマンス最適化
 - エラーメッセージの多言語対応
-- CategoryListコンポーネントのテスト戦略（ルーター依存の解決）
+- ✅ **CategoryListコンポーネントのテスト戦略（解決済み）**（2025-08-05）
+  - RouterWrapperヘルパーによるルーター依存テスト実現
+  - プロダクションコード品質を維持しつつテストカバレッジ向上
