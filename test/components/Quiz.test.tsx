@@ -81,7 +81,7 @@ vi.mock("../../src/stores/quiz-store", () => ({
   quizStateManager: mockQuizStateManager,
 }));
 
-import Quiz from "../../src/components/Quiz.js";
+import Quiz from "../../src/components/Quiz";
 
 // 子コンポーネントのモックは削除し、実際のコンポーネントを使用
 // Kent C. Doddsの「ユーザーが使うようにテストする」原則に従う
