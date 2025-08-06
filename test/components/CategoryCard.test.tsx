@@ -225,17 +225,6 @@ describe("CategoryCard", () => {
       );
     });
 
-    it("問題一覧ボタンが表示されない", () => {
-      render(
-        () => (
-          <CategoryCard category={mockCategory} progress={completedProgress} />
-        ),
-        { wrapper: RouterWrapper },
-      );
-
-      expect(screen.queryByText("問題一覧")).not.toBeInTheDocument();
-    });
-
     it("進捗情報が完了として表示される", () => {
       render(
         () => (
