@@ -41,20 +41,14 @@ const QuestionDetail: Component<{
             <span class="font-medium">あなたの回答:</span>{" "}
             {props.userAnswer && props.userAnswer.length > 0
               ? props.userAnswer
-                  .map(
-                    (idx) =>
-                      `${String.fromCharCode(65 + idx)}. ${props.question.options[idx]}`,
-                  )
+                  .map((idx) => props.question.options[idx])
                   .join(", ")
               : "未回答"}
           </p>
           <p>
             <span class="font-medium">正解:</span>{" "}
             {props.question.correct
-              .map(
-                (idx) =>
-                  `${String.fromCharCode(65 + idx)}. ${props.question.options[idx]}`,
-              )
+              .map((idx) => props.question.options[idx])
               .join(", ")}
           </p>
         </div>

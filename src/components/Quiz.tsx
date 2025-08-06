@@ -59,7 +59,10 @@ const Quiz: Component = () => {
       setCurrentCategory(category);
 
       // クイズ開始または継続
-      const progress = quizStateManager.startQuiz(params.categoryId);
+      const progress = quizStateManager.startQuiz(
+        params.categoryId,
+        category.questions.length,
+      );
       const questionIndex = progress.currentQuestionIndex;
 
       if (questionIndex >= category.questions.length) {

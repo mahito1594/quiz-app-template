@@ -81,13 +81,6 @@ const QuestionCard: Component<QuestionCardProps> = (props) => {
               : "以下の選択肢から適切なものをすべて選んでください。"}
           </p>
         </div>
-
-        {/* 選択状態の表示（デバッグ用・本番では削除可能） */}
-        <Show when={props.selectedOptions.length > 0}>
-          <div class="text-xs text-base-content/50 mb-2">
-            選択中: {props.selectedOptions.join(", ")}
-          </div>
-        </Show>
       </div>
     </div>
   );

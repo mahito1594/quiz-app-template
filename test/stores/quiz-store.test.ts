@@ -53,7 +53,7 @@ describe("QuizStateManager", () => {
 
   describe("クイズ開始", () => {
     it("新規カテゴリでクイズを開始できる", () => {
-      const progress = QuizStateManager.startQuiz("programming");
+      const progress = QuizStateManager.startQuiz("programming", 10);
 
       expect(progress).toEqual({
         categoryId: "programming",
@@ -65,7 +65,7 @@ describe("QuizStateManager", () => {
 
     it("既存の未完了進捗がある場合は継続する", () => {
       // 最初にクイズを開始
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
 
       // 進捗を進める
       QuizStateManager.submitAnswer({
@@ -80,7 +80,7 @@ describe("QuizStateManager", () => {
       });
 
       // 再度開始した場合、継続される
-      const resumed = QuizStateManager.startQuiz("programming");
+      const resumed = QuizStateManager.startQuiz("programming", 10);
 
       expect(resumed.currentQuestionIndex).toBe(1);
       expect(resumed.answers).toHaveLength(1);
@@ -88,7 +88,7 @@ describe("QuizStateManager", () => {
 
     it("完了済みのクイズを開始すると新規進捗が作成される", () => {
       // クイズを完了させる
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
       QuizStateManager.submitAnswer({
         categoryId: "programming",
         questionIndex: 0,
@@ -101,17 +101,63 @@ describe("QuizStateManager", () => {
       }); // 1問だけなので完了
 
       // 再度開始
-      const restarted = QuizStateManager.startQuiz("programming");
+      const restarted = QuizStateManager.startQuiz("programming", 1);
 
       expect(restarted.currentQuestionIndex).toBe(0);
       expect(restarted.answers).toEqual([]);
       expect(restarted.completedAt).toBeUndefined();
     });
+
+    it("回答数が総問題数と等しい場合も新規進捗が作成される", () => {
+      // 2問のクイズを開始
+      QuizStateManager.startQuiz("programming", 2);
+
+      // 2問回答（completedAtは設定されていない状態）
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 1,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // 再度開始すると新規進捗が作成される
+      const restarted = QuizStateManager.startQuiz("programming", 2);
+
+      expect(restarted.currentQuestionIndex).toBe(0);
+      expect(restarted.answers).toEqual([]);
+    });
+
+    it("currentQuestionIndexが総問題数以上の場合も新規進捗が作成される", () => {
+      // 2問のクイズを開始
+      QuizStateManager.startQuiz("programming", 2);
+
+      // 問題を進めすぎた状態を作る
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 2,
+      });
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 2,
+      });
+
+      // 再度開始すると新規進捗が作成される
+      const restarted = QuizStateManager.startQuiz("programming", 2);
+
+      expect(restarted.currentQuestionIndex).toBe(0);
+      expect(restarted.answers).toEqual([]);
+    });
   });
 
   describe("回答記録", () => {
     beforeEach(() => {
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
     });
 
     it("正解の回答を記録できる", () => {
@@ -177,7 +223,7 @@ describe("QuizStateManager", () => {
 
   describe("問題進行", () => {
     beforeEach(() => {
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
     });
 
     it("次の問題に進むことができる", () => {
@@ -204,7 +250,7 @@ describe("QuizStateManager", () => {
 
   describe("復習機能", () => {
     beforeEach(() => {
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
     });
 
     it("同じ問題を複数回間違えると回数が増える", () => {
@@ -250,7 +296,7 @@ describe("QuizStateManager", () => {
 
   describe("正答率計算", () => {
     beforeEach(() => {
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
     });
 
     it("正答率を正確に計算できる", () => {
@@ -286,7 +332,7 @@ describe("QuizStateManager", () => {
 
   describe("進捗リセット", () => {
     beforeEach(() => {
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
       QuizStateManager.submitAnswer({
         categoryId: "programming",
         questionIndex: 0,
@@ -307,7 +353,7 @@ describe("QuizStateManager", () => {
 
   describe("LocalStorage連携", () => {
     it("データがLocalStorageに永続化される", () => {
-      QuizStateManager.startQuiz("programming");
+      QuizStateManager.startQuiz("programming", 10);
       QuizStateManager.submitAnswer({
         categoryId: "programming",
         questionIndex: 0,

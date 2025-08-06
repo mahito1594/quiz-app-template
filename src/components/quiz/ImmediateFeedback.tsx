@@ -12,8 +12,6 @@ const FEEDBACK_CONSTANTS = {
   TITLE_SIZE: "text-2xl",
   /** サブテキストサイズクラス */
   SUBTEXT_SIZE: "text-sm",
-  /** ASCII文字'A'のコード（選択肢インデックス0→A, 1→B, 2→C...の形式表示用） */
-  ASCII_A_CODE: 65,
   /** 正解時の絵文字 */
   SUCCESS_EMOJI: "🎉",
   /** 不正解時の絵文字 */
@@ -92,20 +90,14 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
               <span class="font-medium">あなたの回答:</span>{" "}
               {props.selectedOptions.length > 0
                 ? props.selectedOptions
-                    .map(
-                      (idx) =>
-                        `${String.fromCharCode(FEEDBACK_CONSTANTS.ASCII_A_CODE + idx)}. ${props.question.options[idx]}`,
-                    )
+                    .map((idx) => props.question.options[idx])
                     .join(", ")
                 : "未回答"}
             </p>
             <p>
               <span class="font-medium">正解:</span>{" "}
               {props.correctOptions
-                .map(
-                  (idx) =>
-                    `${String.fromCharCode(FEEDBACK_CONSTANTS.ASCII_A_CODE + idx)}. ${props.question.options[idx]}`,
-                )
+                .map((idx) => props.question.options[idx])
                 .join(", ")}
             </p>
           </div>

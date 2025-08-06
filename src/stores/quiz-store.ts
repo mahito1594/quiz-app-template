@@ -183,18 +183,28 @@ export const quizStateManager = {
 
   /**
    * クイズを開始（新規または継続）
+   * 完了判定を追加するための総問題数を受け取る
    * @param categoryId - 開始するカテゴリのID
+   * @param totalQuestions - カテゴリの総問題数
    * @returns クイズの進捗データ
    */
-  startQuiz(categoryId: string): QuizProgress {
+  startQuiz(categoryId: string, totalQuestions: number): QuizProgress {
     const existing = this.getCategoryProgress(categoryId);
 
-    if (existing && !existing.completedAt) {
-      // 継続の場合：既存の進捗を返す
-      return existing;
+    if (existing) {
+      // 完了判定: completedAtが設定されているか、回答数が総問題数以上の場合
+      const isCompleted =
+        !!existing.completedAt ||
+        existing.answers.length >= totalQuestions ||
+        existing.currentQuestionIndex >= totalQuestions;
+
+      if (!isCompleted) {
+        // 未完了の場合：既存の進捗を返す
+        return existing;
+      }
     }
 
-    // 新規開始の場合：進捗をリセット
+    // 新規開始または完了済みの場合：進捗をリセット
     const newProgress: QuizProgress = {
       categoryId,
       currentQuestionIndex: 0,
