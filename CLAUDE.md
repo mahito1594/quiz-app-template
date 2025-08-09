@@ -265,6 +265,24 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 - **保守性**: テストコードも製品コードと同等の保守性基準を適用
 - **ROI重視**: テスト価値 vs 保守コストの定量的判断
 
+### Issue #10 修正: クイズ再開時の問題（2025-08-09）
+
+#### 問題の詳細
+- **現象**: 「続きから」でクイズを再開すると、回答済みの問題から再開される
+- **原因**: `submitAnswer()`が`currentQuestionIndex`を更新せず、`answers.length`と同期しない
+- **影響**: ユーザーが既に回答した問題を再度回答する必要があった
+
+#### 修正内容
+- **実装**: `src/stores/quiz-store.ts`の`startQuiz`メソッドを修正（206-209行目）
+- **ロジック**: 既存進捗を返す際に`currentQuestionIndex`を`Math.max(currentQuestionIndex, answers.length)`で同期
+- **テスト**: `test/stores/quiz-store.test.ts`に再現テストケースを追加（250-270行目）
+
+#### 技術的学習
+- **状態管理の整合性**: 複数の状態（`currentQuestionIndex`と`answers`）の同期が重要
+- **TDDによるバグ修正**: バグを再現するテストを先に作成してから修正
+- **Playwright検証**: 実際のユーザーフローでの動作確認の重要性
+- **テスト成果**: 全130テスト成功、Biome静的解析クリア
+
 ## 重要な実装知見
 
 ### 現在の技術債務・制約事項

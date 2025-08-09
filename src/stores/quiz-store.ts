@@ -200,7 +200,15 @@ export const quizStateManager = {
 
       if (!isCompleted) {
         // 未完了の場合：既存の進捗を返す
-        return existing;
+        // currentQuestionIndexを実際の回答進捗と同期
+        const syncedProgress = {
+          ...existing,
+          currentQuestionIndex: Math.max(
+            existing.currentQuestionIndex,
+            existing.answers.length,
+          ),
+        };
+        return syncedProgress;
       }
     }
 

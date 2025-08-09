@@ -343,6 +343,10 @@ test/
 - ✅ **問題ID仕様の明確化**（2025-08-02）：
   - 問題には明示的なIDを付与せず、配列インデックスを使用
   - 手動ID管理の保守コスト削減のための設計決定
+- ✅ **Issue #10: クイズ再開時の問題**（2025-08-09）：
+  - 「続きから」で回答済み問題から再開される問題を修正
+  - `startQuiz`メソッドで`currentQuestionIndex`を`answers.length`と同期
+  - テストケース追加（全130テスト成功）
 
 ### 今後検討事項
 - YAML plugin（@modyfi/vite-plugin-yaml）の動的import対応

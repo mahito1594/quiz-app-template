@@ -246,6 +246,29 @@ describe("QuizStateManager", () => {
       expect(progress?.completedAt).toBeDefined();
       expect(typeof progress?.completedAt).toBe("string");
     });
+
+    it("回答後にホームに戻り、続きから再開すると次の未回答問題から始まる", () => {
+      // 1問目に回答（nextQuestionを呼ばずに）
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // この時点でcurrentQuestionIndexは0のまま、answersは1つ
+      const progressBeforeResume =
+        QuizStateManager.getCategoryProgress("programming");
+      expect(progressBeforeResume?.currentQuestionIndex).toBe(0);
+      expect(progressBeforeResume?.answers).toHaveLength(1);
+
+      // ホームに戻った後、続きから再開
+      const resumedProgress = QuizStateManager.startQuiz("programming", 10);
+
+      // currentQuestionIndexがanswers.lengthと同期されて1になるべき
+      expect(resumedProgress.currentQuestionIndex).toBe(1);
+      expect(resumedProgress.answers).toHaveLength(1);
+    });
   });
 
   describe("復習機能", () => {
