@@ -53,15 +53,6 @@ const ReviewQuestionCard: Component<{
         <p class="text-base-content/80 mb-4 line-clamp-3">
           {props.reviewQuestion.question.question.replace(/[#*]/g, "").trim()}
         </p>
-
-        <div class="card-actions justify-end">
-          <A
-            href={`/question/${props.reviewQuestion.categoryId}/${props.reviewQuestion.questionIndex}`}
-            class="btn btn-sm btn-outline"
-          >
-            問題詳細
-          </A>
-        </div>
       </div>
     </div>
   );

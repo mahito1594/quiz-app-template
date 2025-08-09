@@ -60,17 +60,6 @@ const QuestionDetail: Component<{
               .join(", ")}
           </p>
         </div>
-
-        <Show when={!props.isCorrect}>
-          <div class="mt-3">
-            <A
-              href={`/question/${props.categoryId}/${props.questionIndex}`}
-              class="btn btn-sm btn-outline"
-            >
-              問題詳細を見る
-            </A>
-          </div>
-        </Show>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import type { Component, ParentComponent } from "solid-js";
 // コンポーネントインポート
 import CategoryList from "./components/CategoryList";
 import NotFound from "./components/NotFound";
-import QuestionView from "./components/QuestionView";
 import Quiz from "./components/Quiz";
 import QuizResult from "./components/QuizResult";
 import Review from "./components/Review";
@@ -63,10 +62,6 @@ const App: Component = () => {
       <Route path="/category/:categoryId" component={CategoryList} />
       <Route path="/quiz/:categoryId" component={Quiz} />
       <Route path="/quiz/:categoryId/result" component={QuizResult} />
-      <Route
-        path="/question/:categoryId/:questionIndex"
-        component={QuestionView}
-      />
       <Route path="/review" component={Review} />
       <Route path="/*all" component={NotFound} />
     </HashRouter>
