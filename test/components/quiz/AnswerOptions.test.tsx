@@ -123,9 +123,10 @@ describe("AnswerOptions", () => {
         />
       ));
 
-      const checkIcon = screen.getByTitle("正解");
+      const checkIcon = screen.getByLabelText("正解");
       expect(checkIcon).toBeInTheDocument();
-      expect(checkIcon.textContent).toBe("✓");
+      // SVGアイコンの場合はクラス名で確認
+      expect(checkIcon).toHaveClass("tabler-icon-check");
     });
 
     it("不正解の選択肢には✗アイコンが表示される", () => {
@@ -139,9 +140,10 @@ describe("AnswerOptions", () => {
         />
       ));
 
-      const errorIcon = screen.getByTitle("不正解");
+      const errorIcon = screen.getByLabelText("不正解");
       expect(errorIcon).toBeInTheDocument();
-      expect(errorIcon.textContent).toBe("✗");
+      // SVGアイコンの場合はクラス名で確認
+      expect(errorIcon).toHaveClass("tabler-icon-x");
     });
   });
 
@@ -230,8 +232,8 @@ describe("AnswerOptions", () => {
       ));
 
       // 正解・不正解のアイコンが表示されることを確認（複数ある場合はgetAllByを使用）
-      expect(screen.getAllByTitle("正解")).toHaveLength(2); // 選択肢AとCが正解
-      expect(screen.getByTitle("不正解")).toBeInTheDocument(); // 選択肢Bが不正解
+      expect(screen.getAllByLabelText("正解")).toHaveLength(2); // 選択肢AとCが正解
+      expect(screen.getByLabelText("不正解")).toBeInTheDocument(); // 選択肢Bが不正解
     });
 
     it("未選択の場合は正解のアイコンのみ表示される", () => {
@@ -246,9 +248,9 @@ describe("AnswerOptions", () => {
       ));
 
       // 正解のアイコンが1つ表示されることを確認
-      expect(screen.getAllByTitle("正解")).toHaveLength(1);
+      expect(screen.getAllByLabelText("正解")).toHaveLength(1);
       // 不正解のアイコンは表示されないことを確認
-      expect(screen.queryByTitle("不正解")).not.toBeInTheDocument();
+      expect(screen.queryByLabelText("不正解")).not.toBeInTheDocument();
     });
   });
 
@@ -263,9 +265,10 @@ describe("AnswerOptions", () => {
         />
       ));
 
-      const unselectedRadios = screen.getAllByTitle("未選択");
+      const unselectedRadios = screen.getAllByLabelText("未選択");
       expect(unselectedRadios).toHaveLength(4); // 4つの選択肢すべてが未選択
-      expect(unselectedRadios[0].textContent).toBe("○");
+      // SVGアイコンの場合はクラス名で確認
+      expect(unselectedRadios[0]).toHaveClass("tabler-icon-circle");
     });
 
     it("複数選択時にチェックボックスのアイコンが表示される", () => {
@@ -278,9 +281,10 @@ describe("AnswerOptions", () => {
         />
       ));
 
-      const unselectedCheckboxes = screen.getAllByTitle("未チェック");
+      const unselectedCheckboxes = screen.getAllByLabelText("未チェック");
       expect(unselectedCheckboxes).toHaveLength(4); // 4つの選択肢すべてが未チェック
-      expect(unselectedCheckboxes[0].textContent).toBe("☐");
+      // SVGアイコンの場合はクラス名で確認
+      expect(unselectedCheckboxes[0]).toHaveClass("tabler-icon-square");
     });
   });
 });

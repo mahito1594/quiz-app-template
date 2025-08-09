@@ -1,4 +1,9 @@
 import { A, useNavigate } from "@solidjs/router";
+import {
+  IconAlertCircle,
+  IconArrowRight,
+  IconCircleCheck,
+} from "@tabler/icons-solidjs";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import quizYaml from "../data/quiz.yaml";
 import type { Category, Question, QuizData } from "../schema/quiz.js";
@@ -272,21 +277,11 @@ const Review: Component = () => {
       {/* エラー状態 */}
       <Show when={error()}>
         <div class="alert alert-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
+          <IconAlertCircle
+            size={24}
+            class="stroke-current shrink-0"
             aria-label="エラー"
-          >
-            <title>エラーアイコン</title>
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          />
           <span>エラー: {error()}</span>
           <div class="ml-auto">
             <button
@@ -334,21 +329,11 @@ const Review: Component = () => {
           {/* 復習対象問題がない場合 */}
           <Show when={reviewQuestions().length === 0}>
             <div class="alert alert-success">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
+              <IconCircleCheck
+                size={24}
+                class="stroke-current shrink-0"
                 aria-label="成功"
-              >
-                <title>成功アイコン</title>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              />
               <span>素晴らしい！復習対象の問題はありません。</span>
               <div>
                 <A href="/" class="btn btn-sm">
@@ -367,22 +352,7 @@ const Review: Component = () => {
                 onClick={startReviewQuiz}
               >
                 復習を開始する
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-label="矢印"
-                >
-                  <title>開始矢印</title>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+                <IconArrowRight size={24} class="ml-2" aria-label="矢印" />
               </button>
             </div>
 

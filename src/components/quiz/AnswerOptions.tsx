@@ -1,3 +1,11 @@
+import {
+  IconCheck,
+  IconCircle,
+  IconCircleFilled,
+  IconSquare,
+  IconSquareCheckFilled,
+  IconX,
+} from "@tabler/icons-solidjs";
 import { type Component, For, Match, Show, Switch } from "solid-js";
 import type { Question } from "../../schema/quiz.js";
 
@@ -82,33 +90,57 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
     return (
       <Switch>
         <Match when={props.isAnswered && isCorrect}>
-          <span class="icon-check text-success" title="正解">
-            ✓
-          </span>
+          <IconCheck
+            class="text-success"
+            size={20}
+            aria-label="正解"
+            title="正解"
+          />
         </Match>
 
         <Match when={props.isAnswered && isIncorrect}>
-          <span class="icon-error text-error" title="不正解">
-            ✗
-          </span>
+          <IconX
+            class="text-error"
+            size={20}
+            aria-label="不正解"
+            title="不正解"
+          />
         </Match>
 
         <Match when={!props.isAnswered && props.question.type === "single"}>
-          <span
-            class={`icon-radio ${isSelected ? "selected" : "unselected"}`}
-            title={isSelected ? "選択済み" : "未選択"}
-          >
-            {isSelected ? "●" : "○"}
-          </span>
+          {isSelected ? (
+            <IconCircleFilled
+              class="text-primary"
+              size={20}
+              aria-label="選択済み"
+              title="選択済み"
+            />
+          ) : (
+            <IconCircle
+              class="text-base-content/50"
+              size={20}
+              aria-label="未選択"
+              title="未選択"
+            />
+          )}
         </Match>
 
         <Match when={!props.isAnswered && props.question.type === "multiple"}>
-          <span
-            class={`icon-checkbox ${isSelected ? "selected" : "unselected"}`}
-            title={isSelected ? "チェック済み" : "未チェック"}
-          >
-            {isSelected ? "☑" : "☐"}
-          </span>
+          {isSelected ? (
+            <IconSquareCheckFilled
+              class="text-primary"
+              size={20}
+              aria-label="チェック済み"
+              title="チェック済み"
+            />
+          ) : (
+            <IconSquare
+              class="text-base-content/50"
+              size={20}
+              aria-label="未チェック"
+              title="未チェック"
+            />
+          )}
         </Match>
       </Switch>
     );

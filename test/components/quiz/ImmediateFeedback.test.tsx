@@ -41,7 +41,8 @@ describe("ImmediateFeedback", () => {
 
       expect(screen.getByText("正解です！")).toBeInTheDocument();
       expect(screen.getByText("よくできました！")).toBeInTheDocument();
-      expect(screen.getByText("🎉")).toBeInTheDocument();
+      // SVGアイコンの場合はaria-labelで確認
+      expect(screen.getByLabelText("正解")).toBeInTheDocument();
     });
 
     it("正解時は成功カラーのスタイルが適用される", () => {
@@ -83,7 +84,8 @@ describe("ImmediateFeedback", () => {
       expect(
         screen.getByText("惜しい！解説を確認しましょう。"),
       ).toBeInTheDocument();
-      expect(screen.getByText("😞")).toBeInTheDocument();
+      // SVGアイコンの場合はaria-labelで確認
+      expect(screen.getByLabelText("不正解")).toBeInTheDocument();
     });
 
     it("不正解時はエラーカラーのスタイルが適用される", () => {
@@ -334,7 +336,7 @@ describe("ImmediateFeedback", () => {
   });
 
   describe("アクセシビリティ", () => {
-    it("SVGアイコンにaria-labelとtitleが設定されている", () => {
+    it("SVGアイコンにaria-labelが設定されている", () => {
       render(() => (
         <ImmediateFeedback
           question={mockQuestion}
@@ -350,9 +352,8 @@ describe("ImmediateFeedback", () => {
 
       const arrowIcon = screen.getByLabelText("矢印");
       expect(arrowIcon).toBeInTheDocument();
-
-      const titleElement = screen.getByTitle("次への矢印");
-      expect(titleElement).toBeInTheDocument();
+      // @tabler/icons-solidjs のアイコンクラスが適用されているか確認
+      expect(arrowIcon).toHaveClass("tabler-icon-arrow-right");
     });
   });
 });

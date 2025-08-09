@@ -1,4 +1,12 @@
 import { A, useNavigate, useParams } from "@solidjs/router";
+import {
+  IconAlertCircle,
+  IconAlertTriangle,
+  IconBooks,
+  IconConfetti,
+  IconTarget,
+  IconThumbUp,
+} from "@tabler/icons-solidjs";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import quizYaml from "../data/quiz.yaml";
 import type { Category, Question } from "../schema/quiz.js";
@@ -97,12 +105,48 @@ const QuizResult: Component = () => {
   const getPerformanceLevel = () => {
     const acc = accuracy();
     if (acc >= 90)
-      return { level: "excellent", message: "素晴らしい！", emoji: "🎉" };
+      return {
+        level: "excellent",
+        message: "素晴らしい！",
+        icon: (
+          <IconConfetti
+            size={48}
+            class="text-warning"
+            aria-label="素晴らしい"
+          />
+        ),
+      };
     if (acc >= 80)
-      return { level: "good", message: "良くできました", emoji: "👏" };
+      return {
+        level: "good",
+        message: "良くできました",
+        icon: (
+          <IconThumbUp
+            size={48}
+            class="text-success"
+            aria-label="良くできました"
+          />
+        ),
+      };
     if (acc >= 70)
-      return { level: "fair", message: "もう少し頑張りましょう", emoji: "💪" };
-    return { level: "poor", message: "復習が必要です", emoji: "📚" };
+      return {
+        level: "fair",
+        message: "もう少し頑張りましょう",
+        icon: (
+          <IconTarget
+            size={48}
+            class="text-info"
+            aria-label="もう少し頑張りましょう"
+          />
+        ),
+      };
+    return {
+      level: "poor",
+      message: "復習が必要です",
+      icon: (
+        <IconBooks size={48} class="text-primary" aria-label="復習が必要です" />
+      ),
+    };
   };
 
   // 結果初期化
@@ -165,21 +209,11 @@ const QuizResult: Component = () => {
       {/* エラー状態 */}
       <Show when={error()}>
         <div class="alert alert-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
+          <IconAlertCircle
+            size={24}
+            class="stroke-current shrink-0"
             aria-label="エラー"
-          >
-            <title>エラーアイコン</title>
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          />
           <span>エラー: {error()}</span>
           <div class="ml-auto">
             <button
@@ -209,7 +243,7 @@ const QuizResult: Component = () => {
           {/* 総合結果カード */}
           <div class="card bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 shadow-lg">
             <div class="card-body text-center">
-              <div class="text-6xl mb-4">{getPerformanceLevel().emoji}</div>
+              <div class="mb-4">{getPerformanceLevel().icon}</div>
               <h2 class="text-3xl font-bold mb-2">{accuracy().toFixed(1)}%</h2>
               <p class="text-xl text-base-content/80 mb-4">
                 {getPerformanceLevel().message}
@@ -235,21 +269,11 @@ const QuizResult: Component = () => {
           {/* 復習推奨 */}
           <Show when={incorrectAnswers() > 0}>
             <div class="alert alert-warning">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
+              <IconAlertTriangle
+                size={24}
+                class="stroke-current shrink-0"
                 aria-label="警告"
-              >
-                <title>警告アイコン</title>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L5.082 15.5c-.77.833.192 2.5 1.732 2.5z"
-                />
-              </svg>
+              />
               <span>
                 {incorrectAnswers()}
                 問を間違えました。復習リストに追加されているので、後で復習しましょう。
