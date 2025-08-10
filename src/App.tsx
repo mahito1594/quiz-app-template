@@ -39,7 +39,9 @@ const Layout: ParentComponent = (props) => {
       </header>
 
       {/* メインコンテンツ */}
-      <main class="flex-1 p-8">{props.children}</main>
+      <main class="flex-1 p-8">
+        <div class="max-w-4xl mx-auto">{props.children}</div>
+      </main>
 
       {/* フッター */}
       <footer class="bg-base-200 px-8 py-4 border-t border-base-300 text-center">
