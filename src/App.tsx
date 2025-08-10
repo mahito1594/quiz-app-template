@@ -20,7 +20,7 @@ const Layout: ParentComponent = (props) => {
         <nav class="flex items-center justify-between">
           <div>
             <A href="/" class="text-2xl font-bold text-primary no-underline">
-              📚 問題集アプリ
+              問題集アプリ
             </A>
           </div>
           <div class="flex gap-4">
@@ -44,7 +44,13 @@ const Layout: ParentComponent = (props) => {
       {/* フッター */}
       <footer class="bg-base-200 px-8 py-4 border-t border-base-300 text-center">
         <p class="text-base-content/70 text-sm">
-          社内勉強会用問題集アプリ - SolidJS + TypeScript + Vite
+          Powered by{" "}
+          <a
+            href="https://github.com/mahito1594/quiz-app-template"
+            class="font-bold text-secondary no-underline"
+          >
+            quiz-app-template
+          </a>
         </p>
       </footer>
     </div>
