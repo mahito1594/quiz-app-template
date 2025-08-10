@@ -26,7 +26,7 @@ describe("CategoryList Integration", () => {
         expect(screen.getByText("問題集カテゴリ一覧")).toBeInTheDocument();
       });
 
-      // メタデータの表示を待つ（非同期データロード）
+      // メタデータの表示を待つ
       await waitFor(() => {
         expect(screen.getByText("サンプル問題集")).toBeInTheDocument();
       });
