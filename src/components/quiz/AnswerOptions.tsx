@@ -74,55 +74,74 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
 
   return (
     <div class="space-y-3">
-      <h3 class="text-lg font-semibold mb-4">選択肢</h3>
+      <h3 id="question-options-title" class="text-lg font-semibold mb-4">
+        選択肢
+      </h3>
 
-      <For each={props.question.options}>
-        {(option, index) => (
-          <button
-            type="button"
-            class={getOptionClasses(index())}
-            onClick={() => handleOptionClick(index())}
-            disabled={props.isAnswered}
-          >
-            <div class="flex items-start gap-3 text-left w-full">
-              {/* 回答後のみアイコンを表示 */}
-              <Show when={props.isAnswered}>
-                <span class="flex-shrink-0">
-                  <Show
-                    when={props.correctOptions?.includes(index())}
-                    fallback={
-                      <Show when={props.selectedOptions.includes(index())}>
-                        <IconX
-                          class="text-error"
+      <fieldset
+        aria-labelledby="question-options-title"
+        aria-describedby="selection-help"
+        class="space-y-3 border-none p-0 m-0"
+        disabled={props.isAnswered}
+      >
+        <For each={props.question.options}>
+          {(option, index) => {
+            const isSelected = () => props.selectedOptions.includes(index());
+            const optionLabel = () => option;
+
+            return (
+              <button
+                type="button"
+                class={getOptionClasses(index())}
+                onClick={() => handleOptionClick(index())}
+                disabled={props.isAnswered}
+                aria-pressed={isSelected()}
+                aria-label={`${optionLabel()}${isSelected() ? " (選択済み)" : ""}`}
+                aria-describedby={
+                  props.isAnswered ? undefined : "selection-help"
+                }
+              >
+                <div class="flex items-start gap-3 text-left w-full">
+                  {/* 回答後のみアイコンを表示 */}
+                  <Show when={props.isAnswered}>
+                    <span class="flex-shrink-0">
+                      <Show
+                        when={props.correctOptions?.includes(index())}
+                        fallback={
+                          <Show when={props.selectedOptions.includes(index())}>
+                            <IconX
+                              class="text-error"
+                              size={20}
+                              aria-label="不正解"
+                              title="不正解"
+                              stroke-width={3}
+                            />
+                          </Show>
+                        }
+                      >
+                        <IconCheck
+                          class="text-success"
                           size={20}
-                          aria-label="不正解"
-                          title="不正解"
+                          aria-label="正解"
+                          title="正解"
                           stroke-width={3}
                         />
                       </Show>
-                    }
-                  >
-                    <IconCheck
-                      class="text-success"
-                      size={20}
-                      aria-label="正解"
-                      title="正解"
-                      stroke-width={3}
-                    />
+                    </span>
                   </Show>
-                </span>
-              </Show>
 
-              {/* 選択肢テキスト */}
-              <span class="flex-1 leading-relaxed">{option}</span>
-            </div>
-          </button>
-        )}
-      </For>
+                  {/* 選択肢テキスト */}
+                  <span class="flex-1 leading-relaxed">{option}</span>
+                </div>
+              </button>
+            );
+          }}
+        </For>
+      </fieldset>
 
       {/* 選択状況の説明 */}
       <Show when={!props.isAnswered}>
-        <div class="text-sm text-base-content/60 mt-4">
+        <div id="selection-help" class="text-sm text-base-content/60 mt-4">
           {props.question.type === "single" ? (
             <p>1つの選択肢を選んでください。</p>
           ) : (

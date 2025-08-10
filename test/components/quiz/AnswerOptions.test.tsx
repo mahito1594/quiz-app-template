@@ -253,4 +253,109 @@ describe("AnswerOptions", () => {
       expect(screen.queryByLabelText("不正解")).not.toBeInTheDocument();
     });
   });
+
+  describe("アクセシビリティ", () => {
+    describe("ARIA属性", () => {
+      it("選択肢グループに適切なroleとaria属性が設定される", () => {
+        render(() => (
+          <AnswerOptions
+            question={mockMultipleQuestion}
+            selectedOptions={[]}
+            onSelectionChange={vi.fn()}
+            isAnswered={false}
+          />
+        ));
+
+        const group = screen.getByRole("group");
+        expect(group).toHaveAttribute(
+          "aria-labelledby",
+          "question-options-title",
+        );
+        expect(group).toHaveAttribute("aria-describedby", "selection-help");
+      });
+
+      it("各選択肢ボタンにaria-pressedが正しく設定される", () => {
+        render(() => (
+          <AnswerOptions
+            question={mockMultipleQuestion}
+            selectedOptions={[0, 2]}
+            onSelectionChange={vi.fn()}
+            isAnswered={false}
+          />
+        ));
+
+        const buttons = screen.getAllByRole("button");
+        expect(buttons[0]).toHaveAttribute("aria-pressed", "true"); // 選択肢A (選択済み)
+        expect(buttons[1]).toHaveAttribute("aria-pressed", "false"); // 選択肢B (未選択)
+        expect(buttons[2]).toHaveAttribute("aria-pressed", "true"); // 選択肢C (選択済み)
+        expect(buttons[3]).toHaveAttribute("aria-pressed", "false"); // 選択肢D (未選択)
+      });
+
+      it("各選択肢ボタンに適切なaria-labelが設定される", () => {
+        render(() => (
+          <AnswerOptions
+            question={mockMultipleQuestion}
+            selectedOptions={[0]}
+            onSelectionChange={vi.fn()}
+            isAnswered={false}
+          />
+        ));
+
+        const buttons = screen.getAllByRole("button");
+        expect(buttons[0]).toHaveAttribute("aria-label", "選択肢A (選択済み)");
+        expect(buttons[1]).toHaveAttribute("aria-label", "選択肢B");
+        expect(buttons[2]).toHaveAttribute("aria-label", "選択肢C");
+        expect(buttons[3]).toHaveAttribute("aria-label", "選択肢D");
+      });
+
+      it("回答済みの場合はaria-describedbyが削除される", () => {
+        render(() => (
+          <AnswerOptions
+            question={mockSingleQuestion}
+            selectedOptions={[0]}
+            onSelectionChange={vi.fn()}
+            isAnswered={true}
+            correctOptions={[0]}
+          />
+        ));
+
+        const buttons = screen.getAllByRole("button");
+        buttons.forEach((button) => {
+          expect(button).not.toHaveAttribute("aria-describedby");
+        });
+      });
+    });
+
+    describe("セマンティック構造", () => {
+      it("選択肢タイトルに適切なIDが設定される", () => {
+        render(() => (
+          <AnswerOptions
+            question={mockSingleQuestion}
+            selectedOptions={[]}
+            onSelectionChange={vi.fn()}
+            isAnswered={false}
+          />
+        ));
+
+        const title = screen.getByText("選択肢");
+        expect(title).toHaveAttribute("id", "question-options-title");
+      });
+
+      it("選択説明に適切なIDが設定される", () => {
+        render(() => (
+          <AnswerOptions
+            question={mockSingleQuestion}
+            selectedOptions={[]}
+            onSelectionChange={vi.fn()}
+            isAnswered={false}
+          />
+        ));
+
+        const help = screen.getByText(
+          "1つの選択肢を選んでください。",
+        ).parentElement;
+        expect(help).toHaveAttribute("id", "selection-help");
+      });
+    });
+  });
 });
