@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import CategoryList from "../../src/components/CategoryList.js";
 import { quizStateManager } from "../../src/stores/quiz-store.js";
 import { RouterWrapper } from "../helpers/router-wrapper.js";
+import { TestQuizDataProvider } from "../test-utils";
 
 /**
  * CategoryList統合テスト
@@ -11,15 +12,25 @@ import { RouterWrapper } from "../helpers/router-wrapper.js";
 describe("CategoryList Integration", () => {
   describe("データ読み込みと表示", () => {
     it("YAMLデータが正常に読み込まれてカテゴリが表示される", async () => {
-      render(() => <CategoryList />, { wrapper: RouterWrapper });
+      render(
+        () => (
+          <TestQuizDataProvider>
+            <CategoryList />
+          </TestQuizDataProvider>
+        ),
+        { wrapper: RouterWrapper },
+      );
 
       // データ読み込み後の表示を待つ
       await waitFor(() => {
         expect(screen.getByText("問題集カテゴリ一覧")).toBeInTheDocument();
       });
 
-      // メタデータの表示
-      expect(screen.getByText("サンプル問題集")).toBeInTheDocument();
+      // メタデータの表示を待つ（非同期データロード）
+      await waitFor(() => {
+        expect(screen.getByText("サンプル問題集")).toBeInTheDocument();
+      });
+
       expect(screen.getByText("総問題数: 4問")).toBeInTheDocument();
       expect(screen.getByText("最終更新: 2025-07-21")).toBeInTheDocument();
 
@@ -29,7 +40,14 @@ describe("CategoryList Integration", () => {
     });
 
     it("カテゴリの説明が表示される", async () => {
-      render(() => <CategoryList />, { wrapper: RouterWrapper });
+      render(
+        () => (
+          <TestQuizDataProvider>
+            <CategoryList />
+          </TestQuizDataProvider>
+        ),
+        { wrapper: RouterWrapper },
+      );
 
       await waitFor(() => {
         expect(
@@ -45,7 +63,14 @@ describe("CategoryList Integration", () => {
       // 復習対象をクリア
       vi.spyOn(quizStateManager, "getReviewQuestions").mockReturnValue([]);
 
-      render(() => <CategoryList />, { wrapper: RouterWrapper });
+      render(
+        () => (
+          <TestQuizDataProvider>
+            <CategoryList />
+          </TestQuizDataProvider>
+        ),
+        { wrapper: RouterWrapper },
+      );
 
       await waitFor(() => {
         expect(screen.getByText("問題集カテゴリ一覧")).toBeInTheDocument();
@@ -73,7 +98,14 @@ describe("CategoryList Integration", () => {
         },
       ]);
 
-      render(() => <CategoryList />, { wrapper: RouterWrapper });
+      render(
+        () => (
+          <TestQuizDataProvider>
+            <CategoryList />
+          </TestQuizDataProvider>
+        ),
+        { wrapper: RouterWrapper },
+      );
 
       await waitFor(() => {
         expect(screen.getByText("問題集カテゴリ一覧")).toBeInTheDocument();
@@ -124,15 +156,24 @@ describe("CategoryList Integration", () => {
         },
       );
 
-      render(() => <CategoryList />, { wrapper: RouterWrapper });
+      render(
+        () => (
+          <TestQuizDataProvider>
+            <CategoryList />
+          </TestQuizDataProvider>
+        ),
+        { wrapper: RouterWrapper },
+      );
 
       await waitFor(() => {
         expect(screen.getByText("問題集カテゴリ一覧")).toBeInTheDocument();
       });
 
-      // プログラミング基礎は進行中
-      const progressBadges = screen.getAllByText("進行中");
-      expect(progressBadges.length).toBeGreaterThan(0);
+      // プログラミング基礎は進行中（データロード後）
+      await waitFor(() => {
+        const progressBadges = screen.getAllByText("進行中");
+        expect(progressBadges.length).toBeGreaterThan(0);
+      });
 
       // Web基礎は未開始
       const notStartedBadges = screen.getAllByText("未開始");

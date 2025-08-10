@@ -8,9 +8,8 @@ import {
   IconThumbUp,
 } from "@tabler/icons-solidjs";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
-import quizYaml from "../data/quiz.yaml";
+import { useQuizData } from "../context/QuizDataContext";
 import type { Category, Question } from "../schema/quiz.js";
-import { parseQuizData } from "../schema/quiz.js";
 import type { QuizProgress } from "../stores/quiz-store.js";
 import { quizStateManager } from "../stores/quiz-store.js";
 
@@ -73,12 +72,14 @@ const QuizResult: Component = () => {
   const params = useParams();
   const navigate = useNavigate();
 
+  // Context からクイズデータを取得
+  const { quizData } = useQuizData();
+
   // 状態管理
   const [currentCategory, setCurrentCategory] = createSignal<Category | null>(
     null,
   );
   const [progress, setProgress] = createSignal<QuizProgress | null>(null);
-  const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal<string | null>(null);
 
   // 結果計算
@@ -141,7 +142,6 @@ const QuizResult: Component = () => {
   // 結果初期化
   onMount(() => {
     try {
-      setLoading(true);
       setError(null);
 
       // 進捗を取得
@@ -155,11 +155,8 @@ const QuizResult: Component = () => {
 
       setProgress(categoryProgress);
 
-      // YAMLデータをvalibotでパース（型安全）
-      const data = parseQuizData(quizYaml);
-
       // カテゴリを取得
-      const category = data.categories.find(
+      const category = quizData.categories.find(
         (cat: Category) => cat.id === params.categoryId,
       );
       if (!category) {
@@ -172,8 +169,6 @@ const QuizResult: Component = () => {
       setError(
         err instanceof Error ? err.message : "予期しないエラーが発生しました",
       );
-    } finally {
-      setLoading(false);
     }
   });
 
@@ -187,14 +182,6 @@ const QuizResult: Component = () => {
 
   return (
     <div class="space-y-6">
-      {/* ローディング状態 */}
-      <Show when={loading()}>
-        <div class="flex justify-center items-center py-12">
-          <span class="loading loading-spinner loading-lg"></span>
-          <span class="ml-3 text-lg">結果を集計中...</span>
-        </div>
-      </Show>
-
       {/* エラー状態 */}
       <Show when={error()}>
         <div class="alert alert-error">
@@ -217,7 +204,7 @@ const QuizResult: Component = () => {
       </Show>
 
       {/* 結果表示 */}
-      <Show when={!loading() && !error() && progress() && currentCategory()}>
+      <Show when={!error() && progress() && currentCategory()}>
         <div class="space-y-6">
           {/* ヘッダー */}
           <div class="text-center">

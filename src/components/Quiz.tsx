@@ -8,9 +8,8 @@ import {
   Show,
   Switch,
 } from "solid-js";
-import quizYaml from "../data/quiz.yaml";
+import { useQuizData } from "../context/QuizDataContext";
 import type { Category, Question } from "../schema/quiz.js";
-import { parseQuizData } from "../schema/quiz.js";
 import { quizStateManager } from "../stores/quiz-store.js";
 import AnswerOptions from "./quiz/AnswerOptions.jsx";
 import ImmediateFeedback from "./quiz/ImmediateFeedback.jsx";
@@ -24,6 +23,9 @@ const Quiz: Component = () => {
   const params = useParams();
   const navigate = useNavigate();
 
+  // Context からクイズデータを取得
+  const { quizData } = useQuizData();
+
   // 状態管理
   const [currentCategory, setCurrentCategory] = createSignal<Category | null>(
     null,
@@ -36,20 +38,15 @@ const Quiz: Component = () => {
   const [isAnswered, setIsAnswered] = createSignal(false);
   const [isCorrect, setIsCorrect] = createSignal(false);
   const [showFeedback, setShowFeedback] = createSignal(false);
-  const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal<string | null>(null);
 
   // クイズ初期化
   onMount(() => {
     try {
-      setLoading(true);
       setError(null);
 
-      // YAMLデータをvalibotでパース（型安全）
-      const data = parseQuizData(quizYaml);
-
       // 指定されたカテゴリを取得
-      const category = data.categories.find(
+      const category = quizData.categories.find(
         (cat: Category) => cat.id === params.categoryId,
       );
       if (!category) {
@@ -78,8 +75,6 @@ const Quiz: Component = () => {
       setError(
         err instanceof Error ? err.message : "予期しないエラーが発生しました",
       );
-    } finally {
-      setLoading(false);
     }
   });
 
@@ -156,110 +151,93 @@ const Quiz: Component = () => {
         </Show>
       </div>
 
-      {/* メインコンテンツ（排他的表示） */}
-      <Switch>
-        {/* ローディング状態 */}
-        <Match when={loading()}>
-          <div class="flex justify-center items-center py-12">
-            <span class="loading loading-spinner loading-lg"></span>
-            <span class="ml-3 text-lg">問題を読み込み中...</span>
+      {/* エラー状態 */}
+      <Show when={error()}>
+        <div class="alert alert-error">
+          <IconAlertCircle
+            size={24}
+            class="stroke-current shrink-0"
+            aria-label="エラー"
+          />
+          <span>エラー: {error()}</span>
+          <div class="ml-auto">
+            <button
+              type="button"
+              class="btn btn-sm"
+              onClick={() => navigate("/")}
+            >
+              ホームに戻る
+            </button>
           </div>
-        </Match>
+        </div>
+      </Show>
 
-        {/* エラー状態 */}
-        <Match when={error()}>
-          <div class="alert alert-error">
-            <IconAlertCircle
-              size={24}
-              class="stroke-current shrink-0"
-              aria-label="エラー"
-            />
-            <span>エラー: {error()}</span>
-            <div class="ml-auto">
-              <button
-                type="button"
-                class="btn btn-sm"
-                onClick={() => navigate("/")}
-              >
-                ホームに戻る
-              </button>
-            </div>
-          </div>
-        </Match>
+      {/* クイズメイン */}
+      <Show when={currentQuestion() && currentCategory() && !error()}>
+        <div class="space-y-6">
+          {/* 問題カード */}
+          <QuestionCard
+            // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
+            question={currentQuestion()!}
+            questionNumber={currentQuestionIndex() + 1}
+            totalQuestions={currentCategory()?.questions.length || 0}
+            selectedOptions={selectedOptions()}
+            isAnswered={isAnswered()}
+            isCorrect={isCorrect()}
+          />
 
-        {/* クイズメイン */}
-        <Match
-          when={
-            currentQuestion() && currentCategory() && !loading() && !error()
-          }
-        >
-          <div class="space-y-6">
-            {/* 問題カード */}
-            <QuestionCard
-              // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
-              question={currentQuestion()!}
-              questionNumber={currentQuestionIndex() + 1}
-              totalQuestions={currentCategory()?.questions.length || 0}
-              selectedOptions={selectedOptions()}
-              isAnswered={isAnswered()}
-              isCorrect={isCorrect()}
-            />
+          {/* 選択肢またはフィードバック */}
+          <Switch>
+            {/* 選択肢表示 */}
+            <Match when={!showFeedback()}>
+              <div class="card bg-base-100 shadow-md">
+                <div class="card-body">
+                  <AnswerOptions
+                    // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
+                    question={currentQuestion()!}
+                    selectedOptions={selectedOptions()}
+                    onSelectionChange={setSelectedOptions}
+                    isAnswered={isAnswered()}
+                    correctOptions={
+                      isAnswered() ? currentQuestion()?.correct : undefined
+                    }
+                  />
 
-            {/* 選択肢またはフィードバック */}
-            <Switch>
-              {/* 選択肢表示 */}
-              <Match when={!showFeedback()}>
-                <div class="card bg-base-100 shadow-md">
-                  <div class="card-body">
-                    <AnswerOptions
-                      // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
-                      question={currentQuestion()!}
-                      selectedOptions={selectedOptions()}
-                      onSelectionChange={setSelectedOptions}
-                      isAnswered={isAnswered()}
-                      correctOptions={
-                        isAnswered() ? currentQuestion()?.correct : undefined
-                      }
-                    />
-
-                    {/* 回答ボタン */}
-                    <div class="card-actions justify-end mt-6">
-                      <button
-                        type="button"
-                        class="btn btn-primary btn-lg"
-                        onClick={submitAnswer}
-                        disabled={
-                          selectedOptions().length === 0 || isAnswered()
-                        }
-                      >
-                        回答する
-                      </button>
-                    </div>
+                  {/* 回答ボタン */}
+                  <div class="card-actions justify-end mt-6">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-lg"
+                      onClick={submitAnswer}
+                      disabled={selectedOptions().length === 0 || isAnswered()}
+                    >
+                      回答する
+                    </button>
                   </div>
                 </div>
-              </Match>
+              </div>
+            </Match>
 
-              {/* 即時フィードバック */}
-              <Match when={showFeedback()}>
-                <ImmediateFeedback
-                  // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
-                  question={currentQuestion()!}
-                  isCorrect={isCorrect()}
-                  selectedOptions={selectedOptions()}
-                  correctOptions={currentQuestion()?.correct || []}
-                  showNextButton={true}
-                  onNext={nextQuestion}
-                  onFinish={finishQuiz}
-                  isLastQuestion={
-                    currentQuestionIndex() >=
-                    (currentCategory()?.questions.length || 1) - 1
-                  }
-                />
-              </Match>
-            </Switch>
-          </div>
-        </Match>
-      </Switch>
+            {/* 即時フィードバック */}
+            <Match when={showFeedback()}>
+              <ImmediateFeedback
+                // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
+                question={currentQuestion()!}
+                isCorrect={isCorrect()}
+                selectedOptions={selectedOptions()}
+                correctOptions={currentQuestion()?.correct || []}
+                showNextButton={true}
+                onNext={nextQuestion}
+                onFinish={finishQuiz}
+                isLastQuestion={
+                  currentQuestionIndex() >=
+                  (currentCategory()?.questions.length || 1) - 1
+                }
+              />
+            </Match>
+          </Switch>
+        </div>
+      </Show>
 
       {/* ナビゲーション */}
       <div class="flex justify-between">
@@ -271,7 +249,7 @@ const Quiz: Component = () => {
           ホームに戻る
         </button>
 
-        <Show when={currentCategory() && !loading()}>
+        <Show when={currentCategory()}>
           <div class="text-sm text-base-content/60">
             問題 {currentQuestionIndex() + 1} /{" "}
             {currentCategory()?.questions.length}
