@@ -67,9 +67,17 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
         <div class="flex items-center gap-3 mb-4">
           <div class={FEEDBACK_CONSTANTS.EMOJI_SIZE}>
             {props.isCorrect ? (
-              <IconConfetti size={32} class="text-success" aria-label="正解" />
+              <IconConfetti
+                size={32}
+                class="text-success-content"
+                aria-label="正解"
+              />
             ) : (
-              <IconMoodSad size={32} class="text-error" aria-label="不正解" />
+              <IconMoodSad
+                size={32}
+                class="text-error-content"
+                aria-label="不正解"
+              />
             )}
           </div>
           <div>

@@ -253,38 +253,4 @@ describe("AnswerOptions", () => {
       expect(screen.queryByLabelText("不正解")).not.toBeInTheDocument();
     });
   });
-
-  describe("アクセシビリティ", () => {
-    it("単一選択時にラジオボタンのアイコンが表示される", () => {
-      render(() => (
-        <AnswerOptions
-          question={mockSingleQuestion}
-          selectedOptions={[]}
-          onSelectionChange={vi.fn()}
-          isAnswered={false}
-        />
-      ));
-
-      const unselectedRadios = screen.getAllByLabelText("未選択");
-      expect(unselectedRadios).toHaveLength(4); // 4つの選択肢すべてが未選択
-      // SVGアイコンの場合はクラス名で確認
-      expect(unselectedRadios[0]).toHaveClass("tabler-icon-circle");
-    });
-
-    it("複数選択時にチェックボックスのアイコンが表示される", () => {
-      render(() => (
-        <AnswerOptions
-          question={mockMultipleQuestion}
-          selectedOptions={[]}
-          onSelectionChange={vi.fn()}
-          isAnswered={false}
-        />
-      ));
-
-      const unselectedCheckboxes = screen.getAllByLabelText("未チェック");
-      expect(unselectedCheckboxes).toHaveLength(4); // 4つの選択肢すべてが未チェック
-      // SVGアイコンの場合はクラス名で確認
-      expect(unselectedCheckboxes[0]).toHaveClass("tabler-icon-square");
-    });
-  });
 });

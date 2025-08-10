@@ -1,12 +1,5 @@
-import {
-  IconCheck,
-  IconCircle,
-  IconCircleFilled,
-  IconSquare,
-  IconSquareCheckFilled,
-  IconX,
-} from "@tabler/icons-solidjs";
-import { type Component, For, Match, Show, Switch } from "solid-js";
+import { IconCheck, IconX } from "@tabler/icons-solidjs";
+import { type Component, For, Show } from "solid-js";
 import type { Question } from "../../schema/quiz.js";
 
 export type AnswerOptionsProps = {
@@ -79,73 +72,6 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
     }
   };
 
-  /**
-   * 選択肢の接頭辞アイコンを取得（アクセシビリティ対応版）
-   */
-  const getOptionIcon = (optionIndex: number) => {
-    const isSelected = props.selectedOptions.includes(optionIndex);
-    const isCorrect = props.correctOptions?.includes(optionIndex);
-    const isIncorrect = props.isAnswered && isSelected && !isCorrect;
-
-    return (
-      <Switch>
-        <Match when={props.isAnswered && isCorrect}>
-          <IconCheck
-            class="text-success"
-            size={20}
-            aria-label="正解"
-            title="正解"
-          />
-        </Match>
-
-        <Match when={props.isAnswered && isIncorrect}>
-          <IconX
-            class="text-error"
-            size={20}
-            aria-label="不正解"
-            title="不正解"
-          />
-        </Match>
-
-        <Match when={!props.isAnswered && props.question.type === "single"}>
-          {isSelected ? (
-            <IconCircleFilled
-              class="text-primary"
-              size={20}
-              aria-label="選択済み"
-              title="選択済み"
-            />
-          ) : (
-            <IconCircle
-              class="text-base-content/50"
-              size={20}
-              aria-label="未選択"
-              title="未選択"
-            />
-          )}
-        </Match>
-
-        <Match when={!props.isAnswered && props.question.type === "multiple"}>
-          {isSelected ? (
-            <IconSquareCheckFilled
-              class="text-primary"
-              size={20}
-              aria-label="チェック済み"
-              title="チェック済み"
-            />
-          ) : (
-            <IconSquare
-              class="text-base-content/50"
-              size={20}
-              aria-label="未チェック"
-              title="未チェック"
-            />
-          )}
-        </Match>
-      </Switch>
-    );
-  };
-
   return (
     <div class="space-y-3">
       <h3 class="text-lg font-semibold mb-4">選択肢</h3>
@@ -159,10 +85,33 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
             disabled={props.isAnswered}
           >
             <div class="flex items-start gap-3 text-left w-full">
-              {/* アイコン */}
-              <span class="text-lg font-mono mt-0.5 flex-shrink-0">
-                {getOptionIcon(index())}
-              </span>
+              {/* 回答後のみアイコンを表示 */}
+              <Show when={props.isAnswered}>
+                <span class="flex-shrink-0">
+                  <Show
+                    when={props.correctOptions?.includes(index())}
+                    fallback={
+                      <Show when={props.selectedOptions.includes(index())}>
+                        <IconX
+                          class="text-error"
+                          size={20}
+                          aria-label="不正解"
+                          title="不正解"
+                          stroke-width={3}
+                        />
+                      </Show>
+                    }
+                  >
+                    <IconCheck
+                      class="text-success"
+                      size={20}
+                      aria-label="正解"
+                      title="正解"
+                      stroke-width={3}
+                    />
+                  </Show>
+                </span>
+              </Show>
 
               {/* 選択肢テキスト */}
               <span class="flex-1 leading-relaxed">{option}</span>
