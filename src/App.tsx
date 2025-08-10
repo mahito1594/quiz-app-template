@@ -4,7 +4,6 @@ import type { Component, ParentComponent } from "solid-js";
 // コンポーネントインポート
 import CategoryList from "./components/CategoryList";
 import NotFound from "./components/NotFound";
-import QuestionView from "./components/QuestionView";
 import Quiz from "./components/Quiz";
 import QuizResult from "./components/QuizResult";
 import Review from "./components/Review";
@@ -21,7 +20,7 @@ const Layout: ParentComponent = (props) => {
         <nav class="flex items-center justify-between">
           <div>
             <A href="/" class="text-2xl font-bold text-primary no-underline">
-              📚 問題集アプリ
+              問題集アプリ
             </A>
           </div>
           <div class="flex gap-4">
@@ -40,12 +39,20 @@ const Layout: ParentComponent = (props) => {
       </header>
 
       {/* メインコンテンツ */}
-      <main class="flex-1 p-8">{props.children}</main>
+      <main class="flex-1 p-8">
+        <div class="max-w-4xl mx-auto">{props.children}</div>
+      </main>
 
       {/* フッター */}
       <footer class="bg-base-200 px-8 py-4 border-t border-base-300 text-center">
         <p class="text-base-content/70 text-sm">
-          社内勉強会用問題集アプリ - SolidJS + TypeScript + Vite
+          Powered by{" "}
+          <a
+            href="https://github.com/mahito1594/quiz-app-template"
+            class="font-bold text-secondary no-underline"
+          >
+            quiz-app-template
+          </a>
         </p>
       </footer>
     </div>
@@ -63,10 +70,6 @@ const App: Component = () => {
       <Route path="/category/:categoryId" component={CategoryList} />
       <Route path="/quiz/:categoryId" component={Quiz} />
       <Route path="/quiz/:categoryId/result" component={QuizResult} />
-      <Route
-        path="/question/:categoryId/:questionIndex"
-        component={QuestionView}
-      />
       <Route path="/review" component={Review} />
       <Route path="/*all" component={NotFound} />
     </HashRouter>

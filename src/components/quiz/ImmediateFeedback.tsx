@@ -1,3 +1,9 @@
+import {
+  IconArrowRight,
+  IconBulb,
+  IconConfetti,
+  IconMoodSad,
+} from "@tabler/icons-solidjs";
 import { type Component, Show } from "solid-js";
 import { SolidMarkdown } from "solid-markdown";
 import type { Question } from "../../schema/quiz.js";
@@ -12,10 +18,6 @@ const FEEDBACK_CONSTANTS = {
   TITLE_SIZE: "text-2xl",
   /** サブテキストサイズクラス */
   SUBTEXT_SIZE: "text-sm",
-  /** 正解時の絵文字 */
-  SUCCESS_EMOJI: "🎉",
-  /** 不正解時の絵文字 */
-  ERROR_EMOJI: "😞",
   /** 正解時のメッセージ */
   SUCCESS_MESSAGES: {
     title: "正解です！",
@@ -64,9 +66,19 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
         {/* 結果ヘッダー */}
         <div class="flex items-center gap-3 mb-4">
           <div class={FEEDBACK_CONSTANTS.EMOJI_SIZE}>
-            {props.isCorrect
-              ? FEEDBACK_CONSTANTS.SUCCESS_EMOJI
-              : FEEDBACK_CONSTANTS.ERROR_EMOJI}
+            {props.isCorrect ? (
+              <IconConfetti
+                size={32}
+                class="text-success-content"
+                aria-label="正解"
+              />
+            ) : (
+              <IconMoodSad
+                size={32}
+                class="text-error-content"
+                aria-label="不正解"
+              />
+            )}
           </div>
           <div>
             <h2 class={`card-title ${FEEDBACK_CONSTANTS.TITLE_SIZE}`}>
@@ -123,22 +135,7 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
                   onClick={props.onFinish}
                 >
                   結果を見る
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 ml-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-label="矢印"
-                  >
-                    <title>結果への矢印</title>
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
+                  <IconArrowRight size={20} class="ml-2" aria-label="矢印" />
                 </button>
               }
             >
@@ -148,22 +145,7 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
                 onClick={props.onNext}
               >
                 次の問題
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-label="矢印"
-                >
-                  <title>次への矢印</title>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+                <IconArrowRight size={20} class="ml-2" aria-label="矢印" />
               </button>
             </Show>
           </div>
@@ -172,9 +154,16 @@ const ImmediateFeedback: Component<ImmediateFeedbackProps> = (props) => {
         {/* 励ましメッセージ */}
         <Show when={!props.isCorrect}>
           <div class="mt-4 p-3 bg-base-100 text-base-content rounded-lg">
-            <p class="text-sm">
-              💡 <strong>ヒント:</strong>
-              間違えた問題は復習リストに追加されます。後で復習して理解を深めましょう！
+            <p class="text-sm flex items-start gap-2">
+              <IconBulb
+                size={16}
+                class="text-warning mt-0.5 flex-shrink-0"
+                aria-label="ヒント"
+              />
+              <span>
+                <strong>ヒント:</strong>
+                間違えた問題は復習リストに追加されます。後で復習して理解を深めましょう！
+              </span>
             </p>
           </div>
         </Show>

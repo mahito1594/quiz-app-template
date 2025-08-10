@@ -1,4 +1,5 @@
 import { A } from "@solidjs/router";
+import { IconAlertCircle } from "@tabler/icons-solidjs";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import quizYaml from "../data/quiz.yaml";
 import type { QuizData } from "../schema/quiz.js";
@@ -86,21 +87,11 @@ const CategoryList: Component = () => {
       {/* エラー状態 */}
       <Show when={error()}>
         <div class="alert alert-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
+          <IconAlertCircle
+            size={24}
+            class="stroke-current shrink-0"
             aria-label="エラー"
-          >
-            <title>エラーアイコン</title>
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          />
           <span>エラー: {error()}</span>
         </div>
       </Show>

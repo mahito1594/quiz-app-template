@@ -1,4 +1,9 @@
 import { A, useNavigate } from "@solidjs/router";
+import {
+  IconAlertCircle,
+  IconArrowRight,
+  IconCircleCheck,
+} from "@tabler/icons-solidjs";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import quizYaml from "../data/quiz.yaml";
 import type { Category, Question, QuizData } from "../schema/quiz.js";
@@ -48,15 +53,6 @@ const ReviewQuestionCard: Component<{
         <p class="text-base-content/80 mb-4 line-clamp-3">
           {props.reviewQuestion.question.question.replace(/[#*]/g, "").trim()}
         </p>
-
-        <div class="card-actions justify-end">
-          <A
-            href={`/question/${props.reviewQuestion.categoryId}/${props.reviewQuestion.questionIndex}`}
-            class="btn btn-sm btn-outline"
-          >
-            問題詳細
-          </A>
-        </div>
       </div>
     </div>
   );
@@ -96,11 +92,6 @@ const Review: Component = () => {
 
       // 復習対象問題を取得
       const reviewQuestionsList = quizStateManager.getReviewQuestions();
-
-      if (reviewQuestionsList.length === 0) {
-        setError("復習対象の問題がありません");
-        return;
-      }
 
       // 復習問題データを構築
       const reviewQuestionsWithData: ReviewQuestionWithData[] =
@@ -164,18 +155,20 @@ const Review: Component = () => {
     const selected = selectedOptions();
     const correct = question.question.correct;
 
-    // 回答の正否を判定
-    const isAnswerCorrect =
-      selected.length === correct.length &&
-      selected.every((option) => correct.includes(option)) &&
-      correct.every((option) => selected.includes(option));
+    // 回答を記録（Quizモードと同様の処理）
+    const answer = quizStateManager.submitAnswer({
+      categoryId: question.categoryId,
+      questionIndex: question.questionIndex,
+      selectedOptions: selected,
+      correctOptions: correct,
+    });
 
     setIsAnswered(true);
-    setIsCorrect(isAnswerCorrect);
+    setIsCorrect(answer.isCorrect);
     setShowFeedback(true);
 
     // 正解の場合は復習対象から除外
-    if (isAnswerCorrect) {
+    if (answer.isCorrect) {
       quizStateManager.markReviewComplete({
         categoryId: question.categoryId,
         questionIndex: question.questionIndex,
@@ -184,56 +177,9 @@ const Review: Component = () => {
   };
 
   /**
-   * 次の復習問題へ進む
+   * 復習問題リストを最新の状態に更新する共通関数
    */
-  const nextReviewQuestion = () => {
-    const questions = reviewQuestions();
-    const nextIndex = currentReviewIndex() + 1;
-
-    if (nextIndex >= questions.length) {
-      // 復習完了
-      setReviewMode("list");
-      // 復習対象問題リストを更新
-      const updatedReviewQuestions = quizStateManager.getReviewQuestions();
-      if (quizData()) {
-        // biome-ignore lint/style/noNonNullAssertion: if文の条件でquizData()の存在が保証済み
-        const data = quizData()!;
-        const updatedQuestionsWithData: ReviewQuestionWithData[] =
-          updatedReviewQuestions
-            .map((reviewQ) => {
-              const category = data.categories.find(
-                (cat) => cat.id === reviewQ.categoryId,
-              );
-              if (!category) return null;
-              const question = category.questions[reviewQ.questionIndex];
-              if (!question) return null;
-              return {
-                ...reviewQ,
-                question,
-                categoryName: category.name,
-                category,
-              };
-            })
-            .filter((item): item is ReviewQuestionWithData => item !== null);
-        setReviewQuestions(updatedQuestionsWithData);
-      }
-    } else {
-      // 次の問題へ
-      setCurrentReviewIndex(nextIndex);
-      setCurrentQuestion(questions[nextIndex]);
-      setSelectedOptions([]);
-      setIsAnswered(false);
-      setIsCorrect(false);
-      setShowFeedback(false);
-    }
-  };
-
-  /**
-   * 復習完了
-   */
-  const finishReview = () => {
-    setReviewMode("list");
-    // 復習対象問題リストを更新
+  const updateReviewQuestionsList = () => {
     const updatedReviewQuestions = quizStateManager.getReviewQuestions();
     if (quizData()) {
       // biome-ignore lint/style/noNonNullAssertion: if文の条件でquizData()の存在が保証済み
@@ -259,6 +205,38 @@ const Review: Component = () => {
     }
   };
 
+  /**
+   * 次の復習問題へ進む
+   */
+  const nextReviewQuestion = () => {
+    const questions = reviewQuestions();
+    const nextIndex = currentReviewIndex() + 1;
+
+    if (nextIndex >= questions.length) {
+      // 復習完了
+      setReviewMode("list");
+      // 復習対象問題リストを更新
+      updateReviewQuestionsList();
+    } else {
+      // 次の問題へ
+      setCurrentReviewIndex(nextIndex);
+      setCurrentQuestion(questions[nextIndex]);
+      setSelectedOptions([]);
+      setIsAnswered(false);
+      setIsCorrect(false);
+      setShowFeedback(false);
+    }
+  };
+
+  /**
+   * 復習完了
+   */
+  const finishReview = () => {
+    setReviewMode("list");
+    // 復習対象問題リストを更新
+    updateReviewQuestionsList();
+  };
+
   return (
     <div class="space-y-6">
       {/* ローディング状態 */}
@@ -272,21 +250,11 @@ const Review: Component = () => {
       {/* エラー状態 */}
       <Show when={error()}>
         <div class="alert alert-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
+          <IconAlertCircle
+            size={24}
+            class="stroke-current shrink-0"
             aria-label="エラー"
-          >
-            <title>エラーアイコン</title>
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          />
           <span>エラー: {error()}</span>
           <div class="ml-auto">
             <button
@@ -334,21 +302,11 @@ const Review: Component = () => {
           {/* 復習対象問題がない場合 */}
           <Show when={reviewQuestions().length === 0}>
             <div class="alert alert-success">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
+              <IconCircleCheck
+                size={24}
+                class="stroke-current shrink-0"
                 aria-label="成功"
-              >
-                <title>成功アイコン</title>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              />
               <span>素晴らしい！復習対象の問題はありません。</span>
               <div>
                 <A href="/" class="btn btn-sm">
@@ -367,22 +325,7 @@ const Review: Component = () => {
                 onClick={startReviewQuiz}
               >
                 復習を開始する
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-label="矢印"
-                >
-                  <title>開始矢印</title>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+                <IconArrowRight size={24} class="ml-2" aria-label="矢印" />
               </button>
             </div>
 
@@ -489,7 +432,10 @@ const Review: Component = () => {
             <button
               type="button"
               class="btn btn-outline"
-              onClick={() => setReviewMode("list")}
+              onClick={() => {
+                setReviewMode("list");
+                updateReviewQuestionsList();
+              }}
             >
               一覧に戻る
             </button>
