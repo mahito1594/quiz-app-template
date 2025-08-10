@@ -169,7 +169,7 @@ describe("CategoryList Integration", () => {
         expect(screen.getByText("問題集カテゴリ一覧")).toBeInTheDocument();
       });
 
-      // プログラミング基礎は進行中（データロード後）
+      // プログラミング基礎は進行中バッジが表示されることを確認
       await waitFor(() => {
         const progressBadges = screen.getAllByText("進行中");
         expect(progressBadges.length).toBeGreaterThan(0);
