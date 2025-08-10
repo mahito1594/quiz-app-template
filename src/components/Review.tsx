@@ -155,18 +155,20 @@ const Review: Component = () => {
     const selected = selectedOptions();
     const correct = question.question.correct;
 
-    // 回答の正否を判定
-    const isAnswerCorrect =
-      selected.length === correct.length &&
-      selected.every((option) => correct.includes(option)) &&
-      correct.every((option) => selected.includes(option));
+    // 回答を記録（Quizモードと同様の処理）
+    const answer = quizStateManager.submitAnswer({
+      categoryId: question.categoryId,
+      questionIndex: question.questionIndex,
+      selectedOptions: selected,
+      correctOptions: correct,
+    });
 
     setIsAnswered(true);
-    setIsCorrect(isAnswerCorrect);
+    setIsCorrect(answer.isCorrect);
     setShowFeedback(true);
 
     // 正解の場合は復習対象から除外
-    if (isAnswerCorrect) {
+    if (answer.isCorrect) {
       quizStateManager.markReviewComplete({
         categoryId: question.categoryId,
         questionIndex: question.questionIndex,
@@ -175,56 +177,9 @@ const Review: Component = () => {
   };
 
   /**
-   * 次の復習問題へ進む
+   * 復習問題リストを最新の状態に更新する共通関数
    */
-  const nextReviewQuestion = () => {
-    const questions = reviewQuestions();
-    const nextIndex = currentReviewIndex() + 1;
-
-    if (nextIndex >= questions.length) {
-      // 復習完了
-      setReviewMode("list");
-      // 復習対象問題リストを更新
-      const updatedReviewQuestions = quizStateManager.getReviewQuestions();
-      if (quizData()) {
-        // biome-ignore lint/style/noNonNullAssertion: if文の条件でquizData()の存在が保証済み
-        const data = quizData()!;
-        const updatedQuestionsWithData: ReviewQuestionWithData[] =
-          updatedReviewQuestions
-            .map((reviewQ) => {
-              const category = data.categories.find(
-                (cat) => cat.id === reviewQ.categoryId,
-              );
-              if (!category) return null;
-              const question = category.questions[reviewQ.questionIndex];
-              if (!question) return null;
-              return {
-                ...reviewQ,
-                question,
-                categoryName: category.name,
-                category,
-              };
-            })
-            .filter((item): item is ReviewQuestionWithData => item !== null);
-        setReviewQuestions(updatedQuestionsWithData);
-      }
-    } else {
-      // 次の問題へ
-      setCurrentReviewIndex(nextIndex);
-      setCurrentQuestion(questions[nextIndex]);
-      setSelectedOptions([]);
-      setIsAnswered(false);
-      setIsCorrect(false);
-      setShowFeedback(false);
-    }
-  };
-
-  /**
-   * 復習完了
-   */
-  const finishReview = () => {
-    setReviewMode("list");
-    // 復習対象問題リストを更新
+  const updateReviewQuestionsList = () => {
     const updatedReviewQuestions = quizStateManager.getReviewQuestions();
     if (quizData()) {
       // biome-ignore lint/style/noNonNullAssertion: if文の条件でquizData()の存在が保証済み
@@ -248,6 +203,38 @@ const Review: Component = () => {
           .filter((item): item is ReviewQuestionWithData => item !== null);
       setReviewQuestions(updatedQuestionsWithData);
     }
+  };
+
+  /**
+   * 次の復習問題へ進む
+   */
+  const nextReviewQuestion = () => {
+    const questions = reviewQuestions();
+    const nextIndex = currentReviewIndex() + 1;
+
+    if (nextIndex >= questions.length) {
+      // 復習完了
+      setReviewMode("list");
+      // 復習対象問題リストを更新
+      updateReviewQuestionsList();
+    } else {
+      // 次の問題へ
+      setCurrentReviewIndex(nextIndex);
+      setCurrentQuestion(questions[nextIndex]);
+      setSelectedOptions([]);
+      setIsAnswered(false);
+      setIsCorrect(false);
+      setShowFeedback(false);
+    }
+  };
+
+  /**
+   * 復習完了
+   */
+  const finishReview = () => {
+    setReviewMode("list");
+    // 復習対象問題リストを更新
+    updateReviewQuestionsList();
   };
 
   return (
@@ -445,7 +432,10 @@ const Review: Component = () => {
             <button
               type="button"
               class="btn btn-outline"
-              onClick={() => setReviewMode("list")}
+              onClick={() => {
+                setReviewMode("list");
+                updateReviewQuestionsList();
+              }}
             >
               一覧に戻る
             </button>
