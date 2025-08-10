@@ -93,11 +93,6 @@ const Review: Component = () => {
       // 復習対象問題を取得
       const reviewQuestionsList = quizStateManager.getReviewQuestions();
 
-      if (reviewQuestionsList.length === 0) {
-        setError("復習対象の問題がありません");
-        return;
-      }
-
       // 復習問題データを構築
       const reviewQuestionsWithData: ReviewQuestionWithData[] =
         reviewQuestionsList
