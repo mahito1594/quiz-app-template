@@ -13,6 +13,7 @@ export default defineConfig({
   test: {
     environment: "happy-dom",
     setupFiles: "./test/setup.ts",
+    include: ["test/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
     coverage: {
       include: ["src/**/*"],
       reporter: ["text", "html", "json-summary", "json"],
