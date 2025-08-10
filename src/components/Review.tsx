@@ -5,9 +5,8 @@ import {
   IconCircleCheck,
 } from "@tabler/icons-solidjs";
 import { type Component, createSignal, For, onMount, Show } from "solid-js";
-import quizYaml from "../data/quiz.yaml";
-import type { Category, Question, QuizData } from "../schema/quiz.js";
-import { parseQuizData } from "../schema/quiz.js";
+import { useQuizData } from "../context/QuizDataContext";
+import type { Category, Question } from "../schema/quiz.js";
 import type { ReviewQuestion } from "../stores/quiz-store.js";
 import { quizStateManager } from "../stores/quiz-store.js";
 import AnswerOptions from "./quiz/AnswerOptions.jsx";
@@ -65,8 +64,10 @@ const ReviewQuestionCard: Component<{
 const Review: Component = () => {
   const navigate = useNavigate();
 
+  // Context からクイズデータを取得
+  const { quizData } = useQuizData();
+
   // 状態管理
-  const [quizData, setQuizData] = createSignal<QuizData | null>(null);
   const [reviewQuestions, setReviewQuestions] = createSignal<
     ReviewQuestionWithData[]
   >([]);
@@ -78,17 +79,12 @@ const Review: Component = () => {
   const [isCorrect, setIsCorrect] = createSignal(false);
   const [showFeedback, setShowFeedback] = createSignal(false);
   const [reviewMode, setReviewMode] = createSignal<"list" | "quiz">("list");
-  const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal<string | null>(null);
 
   // 復習データの初期化
   onMount(() => {
     try {
-      setLoading(true);
       setError(null);
-
-      const data = parseQuizData(quizYaml);
-      setQuizData(data);
 
       // 復習対象問題を取得
       const reviewQuestionsList = quizStateManager.getReviewQuestions();
@@ -97,7 +93,7 @@ const Review: Component = () => {
       const reviewQuestionsWithData: ReviewQuestionWithData[] =
         reviewQuestionsList
           .map((reviewQ) => {
-            const category = data.categories.find(
+            const category = quizData.categories.find(
               (cat: Category) => cat.id === reviewQ.categoryId,
             );
             if (!category) return null;
@@ -123,8 +119,6 @@ const Review: Component = () => {
       setError(
         err instanceof Error ? err.message : "予期しないエラーが発生しました",
       );
-    } finally {
-      setLoading(false);
     }
   });
 
@@ -181,28 +175,24 @@ const Review: Component = () => {
    */
   const updateReviewQuestionsList = () => {
     const updatedReviewQuestions = quizStateManager.getReviewQuestions();
-    if (quizData()) {
-      // biome-ignore lint/style/noNonNullAssertion: if文の条件でquizData()の存在が保証済み
-      const data = quizData()!;
-      const updatedQuestionsWithData: ReviewQuestionWithData[] =
-        updatedReviewQuestions
-          .map((reviewQ) => {
-            const category = data.categories.find(
-              (cat) => cat.id === reviewQ.categoryId,
-            );
-            if (!category) return null;
-            const question = category.questions[reviewQ.questionIndex];
-            if (!question) return null;
-            return {
-              ...reviewQ,
-              question,
-              categoryName: category.name,
-              category,
-            };
-          })
-          .filter((item): item is ReviewQuestionWithData => item !== null);
-      setReviewQuestions(updatedQuestionsWithData);
-    }
+    const updatedQuestionsWithData: ReviewQuestionWithData[] =
+      updatedReviewQuestions
+        .map((reviewQ) => {
+          const category = quizData.categories.find(
+            (cat) => cat.id === reviewQ.categoryId,
+          );
+          if (!category) return null;
+          const question = category.questions[reviewQ.questionIndex];
+          if (!question) return null;
+          return {
+            ...reviewQ,
+            question,
+            categoryName: category.name,
+            category,
+          };
+        })
+        .filter((item): item is ReviewQuestionWithData => item !== null);
+    setReviewQuestions(updatedQuestionsWithData);
   };
 
   /**
@@ -239,14 +229,6 @@ const Review: Component = () => {
 
   return (
     <div class="space-y-6">
-      {/* ローディング状態 */}
-      <Show when={loading()}>
-        <div class="flex justify-center items-center py-12">
-          <span class="loading loading-spinner loading-lg"></span>
-          <span class="ml-3 text-lg">復習データを読み込み中...</span>
-        </div>
-      </Show>
-
       {/* エラー状態 */}
       <Show when={error()}>
         <div class="alert alert-error">
@@ -269,7 +251,7 @@ const Review: Component = () => {
       </Show>
 
       {/* 復習問題一覧モード */}
-      <Show when={reviewMode() === "list" && !loading() && !error()}>
+      <Show when={reviewMode() === "list" && !error()}>
         <div class="space-y-6">
           {/* ヘッダー */}
           <div class="text-center">
@@ -346,11 +328,7 @@ const Review: Component = () => {
       </Show>
 
       {/* 復習クイズモード */}
-      <Show
-        when={
-          reviewMode() === "quiz" && currentQuestion() && !loading() && !error()
-        }
-      >
+      <Show when={reviewMode() === "quiz" && currentQuestion() && !error()}>
         <div class="space-y-6">
           {/* ヘッダー */}
           <div class="text-center">
@@ -448,7 +426,7 @@ const Review: Component = () => {
       </Show>
 
       {/* ホームに戻るボタン */}
-      <Show when={!loading() && !error()}>
+      <Show when={!error()}>
         <div class="text-center">
           <A href="/" class="btn btn-outline">
             ホームに戻る

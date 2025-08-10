@@ -1,9 +1,6 @@
 import { A } from "@solidjs/router";
-import { IconAlertCircle } from "@tabler/icons-solidjs";
-import { type Component, createSignal, For, onMount, Show } from "solid-js";
-import quizYaml from "../data/quiz.yaml";
-import type { QuizData } from "../schema/quiz.js";
-import { parseQuizData } from "../schema/quiz.js";
+import { type Component, For, Show } from "solid-js";
+import { useQuizData } from "../context/QuizDataContext";
 import { quizStateManager } from "../stores/quiz-store.js";
 import CategoryCard from "./CategoryCard.js";
 
@@ -34,84 +31,39 @@ const getCategoryProgress = (categoryId: string, totalQuestions: number) => {
  * ホーム画面とカテゴリ選択画面で使用
  */
 const CategoryList: Component = () => {
-  const [quizData, setQuizData] = createSignal<QuizData | null>(null);
-  const [loading, setLoading] = createSignal(true);
-  const [error, setError] = createSignal<string | null>(null);
-
-  // データ読み込み（初期化時のみ実行）
-  onMount(() => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // YAMLデータをvalibotでパース（型安全）
-      const data = parseQuizData(quizYaml);
-      setQuizData(data);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "データの読み込みに失敗しました",
-      );
-    } finally {
-      setLoading(false);
-    }
-  });
+  // Context からクイズデータを取得
+  const { quizData } = useQuizData();
 
   return (
     <div class="space-y-6">
       <h1 class="text-4xl font-bold text-base-content">問題集カテゴリ一覧</h1>
 
       {/* メタデータ表示 */}
-      <Show when={quizData()}>
-        <div class="bg-base-200 p-4 rounded-lg">
-          <h2 class="text-xl font-semibold mb-2">
-            {quizData()?.metadata.title}
-          </h2>
-          <div class="text-sm text-base-content/70 space-y-1">
-            <p>総問題数: {quizData()?.metadata.totalQuestions}問</p>
-            <p>最終更新: {quizData()?.metadata.lastUpdated}</p>
-            <Show when={quizData()?.metadata.description}>
-              <p>{quizData()?.metadata.description}</p>
-            </Show>
-          </div>
+      <div class="bg-base-200 p-4 rounded-lg">
+        <h2 class="text-xl font-semibold mb-2">{quizData.metadata.title}</h2>
+        <div class="text-sm text-base-content/70 space-y-1">
+          <p>総問題数: {quizData.metadata.totalQuestions}問</p>
+          <p>最終更新: {quizData.metadata.lastUpdated}</p>
+          <Show when={quizData.metadata.description}>
+            <p>{quizData.metadata.description}</p>
+          </Show>
         </div>
-      </Show>
-
-      {/* ローディング状態 */}
-      <Show when={loading()}>
-        <div class="flex justify-center items-center py-12">
-          <span class="loading loading-spinner loading-lg"></span>
-          <span class="ml-3 text-lg">データを読み込み中...</span>
-        </div>
-      </Show>
-
-      {/* エラー状態 */}
-      <Show when={error()}>
-        <div class="alert alert-error">
-          <IconAlertCircle
-            size={24}
-            class="stroke-current shrink-0"
-            aria-label="エラー"
-          />
-          <span>エラー: {error()}</span>
-        </div>
-      </Show>
+      </div>
 
       {/* カテゴリ一覧 */}
-      <Show when={quizData() && !loading()}>
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <For each={quizData()?.categories}>
-            {(category) => (
-              <CategoryCard
-                category={category}
-                progress={getCategoryProgress(
-                  category.id,
-                  category.questions.length,
-                )}
-              />
-            )}
-          </For>
-        </div>
-      </Show>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <For each={quizData.categories}>
+          {(category) => (
+            <CategoryCard
+              category={category}
+              progress={getCategoryProgress(
+                category.id,
+                category.questions.length,
+              )}
+            />
+          )}
+        </For>
+      </div>
 
       {/* 復習リンク */}
       <Show when={quizStateManager.getReviewQuestions().length > 0}>

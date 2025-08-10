@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from "@solidjs/testing-library";
 import userEvent from "@testing-library/user-event";
+import type { JSX, ParentComponent } from "solid-js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { QuizDataProvider } from "../../src/context/QuizDataContext";
 
 // vi.hoistedでモック用の変数を定義
 const { mockNavigate, mockParams, mockQuizStateManager } = vi.hoisted(() => {
@@ -18,57 +20,55 @@ const { mockNavigate, mockParams, mockQuizStateManager } = vi.hoisted(() => {
   };
 });
 
-// YAMLファイルのモック
-vi.mock("../../src/data/quiz.yaml", () => ({
-  default: {
-    metadata: {
-      title: "テスト問題集",
-      version: "1.0.0",
-      lastUpdated: "2025-08-06",
-      totalQuestions: 3,
-      description: "テスト用の問題集",
-    },
-    categories: [
-      {
-        id: "test-category",
-        name: "テストカテゴリ",
-        description: "テスト用のカテゴリ",
-        order: 1,
-        questions: [
-          {
-            type: "single",
-            question: "問題1のテキスト",
-            options: ["選択肢A", "選択肢B", "選択肢C"],
-            correct: [0],
-            explanation: "問題1の解説",
-          },
-          {
-            type: "multiple",
-            question: "問題2のテキスト",
-            options: ["選択肢A", "選択肢B", "選択肢C", "選択肢D"],
-            correct: [1, 2],
-            explanation: "問題2の解説",
-          },
-        ],
-      },
-      {
-        id: "another-category",
-        name: "別のカテゴリ",
-        description: "別のテスト用カテゴリ",
-        order: 2,
-        questions: [
-          {
-            type: "single",
-            question: "問題3のテキスト",
-            options: ["選択肢A", "選択肢B"],
-            correct: [1],
-            explanation: "問題3の解説",
-          },
-        ],
-      },
-    ],
+// テスト用のクイズデータ
+const testQuizData = {
+  metadata: {
+    title: "テスト問題集",
+    version: "1.0.0",
+    lastUpdated: "2025-08-06",
+    totalQuestions: 3,
+    description: "テスト用の問題集",
   },
-}));
+  categories: [
+    {
+      id: "test-category",
+      name: "テストカテゴリ",
+      description: "テスト用のカテゴリ",
+      order: 1,
+      questions: [
+        {
+          type: "single",
+          question: "問題1のテキスト",
+          options: ["選択肢A", "選択肢B", "選択肢C"],
+          correct: [0],
+          explanation: "問題1の解説",
+        },
+        {
+          type: "multiple",
+          question: "問題2のテキスト",
+          options: ["選択肢A", "選択肢B", "選択肢C", "選択肢D"],
+          correct: [1, 2],
+          explanation: "問題2の解説",
+        },
+      ],
+    },
+    {
+      id: "another-category",
+      name: "別のカテゴリ",
+      description: "別のテスト用カテゴリ",
+      order: 2,
+      questions: [
+        {
+          type: "single",
+          question: "問題3のテキスト",
+          options: ["選択肢A", "選択肢B"],
+          correct: [1],
+          explanation: "問題3の解説",
+        },
+      ],
+    },
+  ],
+};
 
 // ルーターのモック
 vi.mock("@solidjs/router", () => ({
@@ -87,10 +87,21 @@ import Quiz from "../../src/components/Quiz";
 // Kent C. Doddsの「ユーザーが使うようにテストする」原則に従う
 
 describe("Quiz Component", () => {
+  const TestWrapper: ParentComponent = (props) => {
+    return (
+      <QuizDataProvider data={testQuizData}>{props.children}</QuizDataProvider>
+    );
+  };
+
+  const renderWithTestData = (ui: () => JSX.Element) => {
+    return render(() => <TestWrapper>{ui()}</TestWrapper>);
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
     // mockParamsをデフォルト値にリセット
     Object.assign(mockParams, { categoryId: "test-category" });
+
     // デフォルトのモック戻り値を設定
     mockQuizStateManager.startQuiz.mockReturnValue({
       categoryId: "test-category",
@@ -105,7 +116,7 @@ describe("Quiz Component", () => {
 
   describe("初期化", () => {
     it("正常なカテゴリIDで初期化される", async () => {
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("テストカテゴリ")).toBeInTheDocument();
@@ -130,7 +141,7 @@ describe("Quiz Component", () => {
       // 存在しないカテゴリIDをセット
       Object.assign(mockParams, { categoryId: "non-existent" });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(
@@ -151,7 +162,7 @@ describe("Quiz Component", () => {
         lastUpdated: "2025-08-06T10:00:00Z",
       });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalledWith("/quiz/test-category/result");
@@ -173,7 +184,7 @@ describe("Quiz Component", () => {
         lastUpdated: "2025-08-06T09:00:00Z",
       });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("問題2のテキスト")).toBeInTheDocument();
@@ -187,7 +198,7 @@ describe("Quiz Component", () => {
   describe("回答機能", () => {
     it("選択肢を選んで回答を送信できる", async () => {
       const user = userEvent.setup();
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("選択肢A")).toBeInTheDocument();
@@ -216,7 +227,7 @@ describe("Quiz Component", () => {
     });
 
     it("選択肢を選択していない場合、回答ボタンが無効", async () => {
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("選択肢A")).toBeInTheDocument();
@@ -237,7 +248,7 @@ describe("Quiz Component", () => {
         lastUpdated: "2025-08-06T10:00:00Z",
       });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("問題2のテキスト")).toBeInTheDocument();
@@ -269,7 +280,7 @@ describe("Quiz Component", () => {
         isCorrect: false,
       });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("選択肢B")).toBeInTheDocument();
@@ -289,7 +300,7 @@ describe("Quiz Component", () => {
   describe("ナビゲーション", () => {
     it("次の問題へ進める", async () => {
       const user = userEvent.setup();
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("選択肢A")).toBeInTheDocument();
@@ -330,7 +341,7 @@ describe("Quiz Component", () => {
         lastUpdated: "2025-08-06T10:00:00Z",
       });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("問題2のテキスト")).toBeInTheDocument();
@@ -354,7 +365,7 @@ describe("Quiz Component", () => {
 
     it("ホームに戻るボタンが機能する", async () => {
       const user = userEvent.setup();
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("テストカテゴリ")).toBeInTheDocument();
@@ -372,7 +383,7 @@ describe("Quiz Component", () => {
       // 不正なカテゴリIDでエラーケースをテスト（parseQuizDataのモックは複雑なので別アプローチ）
       Object.assign(mockParams, { categoryId: "invalid-id" });
 
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(
@@ -395,7 +406,7 @@ describe("Quiz Component", () => {
     // 実際のローディング状態は統合テストまたはE2Eテストで確認
 
     it("問題番号と総問題数が表示される", async () => {
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getAllByText("問題 1 / 2")).toHaveLength(2);
@@ -403,7 +414,7 @@ describe("Quiz Component", () => {
     });
 
     it("カテゴリ名と説明が表示される", async () => {
-      render(() => <Quiz />);
+      renderWithTestData(() => <Quiz />);
 
       await waitFor(() => {
         expect(screen.getByText("テストカテゴリ")).toBeInTheDocument();
