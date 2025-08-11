@@ -57,8 +57,6 @@ const ERROR_MESSAGES = {
   NO_CATEGORIES: "Quiz must have at least one category",
   /** Error message for duplicate category IDs within the same quiz */
   DUPLICATE_CATEGORY_ID: "Duplicate category id found",
-  /** Error message for metadata totalQuestions not matching actual question count */
-  TOTAL_QUESTIONS_MISMATCH: "Total questions count mismatch",
   /** Error message for missing metadata object in quiz data */
   METADATA_REQUIRED: "Metadata is required",
 } as const;
@@ -150,7 +148,6 @@ const MetadataSchema = v.object({
       ERROR_MESSAGES.INVALID_DATE_FORMAT,
     ),
   ),
-  totalQuestions: v.number(),
   description: v.optional(v.string()),
 });
 
@@ -170,10 +167,6 @@ const QuizDataSchema = v.pipe(
   v.check(
     (data) => hasUniqueCategories(data.categories as unknown[]),
     ERROR_MESSAGES.DUPLICATE_CATEGORY_ID,
-  ),
-  v.check(
-    (data) => hasTotalQuestionsMatch(data),
-    ERROR_MESSAGES.TOTAL_QUESTIONS_MISMATCH,
   ),
 );
 
@@ -204,8 +197,12 @@ export type Metadata = v.InferOutput<typeof MetadataSchema>;
 /**
  * Represents the complete quiz data structure.
  * Contains all quiz content organized by categories with metadata.
+ * The totalQuestions field is automatically calculated during parsing.
  */
-export type QuizData = v.InferOutput<typeof QuizDataSchema>;
+export type QuizData = {
+  metadata: Metadata & { totalQuestions: number };
+  categories: Category[];
+};
 
 /**
  * Helper function to validate data structure integrity before processing.
@@ -310,28 +307,6 @@ function hasUniqueCategories(categories: unknown[]): boolean {
 }
 
 /**
- * Validates that the total questions count in metadata matches the actual count.
- * @param data - Quiz data to validate
- * @returns True if counts match, false otherwise
- */
-function hasTotalQuestionsMatch(data: {
-  categories: unknown;
-  metadata: unknown;
-}): boolean {
-  if (!data.categories || !Array.isArray(data.categories) || !data.metadata) {
-    return true; // Skip validation if data structure is incomplete
-  }
-
-  const actualCount = data.categories.reduce(
-    (sum: number, cat: { questions: unknown[] }) => sum + cat.questions.length,
-    0,
-  );
-  return (
-    (data.metadata as { totalQuestions: number }).totalQuestions === actualCount
-  );
-}
-
-/**
  * Custom error class for quiz parsing failures.
  * Provides structured error information to help identify exactly which
  * field caused the validation failure, enabling precise error reporting.
@@ -426,9 +401,10 @@ export function parseQuestion(
  * Parses and validates complete quiz data structure.
  * Validates the entire quiz including cross-references between metadata
  * and content to ensure data consistency and application reliability.
+ * Automatically calculates totalQuestions from actual question count.
  *
  * @param rawData - Raw quiz data from YAML file
- * @returns Validated QuizData object
+ * @returns Validated QuizData object with calculated totalQuestions
  * @throws {QuizParseError} When quiz data is invalid or inconsistent
  */
 export function parseQuizData(rawData: unknown): QuizData {
@@ -436,5 +412,18 @@ export function parseQuizData(rawData: unknown): QuizData {
   if (!result.success) {
     throw convertValibotError(result.issues);
   }
-  return result.output;
+
+  // Calculate totalQuestions automatically
+  const totalQuestions = result.output.categories.reduce(
+    (sum, category) => sum + category.questions.length,
+    0,
+  );
+
+  return {
+    ...result.output,
+    metadata: {
+      ...result.output.metadata,
+      totalQuestions,
+    },
+  };
 }

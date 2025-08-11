@@ -166,8 +166,8 @@ metadata:
   version: "1.0.0"                    # データ形式バージョン
   title: "問題集タイトル"              # 問題集名
   lastUpdated: "2025-07-19"           # 最終更新日（YYYY-MM-DD）
-  totalQuestions: 150                  # 総問題数
   description: "問題集の説明"          # 説明文（オプション）
+  # 注意: totalQuestions フィールドは不要（自動計算される）
 
 # カテゴリ配列
 categories:

@@ -2,7 +2,6 @@ metadata:
   version: "1.0.0"
   title: "サンプル問題集"
   lastUpdated: "2025-07-21"
-  totalQuestions: 4
   description: "テスト用のサンプル問題集"
 
 categories:
