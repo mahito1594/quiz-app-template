@@ -220,7 +220,7 @@ export type QuizData = {
  * @param valibotPath - Path array from Valibot validation issue
  * @returns Formatted field path string
  */
-function createFieldPath(valibotPath: Array<{ key: unknown }>): string {
+const createFieldPath = (valibotPath: Array<{ key: unknown }>): string => {
   if (!valibotPath || valibotPath.length === 0) return "";
 
   return valibotPath
@@ -233,7 +233,7 @@ function createFieldPath(valibotPath: Array<{ key: unknown }>): string {
     .join(".")
     .replace(/^\./, "") // Remove leading dot
     .replace(/\.\[/g, "["); // Clean up array notation
-}
+};
 
 /**
  * Maps Valibot error messages to application-specific error messages.
@@ -242,7 +242,7 @@ function createFieldPath(valibotPath: Array<{ key: unknown }>): string {
  * @param originalMessage - Original error message from Valibot
  * @returns Mapped error message
  */
-function mapErrorMessage(originalMessage: string): string {
+const mapErrorMessage = (originalMessage: string): string => {
   if (
     originalMessage.includes('Expected "metadata"') &&
     originalMessage.includes("undefined")
@@ -251,17 +251,17 @@ function mapErrorMessage(originalMessage: string): string {
   }
 
   return originalMessage;
-}
+};
 
 /**
  * Validates that all correct answer indices are within the valid range of options.
  * @param data - Question data to validate
  * @returns True if all indices are valid, false otherwise
  */
-function hasValidCorrectIndices(data: {
+const hasValidCorrectIndices = (data: {
   correct: unknown;
   options: unknown;
-}): boolean {
+}): boolean => {
   if (!Array.isArray(data.correct) || !Array.isArray(data.options)) {
     return true; // Skip validation if data structure is incomplete
   }
@@ -272,31 +272,31 @@ function hasValidCorrectIndices(data: {
       index >= 0 &&
       index < (data.options as unknown[]).length,
   );
-}
+};
 
 /**
  * Validates that single choice questions have exactly one correct answer.
  * @param data - Question data to validate
  * @returns True if validation passes, false otherwise
  */
-function hasSingleCorrectAnswer(data: {
+const hasSingleCorrectAnswer = (data: {
   type: unknown;
   correct: unknown;
-}): boolean {
+}): boolean => {
   if (data.type === "single" && Array.isArray(data.correct)) {
     return (
       data.correct.length === VALIDATION_CONSTANTS.SINGLE_CHOICE_CORRECT_COUNT
     );
   }
   return true;
-}
+};
 
 /**
  * Validates that category IDs are unique within the categories array.
  * @param categories - Array of categories to validate
  * @returns True if all IDs are unique, false otherwise
  */
-function hasUniqueCategories(categories: unknown[]): boolean {
+const hasUniqueCategories = (categories: unknown[]): boolean => {
   if (!Array.isArray(categories)) {
     return true; // Skip validation if data structure is incomplete
   }
@@ -304,7 +304,7 @@ function hasUniqueCategories(categories: unknown[]): boolean {
   const ids = categories.map((cat) => (cat as { id: unknown }).id);
   const uniqueIds = new Set(ids);
   return ids.length === uniqueIds.size;
-}
+};
 
 /**
  * Custom error class for quiz parsing failures.
@@ -357,10 +357,10 @@ export class QuizParseError extends Error {
  * // error.field: "quiz.metadata"
  * ```
  */
-function convertValibotError(
+const convertValibotError = (
   issues: v.BaseIssue<unknown>[],
   basePath: string = "",
-): QuizParseError {
+): QuizParseError => {
   const issue = issues[0]; // Take the first issue
 
   // Convert path using helper function
@@ -373,7 +373,7 @@ function convertValibotError(
   const message = mapErrorMessage(issue.message);
 
   return new QuizParseError(message, fullPath);
-}
+};
 
 /**
  * Parses and validates individual question data.
