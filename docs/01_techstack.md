@@ -21,7 +21,7 @@
 
 ### 3.1 UIフレームワーク
 
-**採用: SolidJS v1.9.7**
+**採用: SolidJS**
 
 **選定理由:**
 - **高パフォーマンス**: Virtual DOM不使用、コンパイル時最適化
@@ -36,7 +36,7 @@
 
 ### 3.2 TypeScript
 
-**採用: TypeScript v5.8.3**
+**採用: TypeScript**
 
 **選定理由:**
 - 型安全性による品質向上
@@ -46,7 +46,7 @@
 
 ### 3.3 ビルドツール
 
-**採用: Vite v7.0.6**
+**採用: Vite**
 
 **選定理由:**
 - **超高速開発サーバー**: HMR対応
@@ -106,7 +106,7 @@ Hash版: /#/quiz/category1
 
 ### 5.1 スキーマバリデーション
 
-**採用: Valibot v1.1.0**
+**採用: Valibot**
 
 **選定理由:**
 - **"Parse, don't validate"アーキテクチャ**: 外部データを確実な型に変換
@@ -126,7 +126,7 @@ Hash版: /#/quiz/category1
 
 ### 5.2 テストフレームワーク
 
-**採用: Vitest v3.2.4**
+**採用: Vitest**
 
 **選定理由:**
 - **Vite統合**: 設定不要、高速実行
@@ -137,7 +137,7 @@ Hash版: /#/quiz/category1
 
 ### 5.3 問題データ処理
 
-**採用: @modyfi/vite-plugin-yaml v1.1.1**
+**採用: @modyfi/vite-plugin-yaml**
 
 **選定理由:**
 - YAML形式問題データの直接インポート
@@ -160,7 +160,7 @@ Hash版: /#/quiz/category1
 
 ### 5.5 Markdownタイポグラフィスタイリング
 
-**採用: @tailwindcss/typography v0.5.16**
+**採用: @tailwindcss/typography**
 
 **選定理由:**
 - **美しいタイポグラフィ**: Markdownコンテンツの自動的な美しいスタイリング
@@ -189,7 +189,7 @@ Hash版: /#/quiz/category1
 
 ### 6.1 リンター・フォーマッター
 
-**採用: Biome v2.1.2**
+**採用: Biome**
 
 **選定理由:**
 - **超高速**: ESLint/Prettierより10倍高速
@@ -199,7 +199,7 @@ Hash版: /#/quiz/category1
 
 ### 6.2 パッケージマネージャー
 
-**採用: PNPM v10.13.1**
+**採用: PNPM**
 
 **選定理由:**
 - ディスク使用量削減
@@ -427,3 +427,7 @@ function parseQuiz(data: unknown): QuizData { /* ... */ }
 4. **開発効率要件** → モダンツール + 統合開発環境
 
 **valibot採用による"Parse, don't validate"アーキテクチャ**は、外部データ（YAML）を扱うこのアプリケーションの核心要件を満たす最適解です。
+
+---
+
+※ 各技術スタックの正確なバージョン情報は `package.json` を参照してください。
