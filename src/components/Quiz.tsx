@@ -119,7 +119,8 @@ const Quiz: Component = () => {
     });
 
     if (nextIndex >= category.questions.length) {
-      // 全問題完了 - 結果画面へ
+      // 全問題完了 - 復習リストを更新してから結果画面へ
+      quizStateManager.updateReviewListOnCompletion(params.categoryId);
       navigate(`/quiz/${params.categoryId}/result`);
     } else {
       // 次の問題へ
@@ -136,6 +137,8 @@ const Quiz: Component = () => {
    * 結果画面へ移動
    */
   const finishQuiz = () => {
+    // クイズ完了時に復習リストを更新
+    quizStateManager.updateReviewListOnCompletion(params.categoryId);
     navigate(`/quiz/${params.categoryId}/result`);
   };
 

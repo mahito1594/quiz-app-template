@@ -30,7 +30,7 @@ test.describe("Resume Quiz Journey", () => {
    * 6. 「続きから」ボタンをクリック
    * 7. 問題2を正解して結果画面に進み、ホームに戻る
    * 8. 完了状態を確認
-   * 9. 「もう一度」ボタンで最初から開始できることを確認
+   * 9. 「最初から」ボタンで最初から開始できることを確認
    */
   test("should resume quiz with correct answers and complete successfully", async ({
     page,
@@ -96,13 +96,13 @@ test.describe("Resume Quiz Journey", () => {
     await expect(
       page
         .locator(".card-body", { hasText: "プログラミング基礎" })
-        .getByRole("link", { name: "もう一度" }),
+        .getByRole("link", { name: "最初から" }),
     ).toBeVisible();
 
-    // 9. 「もう一度」ボタンで最初から開始できることを確認
+    // 9. 「最初から」ボタンで最初から開始できることを確認
     await page
       .locator(".card-body", { hasText: "プログラミング基礎" })
-      .getByRole("link", { name: "もう一度" })
+      .getByRole("link", { name: "最初から" })
       .click();
     await expect(page.getByRole("heading", { name: "問題文" })).toBeVisible();
     await expect(
@@ -262,7 +262,7 @@ test.describe("Resume Quiz Journey", () => {
         .locator(".card-body", { hasText: "Web基礎" })
         .locator(".badge", { hasText: "進行中" }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "もう一度" })).toHaveCount(1);
+    await expect(page.getByRole("link", { name: "最初から" })).toHaveCount(1);
     await expect(page.getByRole("link", { name: "続きから" })).toHaveCount(1);
 
     // 7. Web基礎を「続きから」で完了
@@ -280,7 +280,7 @@ test.describe("Resume Quiz Journey", () => {
       page.getByRole("heading", { name: "カテゴリ一覧" }),
     ).toBeVisible();
     await expect(page.locator(".badge", { hasText: "完了" })).toHaveCount(2);
-    await expect(page.getByRole("link", { name: "もう一度" })).toHaveCount(2);
+    await expect(page.getByRole("link", { name: "最初から" })).toHaveCount(2);
     await expect(page.getByRole("link", { name: "続きから" })).toHaveCount(0);
   });
 
@@ -358,7 +358,7 @@ test.describe("Resume Quiz Journey", () => {
     await expect(
       page
         .locator(".card-body", { hasText: "プログラミング基礎" })
-        .getByRole("link", { name: "もう一度" }),
+        .getByRole("link", { name: "最初から" }),
     ).toBeVisible();
   });
 });

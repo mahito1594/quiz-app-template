@@ -75,7 +75,7 @@ const CategoryCard: Component<CategoryCardProps> = (props) => {
           <Switch>
             <Match when={props.progress.isCompleted}>
               <A href={`/quiz/${props.category.id}`} class="btn btn-primary">
-                もう一度
+                最初から
               </A>
             </Match>
             <Match when={props.progress.hasProgress}>
