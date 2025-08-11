@@ -374,6 +374,98 @@ describe("QuizStateManager", () => {
     });
   });
 
+  describe("復習モードでの進捗カウント問題 (Issue #28)", () => {
+    beforeEach(() => {
+      // 2問のクイズを開始
+      QuizStateManager.startQuiz("programming", 2);
+
+      // 問題1を不正解
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [2],
+        correctOptions: [1],
+      });
+
+      // 問題2を正解
+      QuizStateManager.submitAnswer({
+        categoryId: "programming",
+        questionIndex: 1,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // クイズ完了
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 2,
+      });
+      QuizStateManager.nextQuestion({
+        categoryId: "programming",
+        totalQuestions: 2,
+      });
+    });
+
+    it("復習モードで回答しても進捗カウント（answers.length）は増加しない", () => {
+      // 初期状態確認: 2問回答済み
+      const initialProgress =
+        QuizStateManager.getCategoryProgress("programming");
+      expect(initialProgress?.answers).toHaveLength(2);
+
+      // 復習モードで間違えた問題を再度回答（新しい復習専用メソッドを使用）
+      QuizStateManager.submitReviewAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1], // 今度は正解
+        correctOptions: [1],
+      });
+
+      // BUG: 現在は進捗に追加されてしまう（3/2の状態）
+      const afterReviewProgress =
+        QuizStateManager.getCategoryProgress("programming");
+
+      // 期待される挙動: 復習で回答しても進捗カウントは増加しない
+      expect(afterReviewProgress?.answers).toHaveLength(2); // 現在は3になってしまう（バグ）
+    });
+
+    it("復習モードで正解しても元の進捗の正答率計算は変わらない", () => {
+      // 初期正答率確認: 2問中1問正解 = 50%
+      const initialAccuracy = QuizStateManager.calculateAccuracy("programming");
+      expect(initialAccuracy).toBe(50.0);
+
+      // 復習モードで間違えた問題を正解
+      QuizStateManager.submitReviewAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // 期待される挙動: 復習での正解は元の進捗の正答率には影響しない
+      const afterReviewAccuracy =
+        QuizStateManager.calculateAccuracy("programming");
+
+      // BUG: 現在は3問中2問正解として計算され66.67%になってしまう
+      expect(afterReviewAccuracy).toBe(50.0); // 現在は66.67になってしまう（バグ）
+    });
+
+    it("復習で正解した場合、復習対象からは除外される（既存の正しい挙動）", () => {
+      // 復習対象が1つあることを確認
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(1);
+
+      // 復習で正解（submitReviewAnswerは自動的に復習完了をマークする）
+      QuizStateManager.submitReviewAnswer({
+        categoryId: "programming",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // 復習対象から除外されることを確認（これは正しく動作している）
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(0);
+    });
+  });
+
   describe("LocalStorage連携", () => {
     it("データがLocalStorageに永続化される", () => {
       QuizStateManager.startQuiz("programming", 10);

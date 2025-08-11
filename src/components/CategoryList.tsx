@@ -9,7 +9,6 @@ import CategoryCard from "./CategoryCard.js";
  */
 const getCategoryProgress = (categoryId: string, totalQuestions: number) => {
   const progress = quizStateManager.getCategoryProgress(categoryId);
-  const accuracy = quizStateManager.calculateAccuracy(categoryId);
   const totalAnswered = progress?.answers.length ?? 0;
 
   // 完了判定: completedAtが設定されているか、回答数が総問題数と等しい場合
@@ -17,12 +16,17 @@ const getCategoryProgress = (categoryId: string, totalQuestions: number) => {
     !!progress?.completedAt ||
     (totalAnswered > 0 && totalAnswered >= totalQuestions);
 
+  // 復習対象チェック
+  const hasReviewQuestions = quizStateManager
+    .getReviewQuestions()
+    .some((q) => q.categoryId === categoryId);
+
   return {
     hasProgress: !!progress,
     isCompleted: isCompleted,
     currentQuestion: progress?.currentQuestionIndex ?? 0,
     totalAnswered: totalAnswered,
-    accuracy: accuracy,
+    hasReviewQuestions: hasReviewQuestions,
   };
 };
 

@@ -81,6 +81,16 @@ type MarkReviewCompleteParams = {
   questionIndex: number;
 };
 
+/**
+ * 復習用回答提出時の引数型
+ */
+type SubmitReviewAnswerParams = {
+  categoryId: string;
+  questionIndex: number;
+  selectedOptions: number[];
+  correctOptions: number[];
+};
+
 // LocalStorageを使用したクイズ状態管理システム
 const [store, setStore] = makePersisted(
   createStore<QuizStore>({
@@ -341,5 +351,40 @@ export const quizStateManager = {
       progress: remainingProgress,
       reviewQuestions: updatedReviewQuestions,
     });
+  },
+
+  /**
+   * 復習モード専用の回答記録
+   * 通常のクイズ進捗には影響しないが、復習対象の管理は行う
+   * @param params - 復習回答提出のパラメータ
+   * @returns 記録された回答データ
+   */
+  submitReviewAnswer(params: SubmitReviewAnswerParams): Answer {
+    const { categoryId, questionIndex, selectedOptions, correctOptions } =
+      params;
+    const isCorrect = checkAnswer(selectedOptions, correctOptions);
+    const timestamp = new Date().toISOString();
+
+    const answer: Answer = {
+      questionIndex,
+      selectedOptions,
+      isCorrect,
+      timestamp,
+    };
+
+    // 復習での回答は通常の進捗には追加しない（これがバグ修正の核心）
+
+    // 不正解の場合は復習対象を更新（間違い回数を増やす）
+    if (!isCorrect) {
+      addToReview(categoryId, questionIndex);
+    } else {
+      // 正解の場合は復習対象から除外
+      this.markReviewComplete({
+        categoryId,
+        questionIndex,
+      });
+    }
+
+    return answer;
   },
 } as const;

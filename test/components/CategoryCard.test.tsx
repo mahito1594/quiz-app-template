@@ -39,7 +39,7 @@ const notStartedProgress: CategoryCardProps["progress"] = {
   isCompleted: false,
   currentQuestion: 0,
   totalAnswered: 0,
-  accuracy: 0,
+  hasReviewQuestions: false,
 };
 
 /**
@@ -50,7 +50,7 @@ const inProgressData: CategoryCardProps["progress"] = {
   isCompleted: false,
   currentQuestion: 1,
   totalAnswered: 1,
-  accuracy: 100.0,
+  hasReviewQuestions: false,
 };
 
 /**
@@ -61,7 +61,7 @@ const completedProgress: CategoryCardProps["progress"] = {
   isCompleted: true,
   currentQuestion: 2,
   totalAnswered: 2,
-  accuracy: 50.0,
+  hasReviewQuestions: false,
 };
 
 describe("CategoryCard", () => {
@@ -183,18 +183,6 @@ describe("CategoryCard", () => {
       expect(screen.getByText("進捗")).toBeInTheDocument();
       expect(screen.getByText("1 / 2")).toBeInTheDocument();
     });
-
-    it("正答率が表示される", () => {
-      render(
-        () => (
-          <CategoryCard category={mockCategory} progress={inProgressData} />
-        ),
-        { wrapper: RouterWrapper },
-      );
-
-      expect(screen.getByText("正答率")).toBeInTheDocument();
-      expect(screen.getByText("100.0%")).toBeInTheDocument();
-    });
   });
 
   describe("完了状態", () => {
@@ -236,28 +224,16 @@ describe("CategoryCard", () => {
       expect(screen.getByText("進捗")).toBeInTheDocument();
       expect(screen.getByText("2 / 2")).toBeInTheDocument();
     });
-
-    it("最終的な正答率が表示される", () => {
-      render(
-        () => (
-          <CategoryCard category={mockCategory} progress={completedProgress} />
-        ),
-        { wrapper: RouterWrapper },
-      );
-
-      expect(screen.getByText("正答率")).toBeInTheDocument();
-      expect(screen.getByText("50.0%")).toBeInTheDocument();
-    });
   });
 
   describe("エッジケース", () => {
-    it("進捗はあるが回答数が0の場合、正答率が表示されない", () => {
+    it("進捗はあるが回答数が0の場合、進捗が正しく表示される", () => {
       const edgeProgress: CategoryCardProps["progress"] = {
         hasProgress: true,
         isCompleted: false,
         currentQuestion: 0,
         totalAnswered: 0,
-        accuracy: 0,
+        hasReviewQuestions: false,
       };
 
       render(
@@ -265,6 +241,8 @@ describe("CategoryCard", () => {
         { wrapper: RouterWrapper },
       );
 
+      expect(screen.getByText("0 / 2")).toBeInTheDocument();
+      // 正答率は表示されない（機能削除）
       expect(screen.queryByText("正答率")).not.toBeInTheDocument();
     });
   });

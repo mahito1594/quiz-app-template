@@ -149,8 +149,8 @@ const Review: Component = () => {
     const selected = selectedOptions();
     const correct = question.question.correct;
 
-    // 回答を記録（Quizモードと同様の処理）
-    const answer = quizStateManager.submitAnswer({
+    // 復習モード専用の回答記録（進捗には影響しない）
+    const answer = quizStateManager.submitReviewAnswer({
       categoryId: question.categoryId,
       questionIndex: question.questionIndex,
       selectedOptions: selected,
@@ -161,13 +161,8 @@ const Review: Component = () => {
     setIsCorrect(answer.isCorrect);
     setShowFeedback(true);
 
-    // 正解の場合は復習対象から除外
-    if (answer.isCorrect) {
-      quizStateManager.markReviewComplete({
-        categoryId: question.categoryId,
-        questionIndex: question.questionIndex,
-      });
-    }
+    // submitReviewAnswerが復習対象の管理も自動実行するため、
+    // markReviewCompleteの手動呼び出しは不要
   };
 
   /**
