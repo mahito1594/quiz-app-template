@@ -154,7 +154,6 @@ describe("Quiz Type Parsing", () => {
         version: "1.0.0",
         title: "Test Quiz",
         lastUpdated: "2025-07-21",
-        totalQuestions: 2,
         description: "Test description",
       },
       categories: [
@@ -190,6 +189,52 @@ describe("Quiz Type Parsing", () => {
       expect(quizData.categories).toHaveLength(1);
       expect(quizData.categories[0].questions).toHaveLength(2);
       expect(quizData.metadata.totalQuestions).toBe(2);
+    });
+
+    it("should automatically calculate totalQuestions correctly", () => {
+      const quizData = parseQuizData(validRawData);
+
+      // Verify automatic calculation matches actual question count
+      const actualCount = quizData.categories.reduce(
+        (sum, category) => sum + category.questions.length,
+        0,
+      );
+      expect(quizData.metadata.totalQuestions).toBe(actualCount);
+      expect(quizData.metadata.totalQuestions).toBe(2);
+    });
+
+    it("should calculate totalQuestions correctly with multiple categories", () => {
+      const multiCategoryData = {
+        ...validRawData,
+        categories: [
+          {
+            ...validRawData.categories[0],
+            id: "category-1",
+            questions: validRawData.categories[0].questions.slice(0, 1), // 1 question
+          },
+          {
+            ...validRawData.categories[0],
+            id: "category-2",
+            questions: [
+              ...validRawData.categories[0].questions, // 2 questions
+              {
+                type: "single",
+                question: "Additional question",
+                options: ["A", "B"],
+                correct: [0],
+                explanation: "Additional explanation",
+              }, // 1 more question
+            ],
+          },
+        ],
+      };
+
+      const quizData = parseQuizData(multiCategoryData);
+
+      expect(quizData.categories).toHaveLength(2);
+      expect(quizData.categories[0].questions).toHaveLength(1);
+      expect(quizData.categories[1].questions).toHaveLength(3);
+      expect(quizData.metadata.totalQuestions).toBe(4); // 1 + 3 = 4
     });
 
     it("should throw error for quiz data with missing metadata", () => {
@@ -245,21 +290,6 @@ describe("Quiz Type Parsing", () => {
       );
     });
 
-    it("should throw error for quiz data with totalQuestions mismatch", () => {
-      const rawData = {
-        ...validRawData,
-        metadata: {
-          ...validRawData.metadata,
-          totalQuestions: 5,
-        },
-      };
-
-      expect(() => parseQuizData(rawData)).toThrow(QuizParseError);
-      expect(() => parseQuizData(rawData)).toThrow(
-        "Total questions count mismatch",
-      );
-    });
-
     it("should throw error for empty category name", () => {
       const rawData = {
         ...validRawData,
@@ -300,7 +330,6 @@ describe("Quiz Type Parsing", () => {
           version: "1.0.0",
           title: "Test Quiz",
           lastUpdated: "2025-07-21",
-          totalQuestions: 1,
         },
         categories: [
           {

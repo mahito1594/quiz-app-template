@@ -70,7 +70,6 @@ metadata:                      # クイズ全体のメタデータ（必須）
   version: "1.0.0"            # バージョン番号
   title: "問題集のタイトル"       # 問題集の名称
   lastUpdated: "2025-01-15"   # 最終更新日（YYYY-MM-DD 形式）
-  totalQuestions: 10          # 問題総数（実際の問題数と一致する必要あり）
   description: "説明文"        # 問題集の説明（オプション）
 
 categories:                    # 問題カテゴリの配列（最低1つ必要）
@@ -96,7 +95,6 @@ categories:                    # 問題カテゴリの配列（最低1つ必要�
 - `version`: 問題集のバージョン番号（文字列）
 - `title`: 問題集のタイトル（文字列）
 - `lastUpdated`: 最終更新日（`YYYY-MM-DD` 形式の文字列）
-- `totalQuestions`: 問題の総数（数値、実際の問題数と一致必須）
 - `description`: 問題集の説明（文字列、オプション）
 
 **カテゴリ (`categories`):**
@@ -144,7 +142,6 @@ metadata:
   version: "1.0.0"
   title: "JavaScript 基礎問題集"
   lastUpdated: "2025-01-15"
-  totalQuestions: 2
   description: "JavaScript の基本文法を学ぶ問題集"
 
 categories:
