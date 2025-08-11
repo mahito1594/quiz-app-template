@@ -56,11 +56,18 @@ test.describe("Review Mistakes Journey", () => {
   test("should complete review journey with correct answer", async ({
     page,
   }) => {
-    // 1. ホーム画面で「復習する」ボタンを確認・クリック
+    // 1. ホーム画面で「復習する」ボタンと「要復習」バッジを確認・クリック
     await expect(
       page.getByRole("heading", { name: "カテゴリ一覧" }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "復習する" })).toBeVisible();
+
+    // プログラミング基礎カテゴリに「要復習」バッジが表示されていることを確認
+    const categoryCard = page.locator(".card-body", {
+      hasText: "プログラミング基礎",
+    });
+    await expect(categoryCard.getByText("要復習")).toBeVisible();
+
     await page.getByRole("link", { name: "復習する" }).click();
 
     // 2. 復習モード画面の統計情報とカテゴリを確認
@@ -150,11 +157,17 @@ test.describe("Review Mistakes Journey", () => {
   test("should complete review journey with incorrect answer", async ({
     page,
   }) => {
-    // 1. ホーム画面で「復習する」ボタンを確認・クリック
+    // 1. ホーム画面で「復習する」ボタンと「要復習」バッジを確認・クリック
     await expect(
       page.getByRole("heading", { name: "カテゴリ一覧" }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "復習する" })).toBeVisible();
+
+    const categoryCard = page.locator(".card-body", {
+      hasText: "プログラミング基礎",
+    });
+    await expect(categoryCard.getByText("要復習")).toBeVisible();
+
     await page.getByRole("link", { name: "復習する" }).click();
 
     // 2. 復習モード画面の統計情報とカテゴリを確認

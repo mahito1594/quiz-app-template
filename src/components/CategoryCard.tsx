@@ -12,7 +12,7 @@ export type CategoryCardProps = {
     isCompleted: boolean;
     currentQuestion: number;
     totalAnswered: number;
-    accuracy: number;
+    hasReviewQuestions: boolean;
   };
 };
 
@@ -43,15 +43,6 @@ const CategoryCard: Component<CategoryCardProps> = (props) => {
                 {props.progress.totalAnswered} / {totalQuestions()}
               </span>
             </div>
-
-            <Show when={props.progress.totalAnswered > 0}>
-              <div class="flex justify-between text-sm">
-                <span>正答率</span>
-                <span class="font-semibold">
-                  {props.progress.accuracy.toFixed(1)}%
-                </span>
-              </div>
-            </Show>
           </Show>
         </div>
 
@@ -67,6 +58,15 @@ const CategoryCard: Component<CategoryCardProps> = (props) => {
           </Show>
           <Show when={!props.progress.hasProgress}>
             <div class="badge badge-ghost">未開始</div>
+          </Show>
+
+          {/* 理解度ステータス */}
+          <Show
+            when={
+              props.progress.isCompleted && props.progress.hasReviewQuestions
+            }
+          >
+            <div class="badge badge-error">要復習</div>
           </Show>
         </div>
 
