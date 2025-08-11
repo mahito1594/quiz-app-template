@@ -197,7 +197,7 @@ describe("CategoryCard", () => {
       expect(screen.getByText("完了")).toBeInTheDocument();
     });
 
-    it("もう一度ボタンが表示される", () => {
+    it("最初からボタンが表示される", () => {
       render(
         () => (
           <CategoryCard category={mockCategory} progress={completedProgress} />
@@ -205,7 +205,7 @@ describe("CategoryCard", () => {
         { wrapper: RouterWrapper },
       );
 
-      const retryLink = screen.getByText("もう一度");
+      const retryLink = screen.getByText("最初から");
       expect(retryLink).toBeInTheDocument();
       expect(retryLink.closest("a")).toHaveAttribute(
         "href",

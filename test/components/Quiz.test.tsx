@@ -16,6 +16,7 @@ const { mockNavigate, mockParams, mockQuizStateManager } = vi.hoisted(() => {
       getCategoryProgress: vi.fn(),
       calculateAccuracy: vi.fn(),
       getReviewQuestions: vi.fn(),
+      updateReviewListOnCompletion: vi.fn(),
     },
   };
 });

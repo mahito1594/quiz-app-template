@@ -387,4 +387,34 @@ export const quizStateManager = {
 
     return answer;
   },
+
+  /**
+   * クイズ完了時に復習リストを更新
+   * カテゴリの全問題完了時に呼び出され、そのカテゴリの復習リストを現在の結果で更新する
+   * @param categoryId - 完了したカテゴリのID
+   */
+  updateReviewListOnCompletion(categoryId: string): void {
+    const progress = this.getCategoryProgress(categoryId);
+    if (!progress) return;
+
+    // そのカテゴリの既存の復習リストを削除
+    const otherReviewQuestions = store.reviewQuestions.filter(
+      (q) => q.categoryId !== categoryId,
+    );
+
+    // 不正解だった問題を新しい復習リストとして追加
+    const newReviewQuestions: ReviewQuestion[] = progress.answers
+      .filter((answer) => !answer.isCorrect)
+      .map((answer) => ({
+        categoryId,
+        questionIndex: answer.questionIndex,
+        errorCount: 1,
+        lastErrorAt: answer.timestamp,
+      }));
+
+    // 復習リストを更新
+    setStore({
+      reviewQuestions: [...otherReviewQuestions, ...newReviewQuestions],
+    });
+  },
 } as const;

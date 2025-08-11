@@ -485,4 +485,148 @@ describe("QuizStateManager", () => {
       expect(progress?.answers).toHaveLength(1);
     });
   });
+
+  describe("updateReviewListOnCompletion", () => {
+    it("全問正解の場合、復習リストがクリアされる", () => {
+      // 初期設定: 2問のクイズで1問不正解
+      QuizStateManager.startQuiz("math", 2);
+
+      // 問題1を不正解
+      QuizStateManager.submitAnswer({
+        categoryId: "math",
+        questionIndex: 0,
+        selectedOptions: [0],
+        correctOptions: [1],
+      });
+
+      // 問題2を正解
+      QuizStateManager.submitAnswer({
+        categoryId: "math",
+        questionIndex: 1,
+        selectedOptions: [2],
+        correctOptions: [2],
+      });
+
+      // 復習リストに1問あることを確認
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(1);
+
+      // クイズを再開して全問正解
+      QuizStateManager.startQuiz("math", 2);
+
+      // 問題1を正解
+      QuizStateManager.submitAnswer({
+        categoryId: "math",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // 問題2を正解
+      QuizStateManager.submitAnswer({
+        categoryId: "math",
+        questionIndex: 1,
+        selectedOptions: [2],
+        correctOptions: [2],
+      });
+
+      // クイズ完了時に復習リストを更新
+      QuizStateManager.updateReviewListOnCompletion("math");
+
+      // 復習リストがクリアされていることを確認
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(0);
+    });
+
+    it("不正解がある場合、復習リストが新しい不正解問題で更新される", () => {
+      // 初期設定: 2問のクイズで問題1を不正解
+      QuizStateManager.startQuiz("science", 2);
+
+      // 問題1を不正解
+      QuizStateManager.submitAnswer({
+        categoryId: "science",
+        questionIndex: 0,
+        selectedOptions: [0],
+        correctOptions: [1],
+      });
+
+      // 問題2を正解
+      QuizStateManager.submitAnswer({
+        categoryId: "science",
+        questionIndex: 1,
+        selectedOptions: [2],
+        correctOptions: [2],
+      });
+
+      // 復習リストに問題1があることを確認
+      const initialReview = QuizStateManager.getReviewQuestions();
+      expect(initialReview).toHaveLength(1);
+      expect(initialReview[0].questionIndex).toBe(0);
+
+      // クイズを再開して今度は問題2を不正解
+      QuizStateManager.startQuiz("science", 2);
+
+      // 問題1を正解
+      QuizStateManager.submitAnswer({
+        categoryId: "science",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // 問題2を不正解
+      QuizStateManager.submitAnswer({
+        categoryId: "science",
+        questionIndex: 1,
+        selectedOptions: [0],
+        correctOptions: [2],
+      });
+
+      // クイズ完了時に復習リストを更新
+      QuizStateManager.updateReviewListOnCompletion("science");
+
+      // 復習リストが問題2のみになっていることを確認
+      const updatedReview = QuizStateManager.getReviewQuestions();
+      expect(updatedReview).toHaveLength(1);
+      expect(updatedReview[0].questionIndex).toBe(1);
+    });
+
+    it("他のカテゴリの復習リストには影響しない", () => {
+      // カテゴリ1で不正解
+      QuizStateManager.startQuiz("category1", 1);
+      QuizStateManager.submitAnswer({
+        categoryId: "category1",
+        questionIndex: 0,
+        selectedOptions: [0],
+        correctOptions: [1],
+      });
+
+      // カテゴリ2で不正解
+      QuizStateManager.startQuiz("category2", 1);
+      QuizStateManager.submitAnswer({
+        categoryId: "category2",
+        questionIndex: 0,
+        selectedOptions: [0],
+        correctOptions: [1],
+      });
+
+      // 両カテゴリの復習リストがあることを確認
+      expect(QuizStateManager.getReviewQuestions()).toHaveLength(2);
+
+      // カテゴリ1を再実施して全問正解
+      QuizStateManager.startQuiz("category1", 1);
+      QuizStateManager.submitAnswer({
+        categoryId: "category1",
+        questionIndex: 0,
+        selectedOptions: [1],
+        correctOptions: [1],
+      });
+
+      // カテゴリ1の復習リストを更新
+      QuizStateManager.updateReviewListOnCompletion("category1");
+
+      // カテゴリ2の復習リストは残っていることを確認
+      const remainingReview = QuizStateManager.getReviewQuestions();
+      expect(remainingReview).toHaveLength(1);
+      expect(remainingReview[0].categoryId).toBe("category2");
+    });
+  });
 });
