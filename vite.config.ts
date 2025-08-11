@@ -7,6 +7,7 @@ import solid from "vite-plugin-solid";
 
 export default defineConfig({
   plugins: [tailwindcss(), solid(), yaml()],
+  base: "/quiz-app-template/",
   optimizeDeps: {
     include: ["solid-markdown > micromark", "solid-markdown > unified"],
   },
