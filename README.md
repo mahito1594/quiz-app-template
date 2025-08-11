@@ -1,6 +1,7 @@
 # quiz-app-template
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
+[![Renovate: enable](https://img.shields.io/badge/renovate-enabled-brightgreen)](https://www.mend.io/renovate/)
 
 ## 概要
 
