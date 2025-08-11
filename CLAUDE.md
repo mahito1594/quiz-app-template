@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-社内勉強会用の問題集WebアプリケーションのSolidJSベーステンプレート。GitHub Pagesでホスティングし、Organization内部アクセス限定。モバイル（iPhone Safari）での利用を主要ターゲット。
+SolidJSベースの問題集アプリケーションテンプレート。"Parse, don't validate"アーキテクチャとTDDによる高品質なコードベースを提供。Hash routingによるSPA対応、YAML形式の問題データ管理、型安全なデータ処理を特徴とする。
 
 ## 開発コマンド
 
@@ -19,22 +19,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 技術スタック
 
-- **SolidJS** v1.9 - リアクティブUIフレームワーク
-- **TypeScript** v5.8 - 型安全性
-- **Vite** v7 - 高速ビルドツール
-- **Valibot** v1.1 - スキーマバリデーション（"Parse, don't validate"アーキテクチャ）
-- **Vitest** v3 - テストフレームワーク（TDD採用）
-- **Biome** v2.1 - リンター/フォーマッター
+- **SolidJS** - リアクティブUIフレームワーク
+- **TypeScript** - 型安全性
+- **Vite** - 高速ビルドツール
+- **Valibot** - スキーマバリデーション（"Parse, don't validate"アーキテクチャ）
+- **Vitest** - テストフレームワーク（TDD採用）
+- **Biome** - リンター/フォーマッター
 - **@solidjs/router** - SolidJS専用ルーティング（Hash routing mode）
 - **@modyfi/vite-plugin-yaml** - YAML問題データ読み込み用
 - **@solid-primitives/storage** - LocalStorage永続化用
 - **solid-markdown** - Markdown解説文レンダリング用
-- **TailwindCSS** v4 + **DaisyUI** v5 - ユーティリティファーストCSS + UIコンポーネントライブラリ
+- **TailwindCSS + DaisyUI** - ユーティリティファーストCSS + UIコンポーネントライブラリ
 
 ## アーキテクチャ
 
 ### ルーティング構造（Hash routing）
-GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
+SPAデプロイメント対応のため、Hash routingを採用：
 - `/#/` - カテゴリ一覧
 - `/#/category/{categoryId}` - カテゴリ別問題一覧  
 - `/#/quiz/{categoryId}` - クイズ実行
@@ -147,14 +147,8 @@ GitHub Pages SPAデプロイメント対応のため、Hash routingを採用：
 
 ### GitHub Pages設定
 - Hash routingによりSPA対応（追加設定不要）
-- Organization内部アクセス限定
 - 静的サイト生成によるシンプルなデプロイメント
 
-## パフォーマンス要件
-
-- モバイル端末での3秒以内読み込み
-- iPhone Safariでの快適な操作性
-- 効率的な問題データ読み込み
 
 ## 開発アプローチ
 
