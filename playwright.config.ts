@@ -32,11 +32,6 @@ export default defineConfig({
     },
 
     {
-      name: "Firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-
-    {
       name: "Mobile Safari",
       use: { ...devices["iPhone 12"] },
     },
