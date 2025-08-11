@@ -30,6 +30,7 @@ SolidJSベースの問題集アプリケーションテンプレート。"Parse,
 - **@solid-primitives/storage** - LocalStorage永続化用
 - **solid-markdown** - Markdown解説文レンダリング用
 - **TailwindCSS + DaisyUI** - ユーティリティファーストCSS + UIコンポーネントライブラリ
+- **@tailwindcss/typography** - Markdownコンテンツの美しいタイポグラフィスタイリング
 
 ## アーキテクチャ
 

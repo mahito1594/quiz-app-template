@@ -46,7 +46,7 @@
 
 ### 3.3 ビルドツール
 
-**採用: Vite v7.0.4**
+**採用: Vite v7.0.6**
 
 **選定理由:**
 - **超高速開発サーバー**: HMR対応
@@ -157,6 +157,33 @@ Hash版: /#/quiz/category1
 - v2.0.14でサーバーサイドバンドル問題が発生していた（`debug`モジュールエラー）
 - 回避策の発見により最新版使用が可能に
 - 参考: [GitHub Issue #33](https://github.com/andi23rosca/solid-markdown/issues/33#issuecomment-2612454745)
+
+### 5.5 Markdownタイポグラフィスタイリング
+
+**採用: @tailwindcss/typography v0.5.16**
+
+**選定理由:**
+- **美しいタイポグラフィ**: Markdownコンテンツの自動的な美しいスタイリング
+- **リンクスタイリング**: 下線・色・ホバー効果の自動適用でユーザビリティ向上
+- **TailwindCSS統合**: 既存のproseクラスとシームレス統合
+- **DaisyUIとの共存**: テーマカラーとの適切な協調動作
+- **軽量性**: 必要なスタイルのみ生成、バンドルサイズ最適化
+
+**実装詳細:**
+```css
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "@tailwindcss/typography";
+```
+
+**適用箇所:**
+- 問題解説文（ImmediateFeedback.tsx）
+- 問題文（QuestionCard.tsx）
+- YAML内のMarkdown記法（リンク、見出し、リスト等）
+
+**効果:**
+- リンクが視認しやすいスタイリングで表示
+- 見出し、リスト、コードブロックの統一的な美しいレンダリング
 
 ## 6. 開発ツール
 
