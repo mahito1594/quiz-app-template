@@ -7,16 +7,17 @@
 
 問題集 Web アプリケーションを構築するためのテンプレートリポジトリです。
 
-### 技術的特徴
+### 特徴
 
-- **SolidJS**: 高性能なリアクティブ UI フレームワーク
-- **TypeScript**: 型安全性による保守しやすいコード
-- **"Parse, don't validate" アーキテクチャ**: Valibot による確実なデータ型変換
-- **Hash routing**: GitHub Pages 等での SPA 配信に最適化
-- **YAML 問題データ管理**: 構造化されたコンテンツ管理
-- **LocalStorage 進捗永続化**: ページリロード、ブラウザ再起動後も学習状況を保持
-- **TailwindCSS + DaisyUI**: モダンで保守しやすい UI 設計
-- **TDD 開発**: 包括的テストカバレッジによる高品質コードベース
+本アプリは以下の技術を採用しています。
+
+- **TypeScript**
+- **[SolidJS](https://docs.solidjs.com)**
+- **[Solid Router](https://docs.solidjs.com/solid-router/)**
+- **TailwindCSS + DaisyUI**
+
+また、問題データを YAML ファイルで管理できるような実装とし、問題集アプリのテンプレートとして活用できるようにしています。
+アプリでの学習状況は LocalStorage に保持します。
 
 ## 使い方
 
@@ -223,13 +224,13 @@ pnpm test:e2e
 - **Claude Code 関連**: [`CLAUDE.md`](./CLAUDE.md), [`docs/`](./docs/) ディレクトリ（Claude Code を使わない場合）
 - **GitHub Actions**: [`.github/workflows/`](./.github/workflows/) ディレクトリ（CI/CD が不要な場合）
 - **Renovate**: [`renovate.json`](./renovate.json)（依存関係自動更新が不要な場合）
-- **E2E テスト**: [`e2e/`](./e2e/) ディレクトリ、[`playwright.config.ts](./playwright.config.ts)（E2E テストが不要な場合）
+- **E2E テスト**: [`e2e/`](./e2e/) ディレクトリ、[`playwright.config.ts`](./playwright.config.ts)（E2E テストが不要な場合）
 
 ## デプロイ方法
 
 静的ホスティングサービスへのデプロイが可能です。
 
-### GitHub Pages での配信
+### 例: GitHub Pages での配信
 
 1. **リポジトリ設定で Pages 機能を有効化**
    - Settings > Pages > Source を「GitHub Actions」に設定
@@ -244,37 +245,6 @@ pnpm test:e2e
    ```
 
 3. 手動または GitHub Actions によるデプロイ
-
-
-## 技術スタック
-
-### コア技術
-
-- **[SolidJS](https://www.solidjs.com/)** - 高性能リアクティブ UI フレームワーク
-- **[TypeScript](https://www.typescriptlang.org/)** - 型安全性とツール支援
-- **[Vite](https://vitejs.dev/)** - 高速ビルドツール（HMR 対応）
-
-### データ処理・バリデーション
-
-- **[Valibot](https://valibot.dev/)** - "Parse, don't validate" スキーマライブラリ
-- **[@modyfi/vite-plugin-yaml](https://github.com/Modyfi/vite-plugin-yaml)** - YAML 問題データ読み込み
-
-### ルーティング・状態管理
-
-- **[@solidjs/router](https://github.com/solidjs/solid-router)** - SolidJS 専用ルーター（Hash routing）
-- **[@solid-primitives/storage](https://github.com/solidjs-community/solid-primitives)** - LocalStorage 永続化
-
-### UI・スタイリング
-
-- **[TailwindCSS](https://tailwindcss.com/)** - ユーティリティファースト CSS
-- **[DaisyUI](https://daisyui.com/)** - Tailwind ベース UI コンポーネントライブラリ
-- **[solid-markdown](https://github.com/andi23rosca/solid-markdown)** - Markdown 解説文レンダリング
-
-### 開発・品質管理
-
-- **[Vitest](https://vitest.dev/)** - 高速テストフレームワーク（TDD 採用）
-- **[Playwright](https://playwright.dev/)** - E2E テストフレームワーク
-- **[Biome](https://biomejs.dev/)** - リンター・フォーマッター（ESLint/Prettier 代替）
 
 ## ライセンス
 

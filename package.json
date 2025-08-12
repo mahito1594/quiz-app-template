@@ -14,13 +14,16 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:unit:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "postinstall": "lefthook install"
   },
   "dependencies": {
     "solid-js": "^1.9.7"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.4",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@modyfi/vite-plugin-yaml": "^1.1.1",
     "@playwright/test": "^1.54.2",
     "@solid-primitives/storage": "^4.3.3",
@@ -35,6 +38,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "daisyui": "^5.0.50",
     "happy-dom": "^18.0.1",
+    "lefthook": "^1.12.3",
     "solid-markdown": "^2.0.14",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.9.0",
