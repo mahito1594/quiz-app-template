@@ -22,6 +22,7 @@ import QuestionCard from "./quiz/QuestionCard.jsx";
 const Quiz: Component = () => {
   const params = useParams();
   const navigate = useNavigate();
+  let scrollTarget!: HTMLDivElement;
 
   // Context からクイズデータを取得
   const { quizData } = useQuizData();
@@ -130,6 +131,7 @@ const Quiz: Component = () => {
       setIsAnswered(false);
       setIsCorrect(false);
       setShowFeedback(false);
+      scrollTarget.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -194,7 +196,7 @@ const Quiz: Component = () => {
             {/* 選択肢表示 */}
             <Match when={!showFeedback()}>
               <div class="card bg-base-100 shadow-md">
-                <div class="card-body">
+                <div class="card-body" ref={scrollTarget}>
                   <AnswerOptions
                     // biome-ignore lint/style/noNonNullAssertion: Matchコンポーネントの条件でcurrentQuestion()の存在が保証済み
                     question={currentQuestion()!}
