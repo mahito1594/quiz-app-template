@@ -48,7 +48,8 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
    * 選択肢のスタイルクラスを取得
    */
   const getOptionClasses = (optionIndex: number) => {
-    const baseClasses = "w-full text-left transition-all duration-200";
+    const baseClasses =
+      "w-full text-left transition-all duration-200 h-auto min-h-[3rem] whitespace-normal";
     const isSelected = props.selectedOptions.includes(optionIndex);
     const isCorrect = props.correctOptions?.includes(optionIndex);
     const isIncorrect = props.isAnswered && isSelected && !isCorrect;
@@ -101,7 +102,7 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
                   props.isAnswered ? undefined : "selection-help"
                 }
               >
-                <div class="flex items-start gap-3 text-left w-full">
+                <div class="flex items-start gap-3 text-left w-full py-2 px-1">
                   {/* 回答後のみアイコンを表示 */}
                   <Show when={props.isAnswered}>
                     <span class="flex-shrink-0">
@@ -131,7 +132,9 @@ const AnswerOptions: Component<AnswerOptionsProps> = (props) => {
                   </Show>
 
                   {/* 選択肢テキスト */}
-                  <span class="flex-1 leading-relaxed">{option}</span>
+                  <span class="flex-1 leading-relaxed break-words">
+                    {option}
+                  </span>
                 </div>
               </button>
             );
