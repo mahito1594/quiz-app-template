@@ -57,6 +57,10 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
+> [!NOTE]
+> `pnpm install` 時にエラーが発生する際は事前に `git init` するか、
+> [`package.json`](./package.json) 内の `scripts.postinstall` の業を削除してください。
+
 開発サーバーが起動したら `http://localhost:5173` でアプリケーションにアクセスできます。
 
 ### 問題データのカスタマイズ
