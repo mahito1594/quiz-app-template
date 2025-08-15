@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/mahito1594/quiz-app-template/compare/v1.0.0...v1.0.1) (2025-08-15)
+
+
+### Bug Fixes
+
+* **ci:** remove config that skips github-release ([#44](https://github.com/mahito1594/quiz-app-template/issues/44)) ([9ef182b](https://github.com/mahito1594/quiz-app-template/commit/9ef182bcb605c966d12c85adf013cb6029f331aa))
+
 ## 1.0.0 (2025-08-15)
 
 
