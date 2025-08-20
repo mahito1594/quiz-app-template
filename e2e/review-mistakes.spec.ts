@@ -192,7 +192,7 @@ test.describe("Review Mistakes Journey", () => {
     await expect(
       page
         .locator(".card-body", { hasText: "プログラミング基礎" })
-        .getByText("1回間違い"),
+        .getByText("×1"),
     ).toBeVisible();
 
     // 3. 「復習を開始する」ボタンをクリック
@@ -243,7 +243,7 @@ test.describe("Review Mistakes Journey", () => {
     await expect(
       page
         .locator(".card-body", { hasText: "プログラミング基礎" })
-        .getByText("2回間違い"),
+        .getByText("×2"),
     ).toBeVisible();
 
     // 7. ホームに戻り「復習する」ボタンが表示されていることを確認

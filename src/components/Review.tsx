@@ -39,7 +39,7 @@ const ReviewQuestionCard: Component<{
           </div>
           <div class="text-right">
             <div class="badge badge-error mb-1">
-              {props.reviewQuestion.errorCount}回間違い
+              &times;{props.reviewQuestion.errorCount}
             </div>
             <p class="text-xs text-base-content/60">
               {new Date(props.reviewQuestion.lastErrorAt).toLocaleDateString(
