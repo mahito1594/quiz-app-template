@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 [![Renovate: enable](https://img.shields.io/badge/renovate-enabled-brightgreen)](https://www.mend.io/renovate/)
-![GitHub Release Date](https://img.shields.io/github/release-date/mahito1594/quiz-app-template?label=release%2Fdeploy)
+[![GitHub Release Date](https://img.shields.io/github/release-date/mahito1594/quiz-app-template?label=release%2Fdeploy)](https://github.com/mahito1594/quiz-app-template/releases)
 
 
 ## 概要
