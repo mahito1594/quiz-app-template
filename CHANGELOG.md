@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.2](https://github.com/mahito1594/quiz-app-template/compare/v1.0.1...v1.0.2) (2025-08-23)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([e007a23](https://github.com/mahito1594/quiz-app-template/commit/e007a239b163cee3a386e0aeaf39bdacb98b1912))
+* **lint:** ignore noUnknownAtRules for TailwindCSS's at-rule ([e88143e](https://github.com/mahito1594/quiz-app-template/commit/e88143e24e4c7c00c351650eaa0c55ea00c0dff9))
+* replace `回間違い` with `&times;` ([9cd8d52](https://github.com/mahito1594/quiz-app-template/commit/9cd8d52ada9800c9297436ce5061c4b2ccb2225a))
+
 ## [1.0.1](https://github.com/mahito1594/quiz-app-template/compare/v1.0.0...v1.0.1) (2025-08-15)
 
 
