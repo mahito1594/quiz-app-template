@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.6",
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@modyfi/vite-plugin-yaml": "^1.1.1",
     "@playwright/test": "^1.54.2",
     "@solid-primitives/storage": "^4.3.3",
