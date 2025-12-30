@@ -217,7 +217,7 @@ const QuizResult: Component = () => {
           </div>
 
           {/* 総合結果カード */}
-          <div class="card bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 shadow-lg">
+          <div class="card bg-linear-to-br from-primary/10 to-secondary/10 border border-primary/20 shadow-lg">
             <div class="card-body text-center">
               <div class="mb-4">{getPerformanceLevel().icon}</div>
               <h2 class="text-3xl font-bold mb-2">{accuracy().toFixed(1)}%</h2>
