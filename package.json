@@ -38,7 +38,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "daisyui": "^5.0.50",
     "happy-dom": "^20.0.0",
-    "lefthook": "^1.12.3",
+    "lefthook": "^2.0.0",
     "solid-markdown": "^2.0.14",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.9.0",
