@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 
 import yaml from "@modyfi/vite-plugin-yaml";
 import tailwindcss from "@tailwindcss/vite";
@@ -15,6 +15,11 @@ export default defineConfig({
     environment: "happy-dom",
     setupFiles: "./test/setup.ts",
     include: ["test/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
+    server: {
+      deps: {
+        inline: ["@solidjs/router", "solid-markdown"],
+      },
+    },
     coverage: {
       include: ["src/**/*"],
       reporter: ["text", "html", "json-summary", "json"],

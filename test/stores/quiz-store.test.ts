@@ -19,7 +19,7 @@ const localStorageMock = (() => {
 })();
 
 // グローバルなlocalStorageを置き換え
-Object.defineProperty(global, "localStorage", {
+Object.defineProperty(globalThis, "localStorage", {
   value: localStorageMock,
   writable: true,
 });
