@@ -210,7 +210,7 @@ pnpm build
 pnpm preview
 
 # 静的解析・フォーマット確認
-pnpm lint
+pnpm check
 
 # 静的型検査
 pnpm typecheck
