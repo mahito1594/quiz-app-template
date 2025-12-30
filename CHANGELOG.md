@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/mahito1594/quiz-app-template/compare/v1.0.2...v1.0.3) (2025-12-30)
+
+
+### Bug Fixes
+
+* **test:** fix failed tests ([0c70c50](https://github.com/mahito1594/quiz-app-template/commit/0c70c50be56f8578a91d22cf5579137ad753fda6))
+
 ## [1.0.2](https://github.com/mahito1594/quiz-app-template/compare/v1.0.1...v1.0.2) (2025-08-23)
 
 
