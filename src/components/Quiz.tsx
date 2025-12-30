@@ -20,7 +20,7 @@ import QuestionCard from "./quiz/QuestionCard.jsx";
  * カテゴリ別の問題表示と回答機能
  */
 const Quiz: Component = () => {
-  const params = useParams();
+  const params = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
   let scrollTarget!: HTMLDivElement;
 

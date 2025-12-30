@@ -69,7 +69,7 @@ const QuestionDetail: Component<{
  * 総合結果表示と復習案内
  */
 const QuizResult: Component = () => {
-  const params = useParams();
+  const params = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
 
   // Context からクイズデータを取得
@@ -312,7 +312,7 @@ const QuizResult: Component = () => {
             <div class="text-center text-sm text-base-content/60">
               完了時刻:{" "}
               {/* biome-ignore lint/style/noNonNullAssertion: Showコンポーネントの条件でcompletedAtの存在が保証済み */}
-              {new Date(progress()?.completedAt!).toLocaleString("ja-JP")}
+              {new Date(progress()!.completedAt!).toLocaleString("ja-JP")}
             </div>
           </Show>
         </div>
