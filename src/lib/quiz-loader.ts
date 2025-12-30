@@ -152,7 +152,11 @@ export const viteYamlLoader: FileLoader = async (
     return { success: false, error: loadError };
   }
   try {
-    const module = await import(/* @vite-ignore */ filePath);
+    // Convert relative path to Vite-style absolute path (starting with /)
+    // This is required because dynamic import with relative paths is interpreted
+    // as a package name, not a file path relative to the project root
+    const importPath = filePath.startsWith("/") ? filePath : `/${filePath}`;
+    const module = await import(/* @vite-ignore */ importPath);
     const rawData = module.default || module;
 
     return {
