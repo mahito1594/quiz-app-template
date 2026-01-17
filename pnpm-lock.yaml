@@ -56,13 +56,13 @@ importers:
         version: 24.10.9
       '@vitest/coverage-v8':
         specifier: ^4.0.0
-        version: 4.0.17(vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.1.0)(jiti@2.6.1)(lightningcss@1.30.2))
+        version: 4.0.17(vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.3.1)(jiti@2.6.1)(lightningcss@1.30.2))
       daisyui:
         specifier: ^5.0.50
         version: 5.5.14
       happy-dom:
         specifier: ^20.0.0
-        version: 20.1.0
+        version: 20.3.1
       lefthook:
         specifier: ^2.0.0
         version: 2.0.15
@@ -86,7 +86,7 @@ importers:
         version: 2.11.10(@testing-library/jest-dom@6.9.1)(solid-js@1.9.10)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2))
       vitest:
         specifier: ^4.0.0
-        version: 4.0.17(@types/node@24.10.9)(happy-dom@20.1.0)(jiti@2.6.1)(lightningcss@1.30.2)
+        version: 4.0.17(@types/node@24.10.9)(happy-dom@20.3.1)(jiti@2.6.1)(lightningcss@1.30.2)
 
 packages:
 
@@ -1153,8 +1153,8 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  happy-dom@20.1.0:
-    resolution: {integrity: sha512-ebvqjBqzenBk2LjzNEAzoj7yhw7rW/R2/wVevMu6Mrq3MXtcI/RUz4+ozpcOcqVLEWPqLfg2v9EAU7fFXZUUJw==}
+  happy-dom@20.3.1:
+    resolution: {integrity: sha512-tLvsizNno05Hij0PoB0QN/S8xf0YU2AGvO11/JlJDw5McA/gzyn0Ni1RwbTI1/zteUbOekJH0t6q8HFvjbxsGg==}
     engines: {node: '>=20.0.0'}
 
   has-flag@4.0.0:
@@ -2597,7 +2597,7 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@vitest/coverage-v8@4.0.17(vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.1.0)(jiti@2.6.1)(lightningcss@1.30.2))':
+  '@vitest/coverage-v8@4.0.17(vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.3.1)(jiti@2.6.1)(lightningcss@1.30.2))':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
       '@vitest/utils': 4.0.17
@@ -2609,7 +2609,7 @@ snapshots:
       obug: 2.1.1
       std-env: 3.10.0
       tinyrainbow: 3.0.3
-      vitest: 4.0.17(@types/node@24.10.9)(happy-dom@20.1.0)(jiti@2.6.1)(lightningcss@1.30.2)
+      vitest: 4.0.17(@types/node@24.10.9)(happy-dom@20.3.1)(jiti@2.6.1)(lightningcss@1.30.2)
 
   '@vitest/expect@4.0.17':
     dependencies:
@@ -2908,7 +2908,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  happy-dom@20.1.0:
+  happy-dom@20.3.1:
     dependencies:
       '@types/node': 20.19.30
       '@types/whatwg-mimetype': 3.0.2
@@ -3642,7 +3642,7 @@ snapshots:
     optionalDependencies:
       vite: 7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)
 
-  vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.1.0)(jiti@2.6.1)(lightningcss@1.30.2):
+  vitest@4.0.17(@types/node@24.10.9)(happy-dom@20.3.1)(jiti@2.6.1)(lightningcss@1.30.2):
     dependencies:
       '@vitest/expect': 4.0.17
       '@vitest/mocker': 4.0.17(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2))
@@ -3666,7 +3666,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.10.9
-      happy-dom: 20.1.0
+      happy-dom: 20.3.1
     transitivePeerDependencies:
       - jiti
       - less
