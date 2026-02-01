@@ -59,7 +59,7 @@ importers:
         version: 4.0.18(vitest@4.0.18(@types/node@24.10.9)(happy-dom@20.4.0)(jiti@2.6.1)(lightningcss@1.30.2))
       daisyui:
         specifier: ^5.0.50
-        version: 5.5.14
+        version: 5.5.16
       happy-dom:
         specifier: ^20.0.0
         version: 20.4.0
@@ -1029,8 +1029,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  daisyui@5.5.14:
-    resolution: {integrity: sha512-L47rvw7I7hK68TA97VB8Ee0woHew+/ohR6Lx6Ah/krfISOqcG4My7poNpX5Mo5/ytMxiR40fEaz6njzDi7cuSg==}
+  daisyui@5.5.16:
+    resolution: {integrity: sha512-EPGcgduRIwXoQPuIl+r2BXRQsOutvf7UEB/mBfRiD2fdOYYnUqDU5PNp2eONnRqo1DxSsnD01gCRPccH65FWtQ==}
 
   dargs@8.1.0:
     resolution: {integrity: sha512-wAV9QHOsNbwnWdNW2FYvE1P56wtgSbM+3SZcdGiWQILwVjACCXDCI3Ai8QlCjMDB8YK5zySiXZYBiwGmNY3lnw==}
@@ -2723,7 +2723,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  daisyui@5.5.14: {}
+  daisyui@5.5.16: {}
 
   dargs@8.1.0: {}
 
