@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!.vscode", "!CHANGELOG.md"]
+    "includes": ["**", "!.vscode", "!CHANGELOG.md", "!CLAUDE.local.md"]
   },
   "formatter": {
     "enabled": true,
