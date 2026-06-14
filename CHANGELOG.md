@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/mahito1594/quiz-app-template/compare/v1.0.3...v1.0.4) (2026-06-14)
+
+
+### Bug Fixes
+
+* **renovate:** add minimumReleaseAge of 1 day for npm packages ([#182](https://github.com/mahito1594/quiz-app-template/issues/182)) ([9aa2982](https://github.com/mahito1594/quiz-app-template/commit/9aa2982f633022d80d6eb262367431e6234192d7))
+
 ## [1.0.3](https://github.com/mahito1594/quiz-app-template/compare/v1.0.2...v1.0.3) (2025-12-30)
 
 
