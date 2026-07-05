@@ -59,7 +59,7 @@ importers:
         version: 4.1.9(vitest@4.1.9)
       daisyui:
         specifier: ^5.0.50
-        version: 5.6.10
+        version: 5.6.11
       happy-dom:
         specifier: ^20.0.0
         version: 20.10.6
@@ -900,8 +900,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  daisyui@5.6.10:
-    resolution: {integrity: sha512-vk2E+iIETWGd/jUAC0Bu6OLU4HJSSj7Q2vvsZGiJN/+vt1RK3/UEiLYC9GTldQdD3yQkjNzWb8AYYpmTenQzJg==}
+  daisyui@5.6.11:
+    resolution: {integrity: sha512-0TiZ3MIdQeEvruLsLWk5TyhmvUf4ZcmaJdTL+DMaUqsnqoS+fUci9QvKctOgUrvhUIoGYlq3EDpifTHyi0EZ/w==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -2549,7 +2549,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  daisyui@5.6.10: {}
+  daisyui@5.6.11: {}
 
   debug@4.4.3:
     dependencies:
