@@ -13,8 +13,8 @@ importers:
         version: 1.9.14
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.5.3
-        version: 2.5.3
+        specifier: 2.5.4
+        version: 2.5.4
       '@commitlint/cli':
         specifier: ^21.0.0
         version: 21.2.1(@types/node@24.13.3)(conventional-commits-parser@7.1.0)(typescript@7.0.2)
@@ -23,28 +23,28 @@ importers:
         version: 21.2.0
       '@modyfi/vite-plugin-yaml':
         specifier: ^1.1.1
-        version: 1.1.1(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+        version: 1.1.1(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
       '@playwright/test':
         specifier: ^1.54.2
         version: 1.61.1
       '@solid-primitives/storage':
         specifier: ^4.3.3
-        version: 4.3.5(solid-js@1.9.14)
+        version: 4.4.0(solid-js@1.9.14)
       '@solidjs/router':
         specifier: ^0.16.0
-        version: 0.16.1(solid-js@1.9.14)
+        version: 0.16.2(solid-js@1.9.14)
       '@solidjs/testing-library':
         specifier: ^0.8.10
-        version: 0.8.10(@solidjs/router@0.16.1(solid-js@1.9.14))(solid-js@1.9.14)
+        version: 0.8.10(@solidjs/router@0.16.2(solid-js@1.9.14))(solid-js@1.9.14)
       '@tabler/icons-solidjs':
         specifier: ^3.34.1
-        version: 3.44.0(solid-js@1.9.14)
+        version: 3.45.0(solid-js@1.9.14)
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.20(tailwindcss@4.3.3)
       '@tailwindcss/vite':
         specifier: ^4.2.1
-        version: 4.3.3(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+        version: 4.3.3(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
       '@testing-library/jest-dom':
         specifier: ^6.6.4
         version: 6.9.1
@@ -59,7 +59,7 @@ importers:
         version: 4.1.10(vitest@4.1.10)
       daisyui:
         specifier: ^5.0.50
-        version: 5.6.16
+        version: 5.6.18
       happy-dom:
         specifier: ^20.0.0
         version: 20.10.6
@@ -80,13 +80,13 @@ importers:
         version: 1.4.2(typescript@7.0.2)
       vite:
         specifier: ^8.0.0
-        version: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
+        version: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
       vite-plugin-solid:
         specifier: ^2.11.11
-        version: 2.11.12(@testing-library/jest-dom@6.9.1)(solid-js@1.9.14)(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+        version: 2.11.12(@testing-library/jest-dom@6.9.1)(solid-js@1.9.14)(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
       vitest:
         specifier: ^4.0.0
-        version: 4.1.10(@types/node@24.13.3)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+        version: 4.1.10(@types/node@24.13.3)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
 
 packages:
 
@@ -203,59 +203,59 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@biomejs/biome@2.5.3':
-    resolution: {integrity: sha512-MrJswFdei9EfDwwUy2tQrPDpK0AO+RmMFvBoaaJ6ayBc3sUbHdCE+XG5N8vp+5So41ZupZJQm0roHFFhMGVD7A==}
+  '@biomejs/biome@2.5.4':
+    resolution: {integrity: sha512-xy5FNE5kQJKyK5MR1gJy6ztXYx4WBAbYGlK04lMEgmyPRWKybY9NFwiG9yo0XdzOU8Xvhj41u034J1ywfoWfMw==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/cli-darwin-arm64@2.5.3':
-    resolution: {integrity: sha512-QhYP9muVQ0nUO5zztFuPbEwi4+94sJWVjaZds9aMi1l/KNZBiUjdiSUrGHsTaMGDXrYl+r4AS2sUKfgH3w+V3g==}
+  '@biomejs/cli-darwin-arm64@2.5.4':
+    resolution: {integrity: sha512-4o3NFRobXHynkgcFVrlZsoDAFtF2ldlEGN8sORSws5ZQqyY4PXnPUIylu4ksfyHuwkfvDREuWh3JK+niRwGq3w==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.5.3':
-    resolution: {integrity: sha512-NC1Ss13UaW7QZX+y8j44bF7AP0jSJdBl6iRhe0MAkvaSqZy+mWg3GaXsrb+eSoHoGDBtaXWEbMVV0iVN2cZ7cQ==}
+  '@biomejs/cli-darwin-x64@2.5.4':
+    resolution: {integrity: sha512-D32P5HkU2Y6PySuC/WsVDTOgsDwVFmujzhhhOQjajtATpVWFDXuVd3oRbsWNSEA+aaFzyzZm22szsyydBYlSyQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-linux-arm64-musl@2.5.3':
-    resolution: {integrity: sha512-fccix0w6xp6csCXgxeC0dU/3ecgRQal0y+cv2SP9ajNlhe7Yrk2Ug7UDe2j9AT9ZDYitkXpvUKgZjjuoYeP4Vg==}
+  '@biomejs/cli-linux-arm64-musl@2.5.4':
+    resolution: {integrity: sha512-Rpm5/AT1m+DlJmUoYvS4/vXc+0tXJPJ2NQz25TGPyHVF5JrWy75PE0GH6kVxsKtQDuCH4OgzquZq0R4kj/wCVg==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-arm64@2.5.3':
-    resolution: {integrity: sha512-ksx1KWeyYW18ILL04msF/J4ZBtBDN33znYK8Z/aNv/vlBVxL9/g3mGP+omgHJKy4+KWbK87vcmmpmurfNjSgiA==}
+  '@biomejs/cli-linux-arm64@2.5.4':
+    resolution: {integrity: sha512-pSEfW7B8kTsXUjUxC1xVVK+y85Ht3C5XxZ9gclmC7/3Ku9Vqz8jmI7k0p/BNIjQ6t4sFERI2sFeH73ybiZl6YQ==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-linux-x64-musl@2.5.3':
-    resolution: {integrity: sha512-O/yU9YKRUiHhmcjF2f38PSjseVk3G4VLWYc0G2HWpzdBVREV6G8IGWIVEFf7MFPfWIzNUIvPsEjeAZQIOgnLcQ==}
+  '@biomejs/cli-linux-x64-musl@2.5.4':
+    resolution: {integrity: sha512-aby/PohmmgbShcHqFsZVzG8H6D98+P+A6xRWRrQcLW1pCjabcov5UUlke4UqNQBYTkDQav+jB4zyyDDeKB2GaA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@biomejs/cli-linux-x64@2.5.3':
-    resolution: {integrity: sha512-yMkJtilsgvILDcVkh187aVLTb64xYsrxYajx5kym+r1ULkO5HUOfu9AYKLGQbOVLwJtT2utNw7hhFNg+17mUYA==}
+  '@biomejs/cli-linux-x64@2.5.4':
+    resolution: {integrity: sha512-FNxojWJkL7EajAuzBgoLe0T2G0y112M4lBrDIFl/DomFTx8yqenYOIdsRLNXvOvBBofE8hJi85LjzLmBDpY7/Q==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@biomejs/cli-win32-arm64@2.5.3':
-    resolution: {integrity: sha512-cX5z+GYwRcqEok0AH3KSfQGgqYd0Nomfp6Fbe1uiTtELE38hdH2k842wQ9wLNaF/JJ7r4rjJQ4VR+ce+fRmQbw==}
+  '@biomejs/cli-win32-arm64@2.5.4':
+    resolution: {integrity: sha512-emoXexPZIPAZkz2RKmA95WJUqK3I5MJNYtwEbL5ESciRzhmFMMyekDhNG8hpeOaK+ZGRDxAU4wvGuA5IHQ0h0w==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.5.3':
-    resolution: {integrity: sha512-ExSaJWi4/u6+GXCszlSKpWSjKNbDseAYqqkCznsCsZ/4uidZ/BEqsCc5/3ctlq6dfIubdIIRSVLC/PG9xPl70Q==}
+  '@biomejs/cli-win32-x64@2.5.4':
+    resolution: {integrity: sha512-U1jaluLw1qQc2Tx7/CeSoL9N5XcqIH+GWjpUAy1ouB5nVjSCMNO+NNHdY3RAs8zxNurLWAdj6pehQdCA2zyU+Q==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -508,8 +508,8 @@ packages:
     resolution: {integrity: sha512-fCTuZK4QBa+39Oz9l4OGfJfz+GpwCp3AqO7Zch3to99xHPgstVsRFpeQ8LNd2o1Gv8raL2mCFwiaHh7bFSp5DQ==}
     engines: {node: '>=22'}
 
-  '@solid-primitives/storage@4.3.5':
-    resolution: {integrity: sha512-uvgj2HoqPw6RlDRiwVm4LQM6WHUJ+SsCvXtvGLbWVnIjGqrrNyFxdbKQFYUkSw6QsVO/esm7Ok0VeDpO0ioRlA==}
+  '@solid-primitives/storage@4.4.0':
+    resolution: {integrity: sha512-+u0dpTqrUG7h+IMfmGLCx7vx2Q0Eon6paBgzcWhEP/dauElpGU3ElpZZOZgw8YKR1+J4X4ENiAL0na3VH8RWMg==}
     peerDependencies:
       '@tauri-apps/plugin-store': '*'
       solid-js: ^1.6.12
@@ -525,8 +525,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solidjs/router@0.16.1':
-    resolution: {integrity: sha512-IhyjedgC6LRpw/8CPGGI89FrV+r0xTHzOl2c4CRyzYQ1bLepJxbVI1LLKvsavMWY5TRBRacV7hAeOhuTXkjiqg==}
+  '@solidjs/router@0.16.2':
+    resolution: {integrity: sha512-pncbV4SGUwGGlELlDWc3B4KDVB0Kt+7+7ct+GTN7D8CgetGSJMzl8RzyAFz+/TtSuFFzp9IzrjrACHUpGzxsKQ==}
     peerDependencies:
       solid-js: ^1.8.6
 
@@ -543,13 +543,13 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@tabler/icons-solidjs@3.44.0':
-    resolution: {integrity: sha512-oYYTCDebkAZ3c1Q+yqXNfbI/86d05JcVX1ektnCcpGBZpz0+qC2Ktggidqi9Su3H2aTFlGc2EXDewmjU5TCFUA==}
+  '@tabler/icons-solidjs@3.45.0':
+    resolution: {integrity: sha512-T3k6K21KH3ntFK9gHwA4zXBv/NKcTSCzsgFXnRo9HOpIr+tLehDnApLr7YsTxp0hkeyfmHA3FPVUe9a3JgRWTg==}
     peerDependencies:
       solid-js: ^1.4.7
 
-  '@tabler/icons@3.44.0':
-    resolution: {integrity: sha512-Wn0AOZG9sg0L+bjfMqq4eNhC6pQjIrk94LvvWYNYkY8KH8wC3YILRzQlrnVJc4FUeMxH/AK97QsYCX35H3LndA==}
+  '@tabler/icons@3.45.0':
+    resolution: {integrity: sha512-jiATwV8+zGYLTZ7gMLGivCic+KtsMZXcDmufIG8umlLxoHhI6902hGYIEt0Oa9Y9SXblNzUlrisHm5jOFMxOQA==}
 
   '@tailwindcss/node@4.3.3':
     resolution: {integrity: sha512-/T8IKEsf9VTU6tLjgC7+sv2mOPtQxzE2jMw7u4Tt40Tx+QSZxpzh95/H6cMKoja9XuW7iMdLJYBB0o9G1CaAgg==}
@@ -1019,8 +1019,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  daisyui@5.6.16:
-    resolution: {integrity: sha512-A5/IrcFCXyfzQ7M2fnKVPfMbKCVu0xeM7/G22gK1XRcp2dgA39kvFOeEAK8f2KpJJQJ+s9Jc5pZoJoYsPEJ8JQ==}
+  daisyui@5.6.18:
+    resolution: {integrity: sha512-6y9rboRQl8fosnusy/5pg11yp+H0LtK3YdtfS4Vf2QVnaYOKasNdYm6hDxeiT6bwZPdl4WRPzVIlIApdo2ssBg==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -1464,8 +1464,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  nanoid@3.3.15:
-    resolution: {integrity: sha512-y7Wygv/7mEOvxTuEQDB8StXdMRBWf1kR/tlhAzBRUFkB2jfcLOAxO/SHmOO2zgz1pVgK29/kyupn059/bCHdjA==}
+  nanoid@3.3.16:
+    resolution: {integrity: sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -1515,8 +1515,8 @@ packages:
     resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
     engines: {node: '>=4'}
 
-  postcss@8.5.16:
-    resolution: {integrity: sha512-vuwillviilfKZsg0VGj5R/YwwcHx4SLsIOI/7K6mQkWx+l5cUHTjj5g0AasTBcyXsbfTgrwsUNmVUb5xVwyPwg==}
+  postcss@8.5.19:
+    resolution: {integrity: sha512-Mz8SaolMd8nB+G13WkORcxQKHZ/NE4xXevtkJHVuG+guo9/wYKlIMTKAqGdEmYOXR2ijPjTYNHssizdaVSUNdQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   pretty-format@27.5.1:
@@ -1727,8 +1727,8 @@ packages:
       '@testing-library/jest-dom':
         optional: true
 
-  vite@8.1.4:
-    resolution: {integrity: sha512-bTT9PsdWO+MQMNG9ZXIP/qM9wGh37DFxTV/sPq9cFpHr3w4jkgef032PkAL9jAqhk3Nz8NQw3O8n6/xFkqO4QQ==}
+  vite@8.1.5:
+    resolution: {integrity: sha512-7ULLwsCdYx/nRyrpiEwvqb5TFHrMVZyBt+rg/OAXT7rgj/z+DtTDyKFeLAdDkubDVDKD8jOsndmy7m55XcfUsw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -1997,39 +1997,39 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@biomejs/biome@2.5.3':
+  '@biomejs/biome@2.5.4':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.5.3
-      '@biomejs/cli-darwin-x64': 2.5.3
-      '@biomejs/cli-linux-arm64': 2.5.3
-      '@biomejs/cli-linux-arm64-musl': 2.5.3
-      '@biomejs/cli-linux-x64': 2.5.3
-      '@biomejs/cli-linux-x64-musl': 2.5.3
-      '@biomejs/cli-win32-arm64': 2.5.3
-      '@biomejs/cli-win32-x64': 2.5.3
+      '@biomejs/cli-darwin-arm64': 2.5.4
+      '@biomejs/cli-darwin-x64': 2.5.4
+      '@biomejs/cli-linux-arm64': 2.5.4
+      '@biomejs/cli-linux-arm64-musl': 2.5.4
+      '@biomejs/cli-linux-x64': 2.5.4
+      '@biomejs/cli-linux-x64-musl': 2.5.4
+      '@biomejs/cli-win32-arm64': 2.5.4
+      '@biomejs/cli-win32-x64': 2.5.4
 
-  '@biomejs/cli-darwin-arm64@2.5.3':
+  '@biomejs/cli-darwin-arm64@2.5.4':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.5.3':
+  '@biomejs/cli-darwin-x64@2.5.4':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.5.3':
+  '@biomejs/cli-linux-arm64-musl@2.5.4':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.5.3':
+  '@biomejs/cli-linux-arm64@2.5.4':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.5.3':
+  '@biomejs/cli-linux-x64-musl@2.5.4':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.5.3':
+  '@biomejs/cli-linux-x64@2.5.4':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.5.3':
+  '@biomejs/cli-win32-arm64@2.5.4':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.5.3':
+  '@biomejs/cli-win32-x64@2.5.4':
     optional: true
 
   '@commitlint/cli@21.2.1(@types/node@24.13.3)(conventional-commits-parser@7.1.0)(typescript@7.0.2)':
@@ -2188,12 +2188,12 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@modyfi/vite-plugin-yaml@1.1.1(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))':
+  '@modyfi/vite-plugin-yaml@1.1.1(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))':
     dependencies:
       '@rollup/pluginutils': 5.1.0
       js-yaml: 4.1.0
       tosource: 2.0.0-alpha.3
-      vite: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
+      vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
     transitivePeerDependencies:
       - rollup
 
@@ -2273,7 +2273,7 @@ snapshots:
 
   '@simple-libs/stream-utils@2.0.0': {}
 
-  '@solid-primitives/storage@4.3.5(solid-js@1.9.14)':
+  '@solid-primitives/storage@4.4.0(solid-js@1.9.14)':
     dependencies:
       '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
@@ -2282,25 +2282,25 @@ snapshots:
     dependencies:
       solid-js: 1.9.14
 
-  '@solidjs/router@0.16.1(solid-js@1.9.14)':
+  '@solidjs/router@0.16.2(solid-js@1.9.14)':
     dependencies:
       solid-js: 1.9.14
 
-  '@solidjs/testing-library@0.8.10(@solidjs/router@0.16.1(solid-js@1.9.14))(solid-js@1.9.14)':
+  '@solidjs/testing-library@0.8.10(@solidjs/router@0.16.2(solid-js@1.9.14))(solid-js@1.9.14)':
     dependencies:
       '@testing-library/dom': 10.4.1
       solid-js: 1.9.14
     optionalDependencies:
-      '@solidjs/router': 0.16.1(solid-js@1.9.14)
+      '@solidjs/router': 0.16.2(solid-js@1.9.14)
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@tabler/icons-solidjs@3.44.0(solid-js@1.9.14)':
+  '@tabler/icons-solidjs@3.45.0(solid-js@1.9.14)':
     dependencies:
-      '@tabler/icons': 3.44.0
+      '@tabler/icons': 3.45.0
       solid-js: 1.9.14
 
-  '@tabler/icons@3.44.0': {}
+  '@tabler/icons@3.45.0': {}
 
   '@tailwindcss/node@4.3.3':
     dependencies:
@@ -2368,12 +2368,12 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.3.3
 
-  '@tailwindcss/vite@4.3.3(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))':
+  '@tailwindcss/vite@4.3.3(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))':
     dependencies:
       '@tailwindcss/node': 4.3.3
       '@tailwindcss/oxide': 4.3.3
       tailwindcss: 4.3.3
-      vite: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
+      vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -2540,7 +2540,7 @@ snapshots:
       obug: 2.1.3
       std-env: 4.2.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@24.13.3)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+      vitest: 4.1.10(@types/node@24.13.3)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
 
   '@vitest/expect@4.1.10':
     dependencies:
@@ -2551,13 +2551,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.0
 
-  '@vitest/mocker@4.1.10(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))':
+  '@vitest/mocker@4.1.10(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))':
     dependencies:
       '@vitest/spy': 4.1.10
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
+      vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
 
   '@vitest/pretty-format@4.1.10':
     dependencies:
@@ -2701,7 +2701,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  daisyui@5.6.16: {}
+  daisyui@5.6.18: {}
 
   debug@4.4.3:
     dependencies:
@@ -3145,7 +3145,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  nanoid@3.3.15: {}
+  nanoid@3.3.16: {}
 
   node-releases@2.0.37: {}
 
@@ -3187,9 +3187,9 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss@8.5.16:
+  postcss@8.5.19:
     dependencies:
-      nanoid: 3.3.15
+      nanoid: 3.3.16
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -3443,7 +3443,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-plugin-solid@2.11.12(@testing-library/jest-dom@6.9.1)(solid-js@1.9.14)(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0)):
+  vite-plugin-solid@2.11.12(@testing-library/jest-dom@6.9.1)(solid-js@1.9.14)(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0)):
     dependencies:
       '@babel/core': 7.29.0
       '@types/babel__core': 7.20.5
@@ -3451,18 +3451,18 @@ snapshots:
       merge-anything: 5.1.7
       solid-js: 1.9.14
       solid-refresh: 0.6.3(solid-js@1.9.14)
-      vite: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
-      vitefu: 1.1.3(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+      vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
+      vitefu: 1.1.3(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
     optionalDependencies:
       '@testing-library/jest-dom': 6.9.1
     transitivePeerDependencies:
       - supports-color
 
-  vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0):
+  vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.5
-      postcss: 8.5.16
+      postcss: 8.5.19
       rolldown: 1.1.5
       tinyglobby: 0.2.17
     optionalDependencies:
@@ -3470,14 +3470,14 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.7.0
 
-  vitefu@1.1.3(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0)):
+  vitefu@1.1.3(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0)):
     optionalDependencies:
-      vite: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
+      vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
 
-  vitest@4.1.10(@types/node@24.13.3)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0)):
+  vitest@4.1.10(@types/node@24.13.3)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0)):
     dependencies:
       '@vitest/expect': 4.1.10
-      '@vitest/mocker': 4.1.10(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0))
+      '@vitest/mocker': 4.1.10(vite@8.1.5(@types/node@24.13.3)(jiti@2.7.0))
       '@vitest/pretty-format': 4.1.10
       '@vitest/runner': 4.1.10
       '@vitest/snapshot': 4.1.10
@@ -3494,7 +3494,7 @@ snapshots:
       tinyexec: 1.2.4
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vite: 8.1.4(@types/node@24.13.3)(jiti@2.7.0)
+      vite: 8.1.5(@types/node@24.13.3)(jiti@2.7.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.13.3
