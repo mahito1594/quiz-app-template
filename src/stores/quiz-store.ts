@@ -1,5 +1,5 @@
 import { makePersisted } from "@solid-primitives/storage";
-import { createStore } from "solid-js/store";
+import { createStore, type StoreReturn } from "solid-js/store";
 
 /**
  * 問題への回答データ
@@ -92,7 +92,7 @@ type SubmitReviewAnswerParams = {
 };
 
 // LocalStorageを使用したクイズ状態管理システム
-const [store, setStore] = makePersisted(
+const [store, setStore] = makePersisted<QuizStore, StoreReturn<QuizStore>>(
   createStore<QuizStore>({
     progress: {},
     reviewQuestions: [],
