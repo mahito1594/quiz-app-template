@@ -148,31 +148,30 @@
 ```yaml
 # メタデータ
 metadata:
-  version: "1.0.0"                    # データ形式バージョン
-  title: "問題集タイトル"              # 問題集名
-  lastUpdated: "2025-07-19"           # 最終更新日（YYYY-MM-DD）
-  description: "問題集の説明"          # 説明文（オプション）
-  # 注意: totalQuestions フィールドは不要（自動計算される）
-
+    version: "1.0.0" # データ形式バージョン
+    title: "問題集タイトル" # 問題集名
+    lastUpdated: "2025-07-19" # 最終更新日（YYYY-MM-DD）
+    description: "問題集の説明" # 説明文（オプション）
+    # 注意: totalQuestions フィールドは不要（自動計算される）
 # カテゴリ配列
 categories:
-  - id: "category-id"                  # カテゴリ識別子（URL対応）
-    name: "カテゴリ表示名"             # 画面表示用名称
-    description: "カテゴリ説明"        # カテゴリの説明
-    order: 1                           # 表示順序
-    questions:                         # 問題配列
-      - type: "single"                 # 問題タイプ（single|multiple）
-        question: |                    # 問題文（Markdownサポート）
-          問題文をここに記載
-        options:                       # 選択肢配列
-          - "選択肢1"
-          - "選択肢2"
-          - "選択肢3"
-          - "選択肢4"
-        correct: [1]                   # 正解のインデックス配列（0-based）
-        explanation: |                 # 解説文（Markdown サポート）
-          解説文をここに記載
-          [リンク](https://example.com)も使用可能
+    - id: "category-id" # カテゴリ識別子（URL対応）
+      name: "カテゴリ表示名" # 画面表示用名称
+      description: "カテゴリ説明" # カテゴリの説明
+      order: 1 # 表示順序
+      questions: # 問題配列
+          - type: "single" # 問題タイプ（single|multiple）
+            question: | # 問題文（Markdownサポート）
+                問題文をここに記載
+            options: # 選択肢配列
+                - "選択肢1"
+                - "選択肢2"
+                - "選択肢3"
+                - "選択肢4"
+            correct: [1] # 正解のインデックス配列（0-based）
+            explanation: | # 解説文（Markdown サポート）
+                解説文をここに記載
+                [リンク](https://example.com)も使用可能
 ```
 
 **データ制約**:

@@ -8,7 +8,13 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!.vscode", "!CHANGELOG.md", "!CLAUDE.local.md"]
+    "includes": [
+      "**",
+      "!.vscode",
+      "!CHANGELOG.md",
+      "!CLAUDE.local.md",
+      "!pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -26,6 +32,11 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "double"
+    }
+  },
+  "markdown": {
+    "formatter": {
+      "enabled": false
     }
   },
   "assist": {

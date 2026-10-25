@@ -58,7 +58,6 @@ SPAデプロイメント対応のため Hash routing を採用（GitHub Pages �
 ## テスト方針
 
 TDD採用。
-
 - **vi.hoisted()**: モック変数の初期化順序制御に使用
 - **vi.mock()**: ホイスティングによる制約に注意
 - **統合テスト**: RouterWrapperによる実際のルーティング検証

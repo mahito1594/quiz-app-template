@@ -22,13 +22,13 @@ categories:
         correct: [0]
         explanation: |
           JavaScriptはプログラミング言語です。
-          
+
           - HTML: マークアップ言語
           - CSS: スタイルシート言語
           - JSON: データ交換フォーマット
-          
+
           [MDN JavaScript](https://developer.mozilla.org/ja/docs/Web/JavaScript)
-      
+
       - type: "multiple"
         question: |
           以下のうち、**フロントエンド**技術として分類されるものを**すべて**選択してください。
@@ -42,7 +42,7 @@ categories:
           フロントエンド技術の正解：
           - **React**: UIライブラリ
           - **Vue.js**: UIフレームワーク
-          
+
           バックエンド技術：
           - Node.js: サーバーサイドランタイム
           - MySQL: データベース
@@ -63,7 +63,7 @@ categories:
         correct: [2]
         explanation: |
           HTTPステータスコード404は「Not Found」を意味し、リクエストされたリソースがサーバー上に存在しないことを示します。
-      
+
       - type: "single"
         question: |
           HTML5の新しいセマンティック要素として正しいものはどれですか？
@@ -75,7 +75,7 @@ categories:
         correct: [2]
         explanation: |
           `<section>`はHTML5で追加されたセマンティック要素です。
-          
+
           他のHTML5セマンティック要素：
           - `<article>`
           - `<nav>`
