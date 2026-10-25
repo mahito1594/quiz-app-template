@@ -1,6 +1,6 @@
 allowBuilds:
   lefthook: true
 onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
+  - "@tailwindcss/oxide"
   - esbuild
   - lefthook

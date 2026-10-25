@@ -13,7 +13,6 @@
 ### 特徴
 
 本アプリは以下の技術を採用しています。
-
 - **TypeScript**
 - **[SolidJS](https://docs.solidjs.com)**
 - **[Solid Router](https://docs.solidjs.com/solid-router/)**
@@ -74,27 +73,27 @@ pnpm dev
 #### YAML ファイルの基本構造
 
 ```yaml
-metadata:                      # クイズ全体のメタデータ（必須）
-  version: "1.0.0"            # バージョン番号
-  title: "問題集のタイトル"       # 問題集の名称
-  lastUpdated: "2025-01-15"   # 最終更新日（YYYY-MM-DD 形式）
-  description: "説明文"        # 問題集の説明（オプション）
+metadata: # クイズ全体のメタデータ（必須）
+    version: "1.0.0" # バージョン番号
+    title: "問題集のタイトル" # 問題集の名称
+    lastUpdated: "2025-01-15" # 最終更新日（YYYY-MM-DD 形式）
+    description: "説明文" # 問題集の説明（オプション）
 
-categories:                    # 問題カテゴリの配列（最低1つ必要）
-  - id: "category-id"         # カテゴリ ID（英数字・ハイフンのみ、必須）
-    name: "カテゴリ名"          # 表示用カテゴリ名（必須）
-    description: "説明文"       # カテゴリ説明（必須）
-    order: 1                   # 表示順序（数値、必須）
-    questions:                 # 問題配列（必須）
-      - type: "single"         # 問題タイプ（必須）
-        question: |            # 問題文（必須、Markdown 対応）
-          問題文をここに記述
-        options:               # 選択肢配列（最低2つ必要）
-          - "選択肢1"
-          - "選択肢2"
-        correct: [0]           # 正解インデックス配列（0始まり、必須）
-        explanation: |         # 解説文（必須、Markdown 対応）
-          解説をここに記述
+categories: # 問題カテゴリの配列（最低1つ必要）
+    - id: "category-id" # カテゴリ ID（英数字・ハイフンのみ、必須）
+      name: "カテゴリ名" # 表示用カテゴリ名（必須）
+      description: "説明文" # カテゴリ説明（必須）
+      order: 1 # 表示順序（数値、必須）
+      questions: # 問題配列（必須）
+          - type: "single" # 問題タイプ（必須）
+            question: | # 問題文（必須、Markdown 対応）
+                問題文をここに記述
+            options: # 選択肢配列（最低2つ必要）
+                - "選択肢1"
+                - "選択肢2"
+            correct: [0] # 正解インデックス配列（0始まり、必須）
+            explanation: | # 解説文（必須、Markdown 対応）
+                解説をここに記述
 ```
 
 #### 各フィールドの詳細説明
@@ -125,77 +124,77 @@ categories:                    # 問題カテゴリの配列（最低1つ必要�
 
 ````yaml
 explanation: |
-  **太字**で重要なポイントを強調できます。
+    **太字**で重要なポイントを強調できます。
 
-  リスト表記も可能：
-  - ポイント1：基本的な説明
-  - ポイント2：*斜体*での補足
+    リスト表記も可能：
+    - ポイント1：基本的な説明
+    - ポイント2：*斜体*での補足
 
-  インラインコード：`let variable = "value"`
+    インラインコード：`let variable = "value"`
 
-  外部リンクも追加可能：
-  [詳しくはこちら](https://example.com)
+    外部リンクも追加可能：
+    [詳しくはこちら](https://example.com)
 
-  コードブロックも使用できます：
+    コードブロックも使用できます：
 
-  ```javascript
-  const answer = "correct";
-  ```
+    ```javascript
+    const answer = "correct";
+    ```
 ````
 
 #### 実際の設定例
 
 ```yaml
 metadata:
-  version: "1.0.0"
-  title: "JavaScript 基礎問題集"
-  lastUpdated: "2025-01-15"
-  description: "JavaScript の基本文法を学ぶ問題集"
+    version: "1.0.0"
+    title: "JavaScript 基礎問題集"
+    lastUpdated: "2025-01-15"
+    description: "JavaScript の基本文法を学ぶ問題集"
 
 categories:
-  - id: "js-variables"
-    name: "変数と宣言"
-    description: "JavaScript の変数宣言に関する問題"
-    order: 1
-    questions:
-      - type: "single"
-        question: |
-          JavaScript で**再代入可能**なブロックスコープ変数を宣言するキーワードは？
-        options:
-          - "var"
-          - "let"
-          - "const"
-          - "function"
-        correct: [1]
-        explanation: |
-          **正解: `let`**
+    - id: "js-variables"
+      name: "変数と宣言"
+      description: "JavaScript の変数宣言に関する問題"
+      order: 1
+      questions:
+          - type: "single"
+            question: |
+                JavaScript で**再代入可能**なブロックスコープ変数を宣言するキーワードは？
+            options:
+                - "var"
+                - "let"
+                - "const"
+                - "function"
+            correct: [1]
+            explanation: |
+                **正解: `let`**
 
-          JavaScript の変数宣言キーワード：
-          - **`let`**: 再代入可能なブロックスコープ変数
-          - **`const`**: 再代入不可なブロックスコープ変数
-          - **`var`**: 関数スコープ変数（ES6 以降は非推奨）
+                JavaScript の変数宣言キーワード：
+                - **`let`**: 再代入可能なブロックスコープ変数
+                - **`const`**: 再代入不可なブロックスコープ変数
+                - **`var`**: 関数スコープ変数（ES6 以降は非推奨）
 
-          参考：[MDN - let 文](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/let)
+                参考：[MDN - let 文](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/let)
 
-      - type: "multiple"
-        question: |
-          以下のうち、ES6 で導入された変数宣言キーワードを**すべて**選択してください。
-        options:
-          - "var"
-          - "let"
-          - "const"
-          - "function"
-        correct: [1, 2]
-        explanation: |
-          **正解: `let` と `const`**
+          - type: "multiple"
+            question: |
+                以下のうち、ES6 で導入された変数宣言キーワードを**すべて**選択してください。
+            options:
+                - "var"
+                - "let"
+                - "const"
+                - "function"
+            correct: [1, 2]
+            explanation: |
+                **正解: `let` と `const`**
 
-          ES6（ES2015）で新たに追加された変数宣言：
-          - **`let`**: ブロックスコープ、再代入可能
-          - **`const`**: ブロックスコープ、再代入不可
+                ES6（ES2015）で新たに追加された変数宣言：
+                - **`let`**: ブロックスコープ、再代入可能
+                - **`const`**: ブロックスコープ、再代入不可
 
-          既存のキーワード：
-          - `var`: ES6 以前から存在（関数スコープ）
-          - `function`: 関数宣言用（変数宣言ではない）
+                既存のキーワード：
+                - `var`: ES6 以前から存在（関数スコープ）
+                - `function`: 関数宣言用（変数宣言ではない）
 ```
 
 ### 開発コマンド
@@ -227,7 +226,6 @@ pnpm test:e2e
 ### カスタマイズ（オプション）
 
 利用目的に合わないファイルは削除してください:
-
 - **Claude Code 関連**: [`CLAUDE.md`](./CLAUDE.md), [`docs/`](./docs/) ディレクトリ（Claude Code を使わない場合）
 - **GitHub Actions**: [`.github/workflows/`](./.github/workflows/) ディレクトリ（CI/CD が不要な場合）
 - **Renovate**: [`renovate.json`](./renovate.json)（依存関係自動更新が不要な場合）
@@ -243,6 +241,7 @@ pnpm test:e2e
    - Settings > Pages > Source を「GitHub Actions」に設定
 
 2. **ビルド設定の調整**（必要に応じて）
+
    ```typescript
    // vite.config.ts
    export default defineConfig({

@@ -214,17 +214,17 @@ Hash版: /#/quiz/category1
 
 **使用API:**
 ```typescript
-import { createSignal, createStore } from 'solid-js'
+import { createSignal, createStore } from "solid-js";
 
 // リアクティブ状態
-const [currentQuestion, setCurrentQuestion] = createSignal(0)
+const [currentQuestion, setCurrentQuestion] = createSignal(0);
 
 // 複雑な状態
 const [quizState, setQuizState] = createStore({
-  answers: [],
-  score: 0,
-  completedCategories: []
-})
+    answers: [],
+    score: 0,
+    completedCategories: [],
+});
 ```
 
 ### 7.2 永続化戦略
@@ -238,8 +238,8 @@ const [quizState, setQuizState] = createStore({
 ```typescript
 // 進捗自動保存
 createEffect(() => {
-  localStorage.setItem('quiz-progress', JSON.stringify(quizState))
-})
+    localStorage.setItem("quiz-progress", JSON.stringify(quizState));
+});
 ```
 
 ## 8. パフォーマンス最適化
@@ -328,10 +328,14 @@ Directory: dist/ (build output)
 **実装詳細:**
 ```typescript
 // × Validate: 型が保証されない
-function validateQuiz(data: any): boolean { /* ... */ }
+function validateQuiz(data: any): boolean {
+    /* ... */
+}
 
 // ○ Parse: 確実な型変換
-function parseQuiz(data: unknown): QuizData { /* ... */ }
+function parseQuiz(data: unknown): QuizData {
+    /* ... */
+}
 ```
 
 ## 12. 今後の拡張性
@@ -355,7 +359,6 @@ function parseQuiz(data: unknown): QuizData { /* ... */ }
 ### 13.1 パフォーマンス vs 開発効率のバランス
 
 **SolidJS + Valibot + TDD**の組み合わせを選択した理由：
-
 1. **SolidJS**: 最小バンドル + 最大パフォーマンス
 2. **Valibot**: 軽量 + 型安全性の両立
 3. **TDD**: 短期開発負荷 < 長期品質・保守性
@@ -427,7 +430,6 @@ function parseQuiz(data: unknown): QuizData { /* ... */ }
 ## 16. まとめ
 
 本技術スタックは**制約条件下でのパフォーマンス最優先**という方針のもと選定：
-
 1. **GitHub Pages制約** → Hash routing + 静的ビルド最適化
 2. **モバイル性能要件** → 軽量フレームワーク + バンドル最小化
 3. **品質担保要件** → TDD + 型安全性 + 実行時バリデーション

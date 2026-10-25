@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -8,7 +8,13 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!.vscode", "!CHANGELOG.md", "!CLAUDE.local.md"]
+    "includes": [
+      "**",
+      "!.vscode",
+      "!CHANGELOG.md",
+      "!CLAUDE.local.md",
+      "!pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -26,6 +32,11 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "double"
+    }
+  },
+  "markdown": {
+    "formatter": {
+      "enabled": false
     }
   },
   "assist": {
