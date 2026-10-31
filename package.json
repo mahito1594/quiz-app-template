@@ -34,7 +34,7 @@
     "@tailwindcss/vite": "^4.2.1",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^24.2.1",
+    "@types/node": "^26.0.0",
     "@vitest/coverage-v8": "^5.0.0",
     "daisyui": "^5.0.50",
     "happy-dom": "^21.0.0",
