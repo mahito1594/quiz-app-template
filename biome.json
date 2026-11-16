@@ -8,13 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!.vscode",
-      "!CHANGELOG.md",
-      "!CLAUDE.local.md",
-      "!pnpm-lock.yaml"
-    ]
+    "includes": ["**", "!.vscode", "!**/*.md", "!pnpm-lock.yaml"]
   },
   "formatter": {
     "enabled": true,
